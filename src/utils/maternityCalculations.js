@@ -1,0 +1,220 @@
+/**
+ * NHS Maternity Pay Calculator Utilities
+ *
+ * Calculates maternity pay based on NHS and statutory maternity pay rules
+ */
+
+// 2025/26 UK Tax and NI rates
+export const TAX_RATES = {
+  personalAllowance: 12570,
+  basicRate: 0.20,
+  basicRateThreshold: 50270,
+  higherRate: 0.40,
+  higherRateThreshold: 125140,
+  additionalRate: 0.45,
+};
+
+export const NI_RATES = {
+  threshold: 12570, // Annual primary threshold
+  basicRate: 0.08, // 8% on earnings between £12,570 and £50,270
+  higherRate: 0.02, // 2% on earnings above £50,270
+};
+
+// Statutory Maternity Pay rates 2025/26 (approximate - should be updated with actual rates)
+export const SMP_RATES = {
+  higherRateWeeks: 6, // First 6 weeks at 90% of average weekly earnings
+  standardRateWeeks: 33, // Next 33 weeks at standard rate or 90% (whichever is lower)
+  standardRateAmount: 184.03, // Weekly standard rate (2024/25 - update for 2025/26)
+  totalWeeks: 39,
+};
+
+/**
+ * Calculate average weekly earnings
+ * @param {number} annualSalary - Annual gross salary
+ * @returns {number} Average weekly earnings
+ */
+export const calculateAverageWeeklyEarnings = (annualSalary) => {
+  return annualSalary / 52;
+};
+
+/**
+ * Calculate maternity pay for each period
+ * @param {number} annualSalary - Annual gross salary
+ * @returns {object} Breakdown of maternity pay periods
+ */
+export const calculateMaternityPay = (annualSalary) => {
+  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary);
+
+  // First 6 weeks: 90% of average weekly earnings
+  const higherRateWeekly = averageWeeklyEarnings * 0.9;
+  const higherRateTotalGross = higherRateWeekly * SMP_RATES.higherRateWeeks;
+
+  // Next 33 weeks: Lower of 90% or standard rate
+  const standardRateWeekly = Math.min(
+    averageWeeklyEarnings * 0.9,
+    SMP_RATES.standardRateAmount
+  );
+  const standardRateTotalGross = standardRateWeekly * SMP_RATES.standardRateWeeks;
+
+  // Total maternity pay
+  const totalGrossMaternityPay = higherRateTotalGross + standardRateTotalGross;
+
+  return {
+    averageWeeklyEarnings,
+    higherRate: {
+      weeks: SMP_RATES.higherRateWeeks,
+      weeklyAmount: higherRateWeekly,
+      totalGross: higherRateTotalGross,
+    },
+    standardRate: {
+      weeks: SMP_RATES.standardRateWeeks,
+      weeklyAmount: standardRateWeekly,
+      totalGross: standardRateTotalGross,
+    },
+    totalWeeks: SMP_RATES.totalWeeks,
+    totalGrossMaternityPay,
+  };
+};
+
+/**
+ * Calculate annual income tax
+ * @param {number} annualIncome - Annual gross income
+ * @returns {number} Total annual income tax
+ */
+export const calculateIncomeTax = (annualIncome) => {
+  if (annualIncome <= TAX_RATES.personalAllowance) {
+    return 0;
+  }
+
+  let tax = 0;
+  const taxableIncome = annualIncome - TAX_RATES.personalAllowance;
+
+  if (annualIncome <= TAX_RATES.basicRateThreshold) {
+    // Basic rate only
+    tax = taxableIncome * TAX_RATES.basicRate;
+  } else if (annualIncome <= TAX_RATES.higherRateThreshold) {
+    // Basic rate + Higher rate
+    const basicRateTax =
+      (TAX_RATES.basicRateThreshold - TAX_RATES.personalAllowance) *
+      TAX_RATES.basicRate;
+    const higherRateTax =
+      (annualIncome - TAX_RATES.basicRateThreshold) * TAX_RATES.higherRate;
+    tax = basicRateTax + higherRateTax;
+  } else {
+    // Basic rate + Higher rate + Additional rate
+    const basicRateTax =
+      (TAX_RATES.basicRateThreshold - TAX_RATES.personalAllowance) *
+      TAX_RATES.basicRate;
+    const higherRateTax =
+      (TAX_RATES.higherRateThreshold - TAX_RATES.basicRateThreshold) *
+      TAX_RATES.higherRate;
+    const additionalRateTax =
+      (annualIncome - TAX_RATES.higherRateThreshold) * TAX_RATES.additionalRate;
+    tax = basicRateTax + higherRateTax + additionalRateTax;
+  }
+
+  return tax;
+};
+
+/**
+ * Calculate National Insurance contributions
+ * @param {number} annualIncome - Annual gross income
+ * @returns {number} Total annual NI contributions
+ */
+export const calculateNationalInsurance = (annualIncome) => {
+  if (annualIncome <= NI_RATES.threshold) {
+    return 0;
+  }
+
+  let ni = 0;
+
+  if (annualIncome <= TAX_RATES.basicRateThreshold) {
+    // Basic rate only
+    ni = (annualIncome - NI_RATES.threshold) * NI_RATES.basicRate;
+  } else {
+    // Basic rate + Higher rate
+    const basicNI =
+      (TAX_RATES.basicRateThreshold - NI_RATES.threshold) * NI_RATES.basicRate;
+    const higherNI =
+      (annualIncome - TAX_RATES.basicRateThreshold) * NI_RATES.higherRate;
+    ni = basicNI + higherNI;
+  }
+
+  return ni;
+};
+
+/**
+ * Calculate pension contributions
+ * @param {number} annualIncome - Annual gross income
+ * @param {number} pensionPercentage - Pension contribution percentage (default 5%)
+ * @returns {number} Annual pension contributions
+ */
+export const calculatePensionContributions = (
+  annualIncome,
+  pensionPercentage = 5
+) => {
+  return (annualIncome * pensionPercentage) / 100;
+};
+
+/**
+ * Calculate net (take-home) maternity pay after all deductions
+ * @param {number} annualSalary - Annual gross salary
+ * @param {number} pensionPercentage - Pension contribution percentage (default 5%)
+ * @returns {object} Complete breakdown of maternity pay and deductions
+ */
+export const calculateNetMaternityPay = (annualSalary, pensionPercentage = 5) => {
+  // Calculate gross maternity pay
+  const maternityPay = calculateMaternityPay(annualSalary);
+  const grossMaternityPay = maternityPay.totalGrossMaternityPay;
+
+  // Calculate deductions based on maternity pay period
+  const incomeTax = calculateIncomeTax(grossMaternityPay);
+  const nationalInsurance = calculateNationalInsurance(grossMaternityPay);
+  const pensionContributions = calculatePensionContributions(
+    grossMaternityPay,
+    pensionPercentage
+  );
+
+  // Calculate net pay
+  const totalDeductions = incomeTax + nationalInsurance + pensionContributions;
+  const netMaternityPay = grossMaternityPay - totalDeductions;
+
+  // Weekly and monthly breakdowns
+  const netWeekly = netMaternityPay / SMP_RATES.totalWeeks;
+  const netMonthly = netMaternityPay / 9; // Approximate 9 months
+
+  return {
+    gross: {
+      total: grossMaternityPay,
+      weekly: grossMaternityPay / SMP_RATES.totalWeeks,
+      monthly: grossMaternityPay / 9,
+      breakdown: maternityPay,
+    },
+    deductions: {
+      incomeTax,
+      nationalInsurance,
+      pensionContributions,
+      total: totalDeductions,
+    },
+    net: {
+      total: netMaternityPay,
+      weekly: netWeekly,
+      monthly: netMonthly,
+    },
+    pensionPercentage,
+  };
+};
+
+/**
+ * Format currency for display
+ * @param {number} amount - Amount to format
+ * @returns {string} Formatted currency string
+ */
+export const formatCurrency = (amount) => {
+  return new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+};
