@@ -126,8 +126,7 @@ const styles = StyleSheet.create({
   },
   desktopNav: {
     flexDirection: 'row',
-    gap: spacing.sm,
-    display: Platform.OS === 'web' ? 'flex' : 'none',
+    ...(Platform.OS === 'web' ? {} : { display: 'none' }),
   },
   navItem: {
     paddingHorizontal: spacing.md,
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   mobileMenuButton: {
-    display: Platform.OS === 'web' ? 'none' : 'flex',
+    ...(Platform.OS !== 'web' ? {} : { display: 'none' }),
     padding: spacing.sm,
   },
   menuIcon: {
