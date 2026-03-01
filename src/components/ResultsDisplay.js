@@ -312,7 +312,7 @@ export default function ResultsDisplay({ results }) {
         </Text>
         <TouchableOpacity
           style={styles.feedbackButton}
-          onPress={() => Linking.openURL('https://forms.gle/YOUR_GOOGLE_FORM_ID')}
+          onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLSd38DVf5ZtRUsnQ_JXOJQFFHIvSRpZizy4toUm32VjzvAi7Mw/viewform')}
           activeOpacity={0.8}
         >
           <Text style={styles.feedbackButtonText}>Give Feedback</Text>
