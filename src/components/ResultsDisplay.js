@@ -6,7 +6,7 @@ import { formatCurrency } from '../utils/maternityCalculations';
 export default function ResultsDisplay({ results }) {
   if (!results) return null;
 
-  const { gross, deductions, net, paymentType } = results;
+  const { gross, deductions, net, paymentType, fte } = results;
   const isNHSEnhanced = paymentType === 'nhsEnhanced';
 
   return (
@@ -18,6 +18,7 @@ export default function ResultsDisplay({ results }) {
         <Text style={styles.period}>
           Over {gross.breakdown.totalWeeks} week
           {gross.breakdown.totalWeeks !== 1 ? 's' : ''}
+          {fte && fte < 1.0 && ` (${fte} FTE)`}
         </Text>
 
         <View style={styles.breakdownRow}>
@@ -168,6 +169,57 @@ export default function ResultsDisplay({ results }) {
         </View>
       </View>
 
+      {/* Additional Benefits Card */}
+      {results.additionalBenefits && results.additionalBenefits.total > 0 && (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Additional Benefits</Text>
+          <Text style={styles.benefitSubtext}>
+            Benefits you'll receive in addition to maternity pay
+          </Text>
+
+          <View style={styles.section}>
+            {/* Holiday Accrual */}
+            {results.additionalBenefits.holidayAccrual.value > 0 && (
+              <>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Holiday Accrual</Text>
+                  <Text style={styles.detailValue}>
+                    {formatCurrency(results.additionalBenefits.holidayAccrual.value)}
+                  </Text>
+                </View>
+                <Text style={styles.detailSubtext}>
+                  {results.additionalBenefits.holidayAccrual.daysAccrued.toFixed(1)} days accrued during maternity leave
+                  {fte && fte < 1.0 && ` (${fte} FTE pro-rated)`}
+                </Text>
+              </>
+            )}
+
+            {/* KIT Days */}
+            {results.additionalBenefits.kitDays.pay > 0 && (
+              <>
+                <View style={[styles.detailRow, results.additionalBenefits.holidayAccrual.value > 0 && { marginTop: spacing.md }]}>
+                  <Text style={styles.detailLabel}>KIT Days Pay (if worked)</Text>
+                  <Text style={styles.detailValue}>
+                    {formatCurrency(results.additionalBenefits.kitDays.pay)}
+                  </Text>
+                </View>
+                <Text style={styles.detailSubtext}>
+                  {results.additionalBenefits.kitDays.days} Keeping in Touch day{results.additionalBenefits.kitDays.days !== 1 ? 's' : ''} at normal daily rate
+                </Text>
+              </>
+            )}
+
+            {/* Total Additional Benefits */}
+            <View style={[styles.detailRow, styles.totalRow]}>
+              <Text style={styles.totalLabel}>Total Additional Value</Text>
+              <Text style={[styles.totalValue, styles.benefitTotal]}>
+                {formatCurrency(results.additionalBenefits.total)}
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
+
       {/* Warning Card for Unpaid Weeks */}
       {gross.breakdown.totalWeeks > 39 && (
         <View style={[styles.card, styles.warningCard]}>
@@ -224,6 +276,26 @@ export default function ResultsDisplay({ results }) {
             <>
               Note: {isNHSEnhanced ? 'NHS Enhanced' : 'Statutory'} Maternity Pay is only paid for the first 39 weeks.
               Weeks 40-{gross.breakdown.totalWeeks} would be unpaid leave.{'\n\n'}
+            </>
+          )}
+          {fte && fte < 1.0 && (
+            <>
+              Part-time Calculation ({fte} FTE):{'\n'}
+              • Maternity pay is based on your actual annual salary{'\n'}
+              • Holiday accrual is pro-rated to {fte} FTE{'\n'}
+              • KIT days daily rate reflects your working pattern{'\n\n'}
+            </>
+          )}
+          {results.additionalBenefits && results.additionalBenefits.total > 0 && (
+            <>
+              Additional Benefits:{'\n'}
+              {results.additionalBenefits.holidayAccrual.value > 0 && (
+                <>• Holiday accrual: You continue to accrue holiday during maternity leave at your normal rate{'\n'}</>
+              )}
+              {results.additionalBenefits.kitDays.pay > 0 && (
+                <>• KIT days: Keeping in Touch days ({results.additionalBenefits.kitDays.days} included) are paid at your normal daily rate on top of maternity pay{'\n'}</>
+              )}
+              • These additional benefits are shown separately as they may have different tax treatment and payment timing{'\n\n'}
             </>
           )}
           Deductions are calculated based on your maternity pay income during the{' '}
@@ -381,5 +453,14 @@ const styles = StyleSheet.create({
   },
   bottomSpacing: {
     height: spacing.xl,
+  },
+  benefitSubtext: {
+    ...typography.small,
+    color: colors.textSecondary,
+    marginBottom: spacing.md,
+    fontStyle: 'italic',
+  },
+  benefitTotal: {
+    color: '#7FD4A8', // Success green color
   },
 });

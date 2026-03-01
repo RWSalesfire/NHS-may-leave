@@ -105,11 +105,12 @@ export const NHS_HOLIDAY_ENTITLEMENT = {
  * Calculate holiday days accrued during maternity leave
  * @param {number} weeks - Number of weeks of maternity leave
  * @param {number} annualHolidayDays - Annual holiday entitlement in days (default 27)
+ * @param {number} fte - Full-Time Equivalent (0.5-1.0, default 1.0)
  * @returns {object} Holiday accrual breakdown
  */
-export const calculateHolidayAccrual = (weeks, annualHolidayDays = 27) => {
-  // Total holiday days including bank holidays
-  const totalHolidayDays = annualHolidayDays + NHS_HOLIDAY_ENTITLEMENT.bankHolidayDays;
+export const calculateHolidayAccrual = (weeks, annualHolidayDays = 27, fte = 1.0) => {
+  // Total holiday days including bank holidays (pro-rated by FTE)
+  const totalHolidayDays = (annualHolidayDays + NHS_HOLIDAY_ENTITLEMENT.bankHolidayDays) * fte;
 
   // Days accrued per week
   const daysPerWeek = totalHolidayDays / 52;
@@ -121,6 +122,7 @@ export const calculateHolidayAccrual = (weeks, annualHolidayDays = 27) => {
     daysAccrued,
     annualHolidayDays,
     totalHolidayDays,
+    fte,
   };
 };
 
@@ -128,11 +130,13 @@ export const calculateHolidayAccrual = (weeks, annualHolidayDays = 27) => {
  * Calculate monetary value of accrued holiday
  * @param {number} daysAccrued - Number of holiday days accrued
  * @param {number} annualSalary - Annual gross salary
+ * @param {number} fte - Full-Time Equivalent (0.5-1.0, default 1.0)
  * @returns {number} Monetary value of accrued holiday
  */
-export const calculateHolidayValue = (daysAccrued, annualSalary) => {
-  const dailyRate = annualSalary / NHS_HOLIDAY_ENTITLEMENT.workingDaysPerYear;
-  return daysAccrued * dailyRate;
+export const calculateHolidayValue = (daysAccrued, annualSalary, fte = 1.0) => {
+  // Calculate full-time daily rate
+  const fullTimeDailyRate = annualSalary / fte / NHS_HOLIDAY_ENTITLEMENT.workingDaysPerYear;
+  return daysAccrued * fullTimeDailyRate;
 };
 
 /**
@@ -148,13 +152,15 @@ export const KIT_DAYS = {
  * Calculate KIT days pay
  * @param {number} kitDays - Number of KIT days (0-10)
  * @param {number} annualSalary - Annual gross salary
+ * @param {number} fte - Full-Time Equivalent (0.5-1.0, default 1.0)
  * @returns {number} Total pay for KIT days
  */
-export const calculateKITDaysPay = (kitDays, annualSalary) => {
+export const calculateKITDaysPay = (kitDays, annualSalary, fte = 1.0) => {
   if (kitDays < KIT_DAYS.minDays || kitDays > KIT_DAYS.maxDays) {
     return 0;
   }
 
-  const dailyRate = annualSalary / NHS_HOLIDAY_ENTITLEMENT.workingDaysPerYear;
-  return kitDays * dailyRate;
+  // Calculate full-time daily rate
+  const fullTimeDailyRate = annualSalary / fte / NHS_HOLIDAY_ENTITLEMENT.workingDaysPerYear;
+  return kitDays * fullTimeDailyRate;
 };

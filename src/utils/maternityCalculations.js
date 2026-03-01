@@ -4,6 +4,12 @@
  * Calculates maternity pay based on NHS and statutory maternity pay rules
  */
 
+import {
+  calculateHolidayAccrual,
+  calculateHolidayValue,
+  calculateKITDaysPay
+} from '../constants/nhsData.js';
+
 // 2025/26 UK Tax and NI rates
 export const TAX_RATES = {
   personalAllowance: 12570,
@@ -272,13 +278,19 @@ export const calculatePensionContributions = (
  * @param {number} pensionPercentage - Pension contribution percentage (default 5%)
  * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @param {string} paymentType - Type of payment: 'smp' or 'nhsEnhanced' (default 'smp')
+ * @param {number} fte - Full-Time Equivalent (0.5-1.0, default 1.0)
+ * @param {number} annualHolidayDays - Annual holiday entitlement in days (default 27)
+ * @param {number} kitDays - Number of KIT days (0-10, default 0)
  * @returns {object} Complete breakdown of maternity pay and deductions
  */
 export const calculateNetMaternityPay = (
   annualSalary,
   pensionPercentage = 5,
   customWeeks = 39,
-  paymentType = 'smp'
+  paymentType = 'smp',
+  fte = 1.0,
+  annualHolidayDays = 27,
+  kitDays = 0
 ) => {
   // Calculate gross maternity pay with custom duration and payment type
   const maternityPay =
@@ -304,6 +316,13 @@ export const calculateNetMaternityPay = (
   const netWeekly = netMaternityPay / customWeeks;
   const netMonthly = netMaternityPay / (customWeeks / 52 * 12); // Accurate monthly calculation
 
+  // Calculate holiday accrual during maternity leave
+  const holidayAccrual = calculateHolidayAccrual(customWeeks, annualHolidayDays, fte);
+  const holidayValue = calculateHolidayValue(holidayAccrual.daysAccrued, annualSalary, fte);
+
+  // Calculate KIT days pay
+  const kitDaysPay = calculateKITDaysPay(kitDays, annualSalary, fte);
+
   return {
     gross: {
       total: grossMaternityPay,
@@ -322,8 +341,21 @@ export const calculateNetMaternityPay = (
       weekly: netWeekly,
       monthly: netMonthly,
     },
+    additionalBenefits: {
+      holidayAccrual: {
+        daysAccrued: holidayAccrual.daysAccrued,
+        value: holidayValue,
+        annualHolidayDays,
+      },
+      kitDays: {
+        days: kitDays,
+        pay: kitDaysPay,
+      },
+      total: holidayValue + kitDaysPay,
+    },
     pensionPercentage,
     paymentType,
+    fte,
   };
 };
 
