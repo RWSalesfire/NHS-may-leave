@@ -29,6 +29,33 @@ export const SMP_RATES = {
 };
 
 /**
+ * Validate maternity leave duration
+ * @param {number} weeks - Number of weeks
+ * @returns {object} Validation result with { valid, error?, weeks? }
+ */
+export const validateMaternityWeeks = (weeks) => {
+  const parsedWeeks = parseFloat(weeks);
+
+  if (isNaN(parsedWeeks)) {
+    return { valid: false, error: 'Please enter a valid number of weeks' };
+  }
+
+  if (parsedWeeks < 1) {
+    return { valid: false, error: 'Duration must be at least 1 week' };
+  }
+
+  if (parsedWeeks > 52) {
+    return { valid: false, error: 'Duration cannot exceed 52 weeks (1 year)' };
+  }
+
+  if (!Number.isInteger(parsedWeeks)) {
+    return { valid: false, error: 'Please enter whole weeks only' };
+  }
+
+  return { valid: true, weeks: parsedWeeks };
+};
+
+/**
  * Calculate average weekly earnings
  * @param {number} annualSalary - Annual gross salary
  * @returns {number} Average weekly earnings
@@ -40,21 +67,28 @@ export const calculateAverageWeeklyEarnings = (annualSalary) => {
 /**
  * Calculate maternity pay for each period
  * @param {number} annualSalary - Annual gross salary
+ * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @returns {object} Breakdown of maternity pay periods
  */
-export const calculateMaternityPay = (annualSalary) => {
+export const calculateMaternityPay = (annualSalary, customWeeks = 39) => {
   const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary);
 
-  // First 6 weeks: 90% of average weekly earnings
-  const higherRateWeekly = averageWeeklyEarnings * 0.9;
-  const higherRateTotalGross = higherRateWeekly * SMP_RATES.higherRateWeeks;
+  // Calculate dynamic week breakdown
+  // If duration <= 6 weeks, all weeks are at higher rate (90%)
+  // If duration > 6 weeks, first 6 weeks at higher rate, rest at standard rate
+  const higherRateWeeks = Math.min(customWeeks, SMP_RATES.higherRateWeeks);
+  const standardRateWeeks = Math.max(0, customWeeks - SMP_RATES.higherRateWeeks);
 
-  // Next 33 weeks: Lower of 90% or standard rate
+  // First 6 weeks (or less): 90% of average weekly earnings
+  const higherRateWeekly = averageWeeklyEarnings * 0.9;
+  const higherRateTotalGross = higherRateWeekly * higherRateWeeks;
+
+  // Next weeks: Lower of 90% or standard rate
   const standardRateWeekly = Math.min(
     averageWeeklyEarnings * 0.9,
     SMP_RATES.standardRateAmount
   );
-  const standardRateTotalGross = standardRateWeekly * SMP_RATES.standardRateWeeks;
+  const standardRateTotalGross = standardRateWeekly * standardRateWeeks;
 
   // Total maternity pay
   const totalGrossMaternityPay = higherRateTotalGross + standardRateTotalGross;
@@ -62,16 +96,16 @@ export const calculateMaternityPay = (annualSalary) => {
   return {
     averageWeeklyEarnings,
     higherRate: {
-      weeks: SMP_RATES.higherRateWeeks,
+      weeks: higherRateWeeks,
       weeklyAmount: higherRateWeekly,
       totalGross: higherRateTotalGross,
     },
     standardRate: {
-      weeks: SMP_RATES.standardRateWeeks,
+      weeks: standardRateWeeks,
       weeklyAmount: standardRateWeekly,
       totalGross: standardRateTotalGross,
     },
-    totalWeeks: SMP_RATES.totalWeeks,
+    totalWeeks: customWeeks,
     totalGrossMaternityPay,
   };
 };
@@ -160,11 +194,16 @@ export const calculatePensionContributions = (
  * Calculate net (take-home) maternity pay after all deductions
  * @param {number} annualSalary - Annual gross salary
  * @param {number} pensionPercentage - Pension contribution percentage (default 5%)
+ * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @returns {object} Complete breakdown of maternity pay and deductions
  */
-export const calculateNetMaternityPay = (annualSalary, pensionPercentage = 5) => {
-  // Calculate gross maternity pay
-  const maternityPay = calculateMaternityPay(annualSalary);
+export const calculateNetMaternityPay = (
+  annualSalary,
+  pensionPercentage = 5,
+  customWeeks = 39
+) => {
+  // Calculate gross maternity pay with custom duration
+  const maternityPay = calculateMaternityPay(annualSalary, customWeeks);
   const grossMaternityPay = maternityPay.totalGrossMaternityPay;
 
   // Calculate deductions based on maternity pay period
@@ -180,14 +219,14 @@ export const calculateNetMaternityPay = (annualSalary, pensionPercentage = 5) =>
   const netMaternityPay = grossMaternityPay - totalDeductions;
 
   // Weekly and monthly breakdowns
-  const netWeekly = netMaternityPay / SMP_RATES.totalWeeks;
-  const netMonthly = netMaternityPay / 9; // Approximate 9 months
+  const netWeekly = netMaternityPay / customWeeks;
+  const netMonthly = netMaternityPay / (customWeeks / 52 * 12); // Accurate monthly calculation
 
   return {
     gross: {
       total: grossMaternityPay,
-      weekly: grossMaternityPay / SMP_RATES.totalWeeks,
-      monthly: grossMaternityPay / 9,
+      weekly: grossMaternityPay / customWeeks,
+      monthly: grossMaternityPay / (customWeeks / 52 * 12),
       breakdown: maternityPay,
     },
     deductions: {

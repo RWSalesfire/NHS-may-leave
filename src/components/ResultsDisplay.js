@@ -14,7 +14,10 @@ export default function ResultsDisplay({ results }) {
       <View style={[styles.card, styles.highlightCard]}>
         <Text style={styles.cardTitle}>Your Take-Home Maternity Pay</Text>
         <Text style={styles.mainAmount}>{formatCurrency(net.total)}</Text>
-        <Text style={styles.period}>Over 39 weeks</Text>
+        <Text style={styles.period}>
+          Over {gross.breakdown.totalWeeks} week
+          {gross.breakdown.totalWeeks !== 1 ? 's' : ''}
+        </Text>
 
         <View style={styles.breakdownRow}>
           <View style={styles.breakdownItem}>
@@ -36,7 +39,10 @@ export default function ResultsDisplay({ results }) {
 
         <View style={styles.section}>
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>First 6 weeks (90%)</Text>
+            <Text style={styles.detailLabel}>
+              First {gross.breakdown.higherRate.weeks} week
+              {gross.breakdown.higherRate.weeks !== 1 ? 's' : ''} (90%)
+            </Text>
             <Text style={styles.detailValue}>
               {formatCurrency(gross.breakdown.higherRate.totalGross)}
             </Text>
@@ -45,15 +51,23 @@ export default function ResultsDisplay({ results }) {
             {formatCurrency(gross.breakdown.higherRate.weeklyAmount)} per week
           </Text>
 
-          <View style={[styles.detailRow, { marginTop: spacing.md }]}>
-            <Text style={styles.detailLabel}>Next 33 weeks</Text>
-            <Text style={styles.detailValue}>
-              {formatCurrency(gross.breakdown.standardRate.totalGross)}
-            </Text>
-          </View>
-          <Text style={styles.detailSubtext}>
-            {formatCurrency(gross.breakdown.standardRate.weeklyAmount)} per week
-          </Text>
+          {/* Only show standard rate section if there are weeks */}
+          {gross.breakdown.standardRate.weeks > 0 && (
+            <>
+              <View style={[styles.detailRow, { marginTop: spacing.md }]}>
+                <Text style={styles.detailLabel}>
+                  Next {gross.breakdown.standardRate.weeks} week
+                  {gross.breakdown.standardRate.weeks !== 1 ? 's' : ''}
+                </Text>
+                <Text style={styles.detailValue}>
+                  {formatCurrency(gross.breakdown.standardRate.totalGross)}
+                </Text>
+              </View>
+              <Text style={styles.detailSubtext}>
+                {formatCurrency(gross.breakdown.standardRate.weeklyAmount)} per week
+              </Text>
+            </>
+          )}
         </View>
       </View>
 
@@ -94,18 +108,59 @@ export default function ResultsDisplay({ results }) {
         </View>
       </View>
 
+      {/* Warning Card for Unpaid Weeks */}
+      {gross.breakdown.totalWeeks > 39 && (
+        <View style={[styles.card, styles.warningCard]}>
+          <Text style={styles.warningTitle}>Unpaid Leave Period</Text>
+          <Text style={styles.warningText}>
+            You've calculated for {gross.breakdown.totalWeeks} weeks of maternity
+            leave. NHS Statutory Maternity Pay is only paid for the first 39 weeks.
+            {'\n\n'}
+            Weeks 40-{gross.breakdown.totalWeeks} would be unpaid leave, which is why
+            your weekly and monthly averages may be lower than expected.
+          </Text>
+        </View>
+      )}
+
       {/* Info Card */}
       <View style={[styles.card, styles.infoCard]}>
         <Text style={styles.infoTitle}>About This Calculation</Text>
         <Text style={styles.infoText}>
           This calculator uses 2025/26 UK tax rates, National Insurance
-          contributions, and NHS maternity pay rules. Statutory Maternity Pay (SMP)
-          is paid for up to 39 weeks:{'\n\n'}
-          • First 6 weeks: 90% of average weekly earnings{'\n'}
-          • Next 33 weeks: £184.03 per week or 90% of average weekly earnings
-          (whichever is lower){'\n\n'}
-          Deductions are calculated based on your maternity pay income during the
-          39-week period.
+          contributions, and NHS maternity pay rules.{'\n\n'}
+          {gross.breakdown.totalWeeks === 39 ? (
+            <>
+              Statutory Maternity Pay (SMP) is paid for up to 39 weeks:{'\n\n'}
+              • First 6 weeks: 90% of average weekly earnings{'\n'}
+              • Next 33 weeks: £184.03 per week or 90% of average weekly earnings
+              (whichever is lower){'\n\n'}
+            </>
+          ) : gross.breakdown.totalWeeks <= 6 ? (
+            <>
+              Your calculation is for {gross.breakdown.totalWeeks} week
+              {gross.breakdown.totalWeeks !== 1 ? 's' : ''}, which falls entirely
+              within the higher rate period:{'\n\n'}
+              • All {gross.breakdown.totalWeeks} week
+              {gross.breakdown.totalWeeks !== 1 ? 's' : ''}: 90% of average weekly
+              earnings{'\n\n'}
+            </>
+          ) : (
+            <>
+              Your calculation is for {gross.breakdown.totalWeeks} weeks:{'\n\n'}
+              • First {gross.breakdown.higherRate.weeks} weeks: 90% of average weekly
+              earnings{'\n'}
+              • Next {gross.breakdown.standardRate.weeks} weeks: £184.03 per week or
+              90% of average weekly earnings (whichever is lower){'\n\n'}
+            </>
+          )}
+          {gross.breakdown.totalWeeks > 39 && (
+            <>
+              Note: NHS Statutory Maternity Pay is only paid for the first 39 weeks.
+              Weeks 40-{gross.breakdown.totalWeeks} would be unpaid leave.{'\n\n'}
+            </>
+          )}
+          Deductions are calculated based on your maternity pay income during the{' '}
+          {gross.breakdown.totalWeeks}-week period.
         </Text>
       </View>
 
@@ -236,6 +291,22 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   infoText: {
+    ...typography.body,
+    color: colors.textSecondary,
+    lineHeight: 24,
+  },
+  warningCard: {
+    backgroundColor: '#FFF9F5',
+    borderLeftWidth: 4,
+    borderLeftColor: colors.accent,
+  },
+  warningTitle: {
+    ...typography.subheading,
+    color: colors.textPrimary,
+    fontWeight: '600',
+    marginBottom: spacing.sm,
+  },
+  warningText: {
     ...typography.body,
     color: colors.textSecondary,
     lineHeight: 24,

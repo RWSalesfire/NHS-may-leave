@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { colors, spacing, borderRadius, typography } from '../constants/theme';
+import { validateMaternityWeeks } from '../utils/maternityCalculations';
 
 export default function CalculatorInput({ onCalculate }) {
   const [annualSalary, setAnnualSalary] = useState('');
   const [pensionPercentage, setPensionPercentage] = useState('5');
+  const [maternityWeeks, setMaternityWeeks] = useState('39');
   const [errors, setErrors] = useState({});
 
   const validateInputs = () => {
@@ -34,6 +36,12 @@ export default function CalculatorInput({ onCalculate }) {
       newErrors.pensionPercentage = 'Pension percentage cannot exceed 100%';
     }
 
+    // Validate maternity weeks
+    const weeksValidation = validateMaternityWeeks(maternityWeeks);
+    if (!weeksValidation.valid) {
+      newErrors.maternityWeeks = weeksValidation.error;
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -43,6 +51,7 @@ export default function CalculatorInput({ onCalculate }) {
       onCalculate({
         annualSalary: parseFloat(annualSalary),
         pensionPercentage: parseFloat(pensionPercentage),
+        maternityWeeks: parseFloat(maternityWeeks),
       });
     }
   };
@@ -97,6 +106,84 @@ export default function CalculatorInput({ onCalculate }) {
         )}
         <Text style={styles.helperText}>
           Typical NHS pension contribution is 5-13.5%
+        </Text>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Maternity Leave Duration (weeks)</Text>
+
+        <View style={styles.presetRow}>
+          <TouchableOpacity
+            style={[
+              styles.presetButton,
+              maternityWeeks === '26' && styles.presetButtonActive,
+            ]}
+            onPress={() => setMaternityWeeks('26')}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.presetButtonText,
+                maternityWeeks === '26' && styles.presetButtonTextActive,
+              ]}
+            >
+              26 weeks
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.presetButton,
+              maternityWeeks === '39' && styles.presetButtonActive,
+            ]}
+            onPress={() => setMaternityWeeks('39')}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.presetButtonText,
+                maternityWeeks === '39' && styles.presetButtonTextActive,
+              ]}
+            >
+              39 weeks
+            </Text>
+            <Text style={styles.presetButtonLabel}>Standard</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.presetButton,
+              maternityWeeks === '52' && styles.presetButtonActive,
+            ]}
+            onPress={() => setMaternityWeeks('52')}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.presetButtonText,
+                maternityWeeks === '52' && styles.presetButtonTextActive,
+              ]}
+            >
+              52 weeks
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TextInput
+          style={[styles.input, errors.maternityWeeks && styles.inputError]}
+          value={maternityWeeks}
+          onChangeText={(text) => setMaternityWeeks(formatSalaryInput(text))}
+          placeholder="e.g. 39"
+          placeholderTextColor={colors.textSecondary}
+          keyboardType="number-pad"
+          returnKeyType="done"
+        />
+        {errors.maternityWeeks && (
+          <Text style={styles.errorText}>{errors.maternityWeeks}</Text>
+        )}
+        <Text style={styles.helperText}>
+          NHS Statutory Maternity Pay is typically paid for 39 weeks (6 weeks at 90%,
+          33 weeks at standard rate). You can calculate up to 52 weeks.
         </Text>
       </View>
 
@@ -175,5 +262,41 @@ const styles = StyleSheet.create({
     ...typography.subheading,
     color: colors.cardBackground,
     fontWeight: '600',
+  },
+  presetRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  presetButton: {
+    flex: 1,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 2,
+    borderColor: colors.border,
+    borderRadius: borderRadius.md,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 56,
+  },
+  presetButtonActive: {
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primary,
+  },
+  presetButtonText: {
+    ...typography.small,
+    color: colors.textPrimary,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  presetButtonTextActive: {
+    color: colors.primaryDark,
+  },
+  presetButtonLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    marginTop: 2,
+    textAlign: 'center',
   },
 });
