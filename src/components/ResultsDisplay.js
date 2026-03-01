@@ -6,7 +6,8 @@ import { formatCurrency } from '../utils/maternityCalculations';
 export default function ResultsDisplay({ results }) {
   if (!results) return null;
 
-  const { gross, deductions, net } = results;
+  const { gross, deductions, net, paymentType } = results;
+  const isNHSEnhanced = paymentType === 'nhsEnhanced';
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -38,34 +39,93 @@ export default function ResultsDisplay({ results }) {
         <Text style={styles.amount}>{formatCurrency(gross.total)}</Text>
 
         <View style={styles.section}>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>
-              First {gross.breakdown.higherRate.weeks} week
-              {gross.breakdown.higherRate.weeks !== 1 ? 's' : ''} (90%)
-            </Text>
-            <Text style={styles.detailValue}>
-              {formatCurrency(gross.breakdown.higherRate.totalGross)}
-            </Text>
-          </View>
-          <Text style={styles.detailSubtext}>
-            {formatCurrency(gross.breakdown.higherRate.weeklyAmount)} per week
-          </Text>
-
-          {/* Only show standard rate section if there are weeks */}
-          {gross.breakdown.standardRate.weeks > 0 && (
+          {isNHSEnhanced ? (
+            // NHS Enhanced 3-phase breakdown
             <>
-              <View style={[styles.detailRow, { marginTop: spacing.md }]}>
+              {gross.breakdown.fullPay.weeks > 0 && (
+                <>
+                  <View style={styles.detailRow}>
+                    <Text style={styles.detailLabel}>
+                      First {gross.breakdown.fullPay.weeks} week
+                      {gross.breakdown.fullPay.weeks !== 1 ? 's' : ''} (100% full pay)
+                    </Text>
+                    <Text style={styles.detailValue}>
+                      {formatCurrency(gross.breakdown.fullPay.totalGross)}
+                    </Text>
+                  </View>
+                  <Text style={styles.detailSubtext}>
+                    {formatCurrency(gross.breakdown.fullPay.weeklyAmount)} per week
+                  </Text>
+                </>
+              )}
+
+              {gross.breakdown.halfPayPlusSMP.weeks > 0 && (
+                <>
+                  <View style={[styles.detailRow, { marginTop: spacing.md }]}>
+                    <Text style={styles.detailLabel}>
+                      Next {gross.breakdown.halfPayPlusSMP.weeks} week
+                      {gross.breakdown.halfPayPlusSMP.weeks !== 1 ? 's' : ''} (50% + SMP)
+                    </Text>
+                    <Text style={styles.detailValue}>
+                      {formatCurrency(gross.breakdown.halfPayPlusSMP.totalGross)}
+                    </Text>
+                  </View>
+                  <Text style={styles.detailSubtext}>
+                    {formatCurrency(gross.breakdown.halfPayPlusSMP.weeklyAmount)} per week
+                  </Text>
+                </>
+              )}
+
+              {gross.breakdown.smpOnly.weeks > 0 && (
+                <>
+                  <View style={[styles.detailRow, { marginTop: spacing.md }]}>
+                    <Text style={styles.detailLabel}>
+                      Final {gross.breakdown.smpOnly.weeks} week
+                      {gross.breakdown.smpOnly.weeks !== 1 ? 's' : ''} (SMP only)
+                    </Text>
+                    <Text style={styles.detailValue}>
+                      {formatCurrency(gross.breakdown.smpOnly.totalGross)}
+                    </Text>
+                  </View>
+                  <Text style={styles.detailSubtext}>
+                    {formatCurrency(gross.breakdown.smpOnly.weeklyAmount)} per week
+                  </Text>
+                </>
+              )}
+            </>
+          ) : (
+            // Standard SMP 2-phase breakdown
+            <>
+              <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>
-                  Next {gross.breakdown.standardRate.weeks} week
-                  {gross.breakdown.standardRate.weeks !== 1 ? 's' : ''}
+                  First {gross.breakdown.higherRate.weeks} week
+                  {gross.breakdown.higherRate.weeks !== 1 ? 's' : ''} (90%)
                 </Text>
                 <Text style={styles.detailValue}>
-                  {formatCurrency(gross.breakdown.standardRate.totalGross)}
+                  {formatCurrency(gross.breakdown.higherRate.totalGross)}
                 </Text>
               </View>
               <Text style={styles.detailSubtext}>
-                {formatCurrency(gross.breakdown.standardRate.weeklyAmount)} per week
+                {formatCurrency(gross.breakdown.higherRate.weeklyAmount)} per week
               </Text>
+
+              {/* Only show standard rate section if there are weeks */}
+              {gross.breakdown.standardRate.weeks > 0 && (
+                <>
+                  <View style={[styles.detailRow, { marginTop: spacing.md }]}>
+                    <Text style={styles.detailLabel}>
+                      Next {gross.breakdown.standardRate.weeks} week
+                      {gross.breakdown.standardRate.weeks !== 1 ? 's' : ''}
+                    </Text>
+                    <Text style={styles.detailValue}>
+                      {formatCurrency(gross.breakdown.standardRate.totalGross)}
+                    </Text>
+                  </View>
+                  <Text style={styles.detailSubtext}>
+                    {formatCurrency(gross.breakdown.standardRate.weeklyAmount)} per week
+                  </Text>
+                </>
+              )}
             </>
           )}
         </View>
@@ -127,12 +187,19 @@ export default function ResultsDisplay({ results }) {
         <Text style={styles.infoTitle}>About This Calculation</Text>
         <Text style={styles.infoText}>
           This calculator uses 2025/26 UK tax rates, National Insurance
-          contributions, and NHS maternity pay rules.{'\n\n'}
-          {gross.breakdown.totalWeeks === 39 ? (
+          contributions, and {isNHSEnhanced ? 'NHS Enhanced (Agenda for Change)' : 'Statutory'} maternity pay rules.{'\n\n'}
+          {isNHSEnhanced ? (
+            <>
+              NHS Enhanced Maternity Pay (Agenda for Change) is paid for up to 39 weeks:{'\n\n'}
+              • First 8 weeks: 100% of full salary{'\n'}
+              • Next 18 weeks: 50% of salary + £184.75 SMP per week{'\n'}
+              • Final 13 weeks: £184.75 SMP per week only{'\n\n'}
+            </>
+          ) : gross.breakdown.totalWeeks === 39 ? (
             <>
               Statutory Maternity Pay (SMP) is paid for up to 39 weeks:{'\n\n'}
               • First 6 weeks: 90% of average weekly earnings{'\n'}
-              • Next 33 weeks: £184.03 per week or 90% of average weekly earnings
+              • Next 33 weeks: £184.75 per week or 90% of average weekly earnings
               (whichever is lower){'\n\n'}
             </>
           ) : gross.breakdown.totalWeeks <= 6 ? (
@@ -147,20 +214,21 @@ export default function ResultsDisplay({ results }) {
           ) : (
             <>
               Your calculation is for {gross.breakdown.totalWeeks} weeks:{'\n\n'}
-              • First {gross.breakdown.higherRate.weeks} weeks: 90% of average weekly
+              • First {gross.breakdown.higherRate?.weeks || 0} weeks: 90% of average weekly
               earnings{'\n'}
-              • Next {gross.breakdown.standardRate.weeks} weeks: £184.03 per week or
+              • Next {gross.breakdown.standardRate?.weeks || 0} weeks: £184.75 per week or
               90% of average weekly earnings (whichever is lower){'\n\n'}
             </>
           )}
           {gross.breakdown.totalWeeks > 39 && (
             <>
-              Note: NHS Statutory Maternity Pay is only paid for the first 39 weeks.
+              Note: {isNHSEnhanced ? 'NHS Enhanced' : 'Statutory'} Maternity Pay is only paid for the first 39 weeks.
               Weeks 40-{gross.breakdown.totalWeeks} would be unpaid leave.{'\n\n'}
             </>
           )}
           Deductions are calculated based on your maternity pay income during the{' '}
-          {gross.breakdown.totalWeeks}-week period.
+          {gross.breakdown.totalWeeks}-week period.{'\n\n'}
+          Last updated: 2025/26 tax year
         </Text>
       </View>
 

@@ -8,11 +8,14 @@ import {
 } from 'react-native';
 import { colors, spacing, borderRadius, typography } from '../constants/theme';
 import { validateMaternityWeeks } from '../utils/maternityCalculations';
+import { NHS_PAY_BANDS, getSalaryRangeDisplay } from '../constants/nhsData';
 
 export default function CalculatorInput({ onCalculate }) {
   const [annualSalary, setAnnualSalary] = useState('');
   const [pensionPercentage, setPensionPercentage] = useState('5');
   const [maternityWeeks, setMaternityWeeks] = useState('39');
+  const [paymentType, setPaymentType] = useState('smp');
+  const [selectedPayBand, setSelectedPayBand] = useState('custom');
   const [errors, setErrors] = useState({});
 
   const validateInputs = () => {
@@ -52,7 +55,18 @@ export default function CalculatorInput({ onCalculate }) {
         annualSalary: parseFloat(annualSalary),
         pensionPercentage: parseFloat(pensionPercentage),
         maternityWeeks: parseFloat(maternityWeeks),
+        paymentType,
       });
+    }
+  };
+
+  const handlePayBandSelect = (bandId) => {
+    setSelectedPayBand(bandId);
+    const band = NHS_PAY_BANDS.find((b) => b.id === bandId);
+    if (band && band.midpoint) {
+      setAnnualSalary(band.midpoint.toString());
+    } else if (bandId === 'custom') {
+      setAnnualSalary('');
     }
   };
 
@@ -73,6 +87,84 @@ export default function CalculatorInput({ onCalculate }) {
       <Text style={styles.subtitle}>
         Calculate your take-home maternity pay after tax, NI, and pension deductions
       </Text>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Payment Type</Text>
+        <View style={styles.presetRow}>
+          <TouchableOpacity
+            style={[
+              styles.presetButton,
+              paymentType === 'smp' && styles.presetButtonActive,
+            ]}
+            onPress={() => setPaymentType('smp')}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.presetButtonText,
+                paymentType === 'smp' && styles.presetButtonTextActive,
+              ]}
+            >
+              Statutory SMP
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.presetButton,
+              paymentType === 'nhsEnhanced' && styles.presetButtonActive,
+            ]}
+            onPress={() => setPaymentType('nhsEnhanced')}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.presetButtonText,
+                paymentType === 'nhsEnhanced' && styles.presetButtonTextActive,
+              ]}
+            >
+              NHS Enhanced
+            </Text>
+            <Text style={styles.presetButtonLabel}>Recommended</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.helperText}>
+          {paymentType === 'smp'
+            ? 'Standard UK Statutory Maternity Pay (6 weeks at 90%, then £184.75/week)'
+            : 'NHS Agenda for Change (8 weeks full pay, 18 weeks half pay + SMP, 13 weeks SMP)'}
+        </Text>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>NHS Pay Band (Optional)</Text>
+        <View style={styles.payBandGrid}>
+          {NHS_PAY_BANDS.map((band) => (
+            <TouchableOpacity
+              key={band.id}
+              style={[
+                styles.payBandButton,
+                selectedPayBand === band.id && styles.payBandButtonActive,
+              ]}
+              onPress={() => handlePayBandSelect(band.id)}
+              activeOpacity={0.7}
+            >
+              <Text
+                style={[
+                  styles.payBandButtonText,
+                  selectedPayBand === band.id && styles.payBandButtonTextActive,
+                ]}
+              >
+                {band.label.split(' - ')[0]}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {selectedPayBand !== 'custom' && getSalaryRangeDisplay(selectedPayBand) && (
+          <Text style={styles.helperText}>
+            Salary range: {getSalaryRangeDisplay(selectedPayBand)}
+          </Text>
+        )}
+      </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Annual Salary (£)</Text>
@@ -298,5 +390,33 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginTop: 2,
     textAlign: 'center',
+  },
+  payBandGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.xs,
+  },
+  payBandButton: {
+    backgroundColor: colors.inputBackground,
+    borderWidth: 2,
+    borderColor: colors.border,
+    borderRadius: borderRadius.md,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    minWidth: 80,
+  },
+  payBandButtonActive: {
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primary,
+  },
+  payBandButtonText: {
+    ...typography.small,
+    color: colors.textPrimary,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  payBandButtonTextActive: {
+    color: colors.primaryDark,
   },
 });

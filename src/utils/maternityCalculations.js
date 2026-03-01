@@ -20,12 +20,22 @@ export const NI_RATES = {
   higherRate: 0.02, // 2% on earnings above £50,270
 };
 
-// Statutory Maternity Pay rates 2025/26 (approximate - should be updated with actual rates)
+// Statutory Maternity Pay rates 2025/26
 export const SMP_RATES = {
   higherRateWeeks: 6, // First 6 weeks at 90% of average weekly earnings
   standardRateWeeks: 33, // Next 33 weeks at standard rate or 90% (whichever is lower)
-  standardRateAmount: 184.03, // Weekly standard rate (2024/25 - update for 2025/26)
+  standardRateAmount: 184.75, // Weekly standard rate (2025/26)
   totalWeeks: 39,
+  lastUpdated: '2025/26',
+};
+
+// NHS Enhanced Maternity Pay (Agenda for Change) rates
+export const NHS_ENHANCED_RATES = {
+  fullPayWeeks: 8, // First 8 weeks at 100% salary
+  halfPayPlusSMPWeeks: 18, // Next 18 weeks at 50% salary + SMP
+  smpOnlyWeeks: 13, // Final 13 weeks at SMP only
+  totalWeeks: 39,
+  lastUpdated: '2025/26',
 };
 
 /**
@@ -65,7 +75,7 @@ export const calculateAverageWeeklyEarnings = (annualSalary) => {
 };
 
 /**
- * Calculate maternity pay for each period
+ * Calculate Statutory Maternity Pay (SMP) for each period
  * @param {number} annualSalary - Annual gross salary
  * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @returns {object} Breakdown of maternity pay periods
@@ -107,6 +117,72 @@ export const calculateMaternityPay = (annualSalary, customWeeks = 39) => {
     },
     totalWeeks: customWeeks,
     totalGrossMaternityPay,
+    paymentType: 'smp',
+  };
+};
+
+/**
+ * Calculate NHS Enhanced Maternity Pay (Agenda for Change) for each period
+ * @param {number} annualSalary - Annual gross salary
+ * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
+ * @returns {object} Breakdown of NHS Enhanced maternity pay periods
+ */
+export const calculateNHSEnhancedPay = (annualSalary, customWeeks = 39) => {
+  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary);
+
+  // Phase 1: Full pay (100% of salary)
+  // Up to first 8 weeks or customWeeks if less
+  const fullPayWeeks = Math.min(customWeeks, NHS_ENHANCED_RATES.fullPayWeeks);
+  const fullPayWeekly = averageWeeklyEarnings;
+  const fullPayTotalGross = fullPayWeekly * fullPayWeeks;
+
+  // Phase 2: Half pay + SMP (50% salary + £184.75/week)
+  // Weeks 9-26 (18 weeks total) or remaining weeks if less
+  const remainingAfterFullPay = Math.max(0, customWeeks - fullPayWeeks);
+  const halfPayPlusSMPWeeks = Math.min(
+    remainingAfterFullPay,
+    NHS_ENHANCED_RATES.halfPayPlusSMPWeeks
+  );
+  const halfPayPlusSMPWeekly = averageWeeklyEarnings * 0.5 + SMP_RATES.standardRateAmount;
+  const halfPayPlusSMPTotalGross = halfPayPlusSMPWeekly * halfPayPlusSMPWeeks;
+
+  // Phase 3: SMP only (£184.75/week or 90% if lower)
+  // Weeks 27-39 (13 weeks total) or remaining weeks if less
+  const remainingAfterHalfPay = Math.max(0, customWeeks - fullPayWeeks - halfPayPlusSMPWeeks);
+  const smpOnlyWeeks = Math.min(
+    remainingAfterHalfPay,
+    NHS_ENHANCED_RATES.smpOnlyWeeks
+  );
+  const smpOnlyWeekly = Math.min(
+    averageWeeklyEarnings * 0.9,
+    SMP_RATES.standardRateAmount
+  );
+  const smpOnlyTotalGross = smpOnlyWeekly * smpOnlyWeeks;
+
+  // Total maternity pay
+  const totalGrossMaternityPay =
+    fullPayTotalGross + halfPayPlusSMPTotalGross + smpOnlyTotalGross;
+
+  return {
+    averageWeeklyEarnings,
+    fullPay: {
+      weeks: fullPayWeeks,
+      weeklyAmount: fullPayWeekly,
+      totalGross: fullPayTotalGross,
+    },
+    halfPayPlusSMP: {
+      weeks: halfPayPlusSMPWeeks,
+      weeklyAmount: halfPayPlusSMPWeekly,
+      totalGross: halfPayPlusSMPTotalGross,
+    },
+    smpOnly: {
+      weeks: smpOnlyWeeks,
+      weeklyAmount: smpOnlyWeekly,
+      totalGross: smpOnlyTotalGross,
+    },
+    totalWeeks: customWeeks,
+    totalGrossMaternityPay,
+    paymentType: 'nhsEnhanced',
   };
 };
 
@@ -195,15 +271,21 @@ export const calculatePensionContributions = (
  * @param {number} annualSalary - Annual gross salary
  * @param {number} pensionPercentage - Pension contribution percentage (default 5%)
  * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
+ * @param {string} paymentType - Type of payment: 'smp' or 'nhsEnhanced' (default 'smp')
  * @returns {object} Complete breakdown of maternity pay and deductions
  */
 export const calculateNetMaternityPay = (
   annualSalary,
   pensionPercentage = 5,
-  customWeeks = 39
+  customWeeks = 39,
+  paymentType = 'smp'
 ) => {
-  // Calculate gross maternity pay with custom duration
-  const maternityPay = calculateMaternityPay(annualSalary, customWeeks);
+  // Calculate gross maternity pay with custom duration and payment type
+  const maternityPay =
+    paymentType === 'nhsEnhanced'
+      ? calculateNHSEnhancedPay(annualSalary, customWeeks)
+      : calculateMaternityPay(annualSalary, customWeeks);
+
   const grossMaternityPay = maternityPay.totalGrossMaternityPay;
 
   // Calculate deductions based on maternity pay period
@@ -241,6 +323,7 @@ export const calculateNetMaternityPay = (
       monthly: netMonthly,
     },
     pensionPercentage,
+    paymentType,
   };
 };
 

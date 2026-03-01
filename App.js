@@ -18,11 +18,12 @@ export default function App() {
   const [results, setResults] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const handleCalculate = ({ annualSalary, pensionPercentage, maternityWeeks }) => {
+  const handleCalculate = ({ annualSalary, pensionPercentage, maternityWeeks, paymentType }) => {
     const calculatedResults = calculateNetMaternityPay(
       annualSalary,
       pensionPercentage,
-      maternityWeeks
+      maternityWeeks,
+      paymentType
     );
     setResults(calculatedResults);
     setShowResults(true);
