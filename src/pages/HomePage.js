@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: spacing.xl,
     paddingVertical: spacing.xl,
     borderTopWidth: 1,
     borderBottomWidth: 1,
@@ -254,11 +253,13 @@ const styles = StyleSheet.create({
   trustItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
+    marginHorizontal: spacing.md,
+    marginVertical: spacing.xs,
   },
   trustNumber: {
     fontSize: 20,
     color: colors.success,
+    marginRight: spacing.sm,
   },
   trustText: {
     fontSize: 14,
@@ -284,7 +285,6 @@ const styles = StyleSheet.create({
   featureGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.lg,
     justifyContent: 'center',
   },
   featureCard: {
@@ -292,6 +292,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: spacing.lg,
     width: 280,
+    margin: spacing.sm,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -320,12 +321,11 @@ const styles = StyleSheet.create({
   stepsList: {
     width: '100%',
     maxWidth: 600,
-    gap: spacing.lg,
   },
   step: {
     flexDirection: 'row',
-    gap: spacing.md,
     alignItems: 'flex-start',
+    marginBottom: spacing.lg,
   },
   stepNumber: {
     width: 40,
@@ -342,6 +342,7 @@ const styles = StyleSheet.create({
   },
   stepContent: {
     flex: 1,
+    marginLeft: spacing.md,
   },
   stepTitle: {
     fontSize: 18,
@@ -396,7 +397,6 @@ const styles = StyleSheet.create({
   blogGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.lg,
     justifyContent: 'center',
   },
   blogCard: {
@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: spacing.lg,
     width: 350,
+    margin: spacing.sm,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

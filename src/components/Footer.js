@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: spacing.xl,
     paddingHorizontal: spacing.lg,
-    gap: spacing.xl,
   },
   footerSection: {
     minWidth: 150,
