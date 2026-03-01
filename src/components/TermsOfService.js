@@ -148,7 +148,7 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.heading}>10. Contact Information</Text>
         <Text style={styles.paragraph}>
           If you have questions about these Terms, please contact us at:{'\n\n'}
-          <Text style={styles.bold}>Email:</Text> [your-email@example.com]
+          <Text style={styles.bold}>Email:</Text> Russell@russellwestgath.com
         </Text>
 
         <View style={styles.agreement}>
