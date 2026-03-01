@@ -12,11 +12,15 @@ import {
 import { colors, spacing } from './src/constants/theme';
 import CalculatorInput from './src/components/CalculatorInput';
 import ResultsDisplay from './src/components/ResultsDisplay';
+import Footer from './src/components/Footer';
+import TermsOfService from './src/components/TermsOfService';
+import PrivacyPolicy from './src/components/PrivacyPolicy';
 import { calculateNetMaternityPay } from './src/utils/maternityCalculations';
 
 export default function App() {
   const [results, setResults] = useState(null);
   const [showResults, setShowResults] = useState(false);
+  const [currentView, setCurrentView] = useState('calculator'); // 'calculator', 'terms', 'privacy'
 
   const handleCalculate = ({ annualSalary, pensionPercentage, maternityWeeks, paymentType, fte, annualHolidayDays, kitDays }) => {
     const calculatedResults = calculateNetMaternityPay(
@@ -37,6 +41,43 @@ export default function App() {
     setResults(null);
   };
 
+  const handleShowTerms = () => {
+    setCurrentView('terms');
+  };
+
+  const handleShowPrivacy = () => {
+    setCurrentView('privacy');
+  };
+
+  const handleCloseTerms = () => {
+    setCurrentView('calculator');
+  };
+
+  const handleClosePrivacy = () => {
+    setCurrentView('calculator');
+  };
+
+  // Show Terms of Service screen
+  if (currentView === 'terms') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="dark" />
+        <TermsOfService onClose={handleCloseTerms} />
+      </SafeAreaView>
+    );
+  }
+
+  // Show Privacy Policy screen
+  if (currentView === 'privacy') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="dark" />
+        <PrivacyPolicy onClose={handleClosePrivacy} />
+      </SafeAreaView>
+    );
+  }
+
+  // Show Calculator (default view)
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -44,22 +85,25 @@ export default function App() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
-        {!showResults ? (
-          <CalculatorInput onCalculate={handleCalculate} />
-        ) : (
-          <View style={styles.resultsContainer}>
-            <ResultsDisplay results={results} />
-            <View style={styles.resetButtonContainer}>
-              <TouchableOpacity
-                style={styles.resetButton}
-                onPress={handleReset}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.resetButtonText}>Calculate Again</Text>
-              </TouchableOpacity>
+        <View style={styles.mainContent}>
+          {!showResults ? (
+            <CalculatorInput onCalculate={handleCalculate} />
+          ) : (
+            <View style={styles.resultsContainer}>
+              <ResultsDisplay results={results} />
+              <View style={styles.resetButtonContainer}>
+                <TouchableOpacity
+                  style={styles.resetButton}
+                  onPress={handleReset}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.resetButtonText}>Calculate Again</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
+          )}
+        </View>
+        <Footer onTermsPress={handleShowTerms} onPrivacyPress={handleShowPrivacy} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -71,6 +115,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   keyboardView: {
+    flex: 1,
+  },
+  mainContent: {
     flex: 1,
   },
   resultsContainer: {
