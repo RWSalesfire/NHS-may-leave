@@ -1,15 +1,28 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { useNavigate } from 'react-router-dom';
 import { colors, spacing } from '../constants/theme';
 
 export default function TermsOfService({ onClose }) {
+  const navigate = Platform.OS === 'web' ? useNavigate() : null;
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else if (navigate) {
+      navigate(-1); // Go back to previous page
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Terms of Service</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-          <Text style={styles.closeButtonText}>✕</Text>
-        </TouchableOpacity>
+        {(onClose || navigate) && (
+          <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>✕</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={true}>
