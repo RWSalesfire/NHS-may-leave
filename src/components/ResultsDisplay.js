@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { colors, spacing, borderRadius, typography } from '../constants/theme';
 import { formatCurrency } from '../utils/maternityCalculations';
 
@@ -304,6 +304,24 @@ export default function ResultsDisplay({ results }) {
         </Text>
       </View>
 
+      {/* Feedback Card */}
+      <View style={[styles.card, styles.feedbackCard]}>
+        <Text style={styles.feedbackTitle}>Was this helpful?</Text>
+        <Text style={styles.feedbackText}>
+          Help us improve this calculator by sharing your feedback. Your input helps NHS staff plan their maternity leave with confidence.
+        </Text>
+        <TouchableOpacity
+          style={styles.feedbackButton}
+          onPress={() => Linking.openURL('https://forms.gle/YOUR_GOOGLE_FORM_ID')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.feedbackButtonText}>Give Feedback</Text>
+        </TouchableOpacity>
+        <Text style={styles.feedbackNote}>
+          Takes less than 2 minutes • Completely anonymous
+        </Text>
+      </View>
+
       <View style={styles.bottomSpacing} />
     </ScrollView>
   );
@@ -462,5 +480,48 @@ const styles = StyleSheet.create({
   },
   benefitTotal: {
     color: '#7FD4A8', // Success green color
+  },
+  feedbackCard: {
+    backgroundColor: '#F8F9FF',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderStyle: 'dashed',
+  },
+  feedbackTitle: {
+    ...typography.subheading,
+    color: colors.textPrimary,
+    fontWeight: '600',
+    marginBottom: spacing.xs,
+    textAlign: 'center',
+  },
+  feedbackText: {
+    ...typography.body,
+    color: colors.textSecondary,
+    lineHeight: 22,
+    textAlign: 'center',
+    marginBottom: spacing.md,
+  },
+  feedbackButton: {
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    alignItems: 'center',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  feedbackButtonText: {
+    ...typography.subheading,
+    color: colors.cardBackground,
+    fontWeight: '600',
+  },
+  feedbackNote: {
+    ...typography.small,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: spacing.sm,
+    fontStyle: 'italic',
   },
 });
