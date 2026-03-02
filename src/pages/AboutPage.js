@@ -3,8 +3,13 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
 
 export default function AboutPage() {
+  usePageMeta({
+    title: 'About mymatpay.com | Free NHS Maternity Pay Calculator',
+    description: 'Learn about mymatpay.com, the free NHS maternity pay calculator built to help NHS staff understand their maternity pay entitlements.',
+  });
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>

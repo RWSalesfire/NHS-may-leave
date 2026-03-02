@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import usePageMeta from '../hooks/usePageMeta';
 
 function TrustBadge({ text }) {
   return (
@@ -42,6 +43,10 @@ function StepItem({ number, title, description, isLast }) {
 }
 
 export default function HomePage() {
+  usePageMeta({
+    title: 'NHS Maternity Pay Calculator \u2014 Free Estimate for NHS Staff',
+    description: 'Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Instant results, no sign-up.',
+  });
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
   const isDesktop = width >= 1024;

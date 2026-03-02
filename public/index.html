@@ -6,15 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>%WEB_TITLE%</title>
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#5B8DB8" />
+
+    <!-- Cookie Consent Banner (orestbida/cookieconsent v3.1.0 — MIT, free) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css" />
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Built for NHS staff." />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://nhs-may-leave.vercel.app/" />
+    <meta property="og:url" content="https://mymatpay.com/" />
     <meta property="og:title" content="NHS Maternity Pay Calculator" />
     <meta property="og:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band." />
-    <meta property="og:image" content="https://nhs-may-leave.vercel.app/og-image.png" />
+    <meta property="og:image" content="https://mymatpay.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
@@ -22,7 +30,170 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="NHS Maternity Pay Calculator" />
     <meta name="twitter:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band." />
-    <meta name="twitter:image" content="https://nhs-may-leave.vercel.app/og-image.png" />
+    <meta name="twitter:image" content="https://mymatpay.com/og-image.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mymatpay.com/" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "NHS Maternity Pay Calculator",
+      "url": "https://mymatpay.com",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP"
+      },
+      "description": "Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "mymatpay.com",
+      "url": "https://mymatpay.com",
+      "description": "Free NHS maternity pay calculator for NHS staff"
+    }
+    </script>
+
+    <!-- Google Analytics 4 with Consent Mode v2 -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+      gtag('js', new Date());
+      gtag('config', 'G-LTGJ8P39SL');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LTGJ8P39SL"></script>
+
+    <!-- Cookie Consent init — updates GA4 consent when user accepts -->
+    <script type="module">
+      import * as CookieConsent from 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.esm.js';
+
+      function updateGtagConsent() {
+        gtag('consent', 'update', {
+          'analytics_storage': CookieConsent.acceptedService('analytics_storage', 'analytics') ? 'granted' : 'denied',
+          'ad_storage': CookieConsent.acceptedService('ad_storage', 'advertisement') ? 'granted' : 'denied',
+          'ad_user_data': CookieConsent.acceptedService('ad_user_data', 'advertisement') ? 'granted' : 'denied',
+          'ad_personalization': CookieConsent.acceptedService('ad_personalization', 'advertisement') ? 'granted' : 'denied',
+        });
+      }
+
+      CookieConsent.run({
+        guiOptions: {
+          consentModal: { layout: 'box inline', position: 'bottom right' },
+          preferencesModal: { layout: 'box' }
+        },
+
+        onFirstConsent: () => updateGtagConsent(),
+        onConsent: () => updateGtagConsent(),
+        onChange: () => updateGtagConsent(),
+
+        categories: {
+          necessary: {
+            enabled: true,
+            readOnly: true
+          },
+          analytics: {
+            autoClear: {
+              cookies: [{ name: /^_ga/ }, { name: '_gid' }]
+            },
+            services: {
+              analytics_storage: {
+                label: 'Google Analytics'
+              }
+            }
+          },
+          advertisement: {
+            services: {
+              ad_storage: { label: 'Ad cookies' },
+              ad_user_data: { label: 'Ad user data' },
+              ad_personalization: { label: 'Ad personalisation' }
+            }
+          }
+        },
+
+        language: {
+          default: 'en',
+          translations: {
+            en: {
+              consentModal: {
+                title: 'We use cookies',
+                description: 'We use cookies to understand how you use this calculator and to improve your experience. You can choose which cookies to accept.',
+                acceptAllBtn: 'Accept all',
+                acceptNecessaryBtn: 'Reject all',
+                showPreferencesBtn: 'Manage preferences'
+              },
+              preferencesModal: {
+                title: 'Cookie preferences',
+                acceptAllBtn: 'Accept all',
+                acceptNecessaryBtn: 'Reject all',
+                savePreferencesBtn: 'Save preferences',
+                closeIconLabel: 'Close',
+                sections: [
+                  {
+                    title: 'Cookie usage',
+                    description: 'We use cookies to ensure the basic functionality of the website and to enhance your experience. You can opt in or out of each category whenever you want.'
+                  },
+                  {
+                    title: 'Strictly necessary',
+                    description: 'These cookies are essential for the website to function. They cannot be disabled.',
+                    linkedCategory: 'necessary'
+                  },
+                  {
+                    title: 'Analytics',
+                    description: 'These cookies help us understand how visitors use the calculator by collecting anonymous usage data.',
+                    linkedCategory: 'analytics',
+                    cookieTable: {
+                      headers: { name: 'Name', domain: 'Service', description: 'Description', expiration: 'Expiration' },
+                      body: [
+                        { name: '_ga', domain: 'Google Analytics', description: 'Distinguishes unique users', expiration: '2 years' },
+                        { name: '_gid', domain: 'Google Analytics', description: 'Distinguishes unique users', expiration: '24 hours' }
+                      ]
+                    }
+                  },
+                  {
+                    title: 'Advertising',
+                    description: 'These cookies are used to show you relevant ads and measure ad performance.',
+                    linkedCategory: 'advertisement'
+                  },
+                  {
+                    title: 'More information',
+                    description: 'For questions about our cookie policy, please visit our <a href="/privacy">Privacy Policy</a>.'
+                  }
+                ]
+              }
+            }
+          }
+        }
+      });
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <!-- TODO: Replace YOUR_CLARITY_ID with your actual Clarity Project ID -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,"clarity","script","YOUR_CLARITY_ID");
+    </script>
+
+    <!-- Google AdSense — auto-ads respect Consent Mode v2 -->
+    <!-- TODO: Replace ca-pub-XXXXXXXXXXXXXXXX with your actual AdSense publisher ID -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
     <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
     <style id="expo-reset">

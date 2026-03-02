@@ -13,6 +13,7 @@ import { validateMaternityWeeks } from '../utils/maternityCalculations';
 import { NHS_PAY_BANDS, getSalaryRangeDisplay } from '../constants/nhsData';
 import ValidatedInput from './ValidatedInput';
 import useReducedMotion from '../hooks/useReducedMotion';
+import { trackEvent } from '../utils/analytics';
 
 const STEPS = [
   { key: 'employment', label: 'Employment' },
@@ -239,6 +240,9 @@ export default function CalculatorWizard({ onCalculate }) {
   const handleNext = () => {
     if (!validateCurrentStep()) return;
     setStepErrors({});
+    if (currentStep === 0) {
+      trackEvent('calculator_started', { payment_type: paymentType });
+    }
     if (currentStep < STEPS.length - 1) {
       setCurrentStep((prev) => prev + 1);
       animateTransition('forward');

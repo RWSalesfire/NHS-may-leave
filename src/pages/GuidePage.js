@@ -3,10 +3,19 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
+import AdUnit from '../components/AdUnit';
+import AffiliateBanner from '../components/AffiliateBanner';
+import AFFILIATES from '../constants/affiliates';
 
 const PERIOD_COLORS = [colors.sage, colors.primary, colors.accent, colors.textSecondary];
 
 export default function GuidePage() {
+  usePageMeta({
+    title: 'NHS Maternity Pay Guide 2025/26 | How It Works',
+    description: 'Complete guide to NHS maternity pay. Learn about OMP, SMP, eligibility, how your salary is calculated, bank shifts, part-time pay, pension, and KIT days.',
+  });
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -127,6 +136,15 @@ export default function GuidePage() {
             but the amounts will be pro-rated to your working hours.
           </Text>
         </View>
+
+        <AdUnit slot="GUIDE_INCONTENT_SLOT" format="auto" />
+        <AffiliateBanner
+          affiliateId="maternityBooks"
+          title={AFFILIATES.maternityBooks.title}
+          description={AFFILIATES.maternityBooks.description}
+          ctaText={AFFILIATES.maternityBooks.ctaText}
+          url={AFFILIATES.maternityBooks.url}
+        />
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tax and National Insurance</Text>

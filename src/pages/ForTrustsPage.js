@@ -3,8 +3,13 @@ import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWin
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
 
 export default function ForTrustsPage() {
+  usePageMeta({
+    title: 'For NHS Trusts | Maternity Pay Calculator',
+    description: 'White-label NHS maternity pay calculator for NHS Trusts. Help your staff understand their maternity pay entitlements with an accurate, easy-to-use tool.',
+  });
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
 

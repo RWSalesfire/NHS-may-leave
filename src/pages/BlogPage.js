@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-n
 import { Link, useParams } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
 
 const BLOG_POSTS = [
   {
@@ -186,6 +187,10 @@ function BlogPostView({ slug }) {
 }
 
 export default function BlogPage() {
+  usePageMeta({
+    title: 'NHS Maternity Pay Blog | Tips & Updates',
+    description: 'Tips, guides, and updates about NHS maternity pay. Learn how to maximise your pay, budget for maternity leave, and understand your rights.',
+  });
   const { slug } = useParams();
   const { width } = useWindowDimensions();
   const isMobile = width < 640;

@@ -2,8 +2,9 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Animated } from 'react-native';
 import { colors, spacing, borderRadius, typography, fontFamily, shadows } from '../constants/theme';
 import { formatCurrency } from '../utils/maternityCalculations';
+import { trackEvent } from '../utils/analytics';
 
-export default function ResultsActions({ results }) {
+export default function ResultsActions({ results, payStructure }) {
   const [showCopied, setShowCopied] = useState(false);
   const [copiedFade] = useState(new Animated.Value(0));
 
@@ -15,13 +16,19 @@ export default function ResultsActions({ results }) {
 
     let text = `NHS Maternity Pay Estimate\n`;
     text += `${'─'.repeat(30)}\n`;
-    text += `Take-Home Total: ${formatCurrency(net.total)}\n`;
-    text += `Weekly: ${formatCurrency(net.weekly)} | Monthly: ${formatCurrency(net.monthly)}\n`;
+    text += `Monthly Take-Home: ${formatCurrency(net.monthly)}\n`;
+    text += `Total: ${formatCurrency(net.total)} | Weekly: ${formatCurrency(net.weekly)}\n`;
     text += `Over ${gross.breakdown.totalWeeks} weeks`;
     if (fte && fte < 1.0) text += ` (${Math.round(fte * 37.5 * 10) / 10}h/week)`;
     text += `\n\n`;
     text += `Payment Type: ${type}\n`;
     text += `Gross Pay: ${formatCurrency(gross.total)}\n`;
+
+    if (paymentType === 'nhsEnhanced' && payStructure === 'spread') {
+      text += `Pay Structure: Spread Equally\n`;
+      text += `All ${gross.breakdown.totalWeeks} weeks: ${formatCurrency(gross.total / gross.breakdown.totalWeeks)}/week\n`;
+    }
+
     text += `Deductions: ${formatCurrency(deductions.total)} `;
     text += `(Tax: ${formatCurrency(deductions.incomeTax)}, `;
     text += `NI: ${formatCurrency(deductions.nationalInsurance)}, `;
@@ -33,12 +40,13 @@ export default function ResultsActions({ results }) {
 
     text += `\n⚠ This is an estimate only. Verify with your NHS Trust HR department.`;
     return text;
-  }, [results]);
+  }, [results, payStructure]);
 
   const handleCopyToClipboard = useCallback(async () => {
     if (Platform.OS !== 'web') return;
 
     const text = buildTextSummary();
+    trackEvent('copy_results');
     try {
       await navigator.clipboard.writeText(text);
       setShowCopied(true);
@@ -72,6 +80,7 @@ export default function ResultsActions({ results }) {
 
   const handleDownloadSummary = useCallback(() => {
     if (Platform.OS !== 'web') return;
+    trackEvent('download_results');
 
     // Add print-specific styles if not already present
     let printStyle = document.getElementById('maternity-print-styles');
@@ -109,7 +118,7 @@ export default function ResultsActions({ results }) {
           activeOpacity={0.7}
         >
           <Text style={styles.downloadIcon}>{'\u2193'}</Text>
-          <Text style={styles.downloadButtonText}>Download Summary</Text>
+          <Text style={styles.downloadButtonText}>Download</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -118,7 +127,7 @@ export default function ResultsActions({ results }) {
           activeOpacity={0.7}
         >
           <Text style={styles.copyIcon}>{'\u2398'}</Text>
-          <Text style={styles.copyButtonText}>Copy to Clipboard</Text>
+          <Text style={styles.copyButtonText}>Copy</Text>
         </TouchableOpacity>
       </View>
 
@@ -134,18 +143,19 @@ export default function ResultsActions({ results }) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: spacing.md,
+    alignItems: 'center',
   },
   buttonRow: {
     flexDirection: 'row',
     gap: spacing.sm,
+    justifyContent: 'center',
   },
   button: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: spacing.sm + 4,
-    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    paddingHorizontal: spacing.lg,
     borderRadius: borderRadius.md,
     gap: spacing.sm,
   },

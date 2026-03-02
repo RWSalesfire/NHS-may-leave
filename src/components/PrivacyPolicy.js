@@ -2,8 +2,13 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import usePageMeta from '../hooks/usePageMeta';
 
 export default function PrivacyPolicy({ onClose }) {
+  usePageMeta({
+    title: 'Privacy Policy | mymatpay.com',
+    description: 'Privacy policy for mymatpay.com. Learn how we handle your data when using our NHS maternity pay calculator.',
+  });
   const navigate = Platform.OS === 'web' ? useNavigate() : null;
 
   const handleClose = () => {

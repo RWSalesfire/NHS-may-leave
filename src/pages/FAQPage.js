@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import useReducedMotion from '../hooks/useReducedMotion';
+import usePageMeta from '../hooks/usePageMeta';
+import AdUnit from '../components/AdUnit';
 
 const FAQ_DATA = [
   {
@@ -118,6 +120,10 @@ function FAQItem({ faq, index, isExpanded, onToggle }) {
 }
 
 export default function FAQPage() {
+  usePageMeta({
+    title: 'NHS Maternity Pay FAQ \u2014 Common Questions Answered',
+    description: 'Answers to frequently asked questions about NHS maternity pay, eligibility, overtime, part-time pay, KIT days, annual leave, and more.',
+  });
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -143,6 +149,8 @@ export default function FAQPage() {
             />
           ))}
         </View>
+
+        <AdUnit slot="FAQ_INCONTENT_SLOT" format="auto" />
 
         <View style={styles.ctaSection}>
           <Text style={styles.ctaTitle}>Still Have Questions?</Text>

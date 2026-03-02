@@ -3,8 +3,13 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensio
 import { useNavigate } from 'react-router-dom';
 import { colors, spacing, fontFamily, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
 
 export default function NotFoundPage() {
+  usePageMeta({
+    title: 'Page Not Found | mymatpay.com',
+    description: 'The page you are looking for could not be found. Use our NHS maternity pay calculator or browse our guide and FAQ.',
+  });
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
   const isMobile = width < 640;

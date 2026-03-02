@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
+import usePageMeta from '../hooks/usePageMeta';
 
 export default function ContactPage() {
+  usePageMeta({
+    title: 'Contact Us | mymatpay.com',
+    description: 'Get in touch with the mymatpay.com team. We\'d love to hear your feedback or answer any questions about NHS maternity pay.',
+  });
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [focusedField, setFocusedField] = useState(null);
   const { width } = useWindowDimensions();
