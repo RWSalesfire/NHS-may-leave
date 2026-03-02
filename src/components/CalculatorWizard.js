@@ -20,6 +20,15 @@ const STEPS = [
   { key: 'leave', label: 'Leave Details' },
 ];
 
+const HOURS_OPTIONS = [
+  { hours: 15, fte: 0.4, label: '15h' },
+  { hours: 22.5, fte: 0.6, label: '22.5h' },
+  { hours: 30, fte: 0.8, label: '30h' },
+  { hours: 37.5, fte: 1.0, label: '37.5h', sub: 'Full-time' },
+];
+
+const FULL_TIME_HOURS = 37.5;
+
 export default function CalculatorWizard({ onCalculate }) {
   const prefersReducedMotion = useReducedMotion();
   const [currentStep, setCurrentStep] = useState(0);
@@ -28,12 +37,16 @@ export default function CalculatorWizard({ onCalculate }) {
   const [paymentType, setPaymentType] = useState('nhsEnhanced');
   const [selectedPayBand, setSelectedPayBand] = useState('custom');
   const [fte, setFte] = useState(1.0);
+  const [selectedHours, setSelectedHours] = useState('37.5');
+  const [isCustomHours, setIsCustomHours] = useState(false);
+  const [customHoursInput, setCustomHoursInput] = useState('');
   const [annualSalary, setAnnualSalary] = useState('');
   const [pensionPercentage, setPensionPercentage] = useState('5');
   const [extraPayslip1, setExtraPayslip1] = useState('');
   const [extraPayslip2, setExtraPayslip2] = useState('');
   const [showBankShiftSection, setShowBankShiftSection] = useState(false);
   const [maternityWeeks, setMaternityWeeks] = useState('39');
+  const [isCustomDuration, setIsCustomDuration] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [annualHolidayDays, setAnnualHolidayDays] = useState('27');
   const [kitDays, setKitDays] = useState(0);
@@ -94,6 +107,47 @@ export default function CalculatorWizard({ onCalculate }) {
     if (num < 20) return 'Must be at least 20 days';
     if (num > 35) return 'Cannot exceed 35 days';
     return null;
+  };
+
+  const validateCustomHours = (val) => {
+    if (!val) return null;
+    const num = parseFloat(val);
+    if (isNaN(num) || num <= 0) return 'Please enter valid hours';
+    if (num < 1) return 'Must be at least 1 hour';
+    if (num > FULL_TIME_HOURS) return `Cannot exceed ${FULL_TIME_HOURS} hours`;
+    return null;
+  };
+
+  const handleHoursSelect = (option) => {
+    setIsCustomHours(false);
+    setCustomHoursInput('');
+    setSelectedHours(option.hours.toString());
+    setFte(option.fte);
+  };
+
+  const handleCustomHoursToggle = () => {
+    setIsCustomHours(true);
+    setSelectedHours('custom');
+    setCustomHoursInput('');
+  };
+
+  const handleCustomHoursChange = (text) => {
+    const cleaned = text.replace(/[^0-9.]/g, '');
+    const parts = cleaned.split('.');
+    const formatted = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : cleaned;
+    setCustomHoursInput(formatted);
+    const num = parseFloat(formatted);
+    if (!isNaN(num) && num >= 1 && num <= FULL_TIME_HOURS) {
+      setFte(Math.round((num / FULL_TIME_HOURS) * 1000) / 1000);
+    }
+  };
+
+  const getDisplayHours = () => {
+    if (isCustomHours && customHoursInput) {
+      const num = parseFloat(customHoursInput);
+      if (!isNaN(num) && num >= 1 && num <= FULL_TIME_HOURS) return num;
+    }
+    return fte * FULL_TIME_HOURS;
   };
 
   const formatNumericInput = (text) => {
@@ -333,28 +387,51 @@ export default function CalculatorWizard({ onCalculate }) {
         )}
       </View>
 
-      {/* FTE */}
+      {/* Contracted Hours */}
       <View style={styles.fieldGroup}>
-        <Text style={styles.label}>Full-Time Equivalent (FTE)</Text>
+        <Text style={styles.label}>Contracted Hours Per Week</Text>
         <View style={styles.chipGrid}>
-          {[0.5, 0.6, 0.7, 0.8, 0.9, 1.0].map((value) => (
-            <TouchableOpacity
-              key={value}
-              style={[styles.chip, fte === value && styles.chipActive]}
-              onPress={() => setFte(value)}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.chipText, fte === value && styles.chipTextActive]}>
-                {value}
-              </Text>
-              {value === 1.0 && (
-                <Text style={[styles.chipSub, fte === value && styles.chipSubActive]}>Full-time</Text>
-              )}
-            </TouchableOpacity>
-          ))}
+          {HOURS_OPTIONS.map((option) => {
+            const isSelected = !isCustomHours && selectedHours === option.hours.toString();
+            return (
+              <TouchableOpacity
+                key={option.hours}
+                style={[styles.chip, isSelected && styles.chipActive]}
+                onPress={() => handleHoursSelect(option)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
+                  {option.label}
+                </Text>
+                {option.sub && (
+                  <Text style={[styles.chipSub, isSelected && styles.chipSubActive]}>{option.sub}</Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+          <TouchableOpacity
+            style={[styles.chip, isCustomHours && styles.chipActive]}
+            onPress={handleCustomHoursToggle}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.chipText, isCustomHours && styles.chipTextActive]}>
+              Custom
+            </Text>
+          </TouchableOpacity>
         </View>
+        {isCustomHours && (
+          <ValidatedInput
+            value={customHoursInput}
+            onChangeText={handleCustomHoursChange}
+            validate={validateCustomHours}
+            placeholder="Enter hours (1-37.5)"
+            keyboardType="decimal-pad"
+            returnKeyType="done"
+            error={stepErrors.customHours}
+          />
+        )}
         <Text style={styles.helperText}>
-          Most NHS staff are 1.0 (full-time) or 0.8 (4 days/week).
+          Standard NHS full-time is 37.5 hours. Common part-time: 30h (4 days), 22.5h (3 days), 15h (2 days).
         </Text>
       </View>
     </View>
@@ -483,8 +560,8 @@ export default function CalculatorWizard({ onCalculate }) {
           <Text style={styles.summaryValue}>{formatSalaryDisplay(annualSalary)}</Text>
         </View>
         <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>FTE:</Text>
-          <Text style={styles.summaryValue}>{fte}{fte === 1.0 ? ' (Full-time)' : ''}</Text>
+          <Text style={styles.summaryLabel}>Hours:</Text>
+          <Text style={styles.summaryValue}>{getDisplayHours()}h/week{fte === 1.0 ? ' (Full-time)' : ''}</Text>
         </View>
         <View style={styles.summaryRow}>
           <Text style={styles.summaryLabel}>Pension:</Text>
@@ -508,34 +585,54 @@ export default function CalculatorWizard({ onCalculate }) {
             { value: '26', label: '26 weeks' },
             { value: '39', label: '39 weeks', sub: 'Standard' },
             { value: '52', label: '52 weeks' },
-          ].map((item) => (
-            <TouchableOpacity
-              key={item.value}
-              style={[styles.pillButton, maternityWeeks === item.value && styles.pillButtonActive]}
-              onPress={() => setMaternityWeeks(item.value)}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.pillButtonText, maternityWeeks === item.value && styles.pillButtonTextActive]}>
-                {item.label}
-              </Text>
-              {item.sub && (
-                <Text style={[styles.pillButtonLabel, maternityWeeks === item.value && styles.pillButtonLabelActive]}>
-                  {item.sub}
+          ].map((item) => {
+            const isSelected = !isCustomDuration && maternityWeeks === item.value;
+            return (
+              <TouchableOpacity
+                key={item.value}
+                style={[styles.pillButton, isSelected && styles.pillButtonActive]}
+                onPress={() => {
+                  setIsCustomDuration(false);
+                  setMaternityWeeks(item.value);
+                }}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.pillButtonText, isSelected && styles.pillButtonTextActive]}>
+                  {item.label}
                 </Text>
-              )}
-            </TouchableOpacity>
-          ))}
+                {item.sub && (
+                  <Text style={[styles.pillButtonLabel, isSelected && styles.pillButtonLabelActive]}>
+                    {item.sub}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+          <TouchableOpacity
+            style={[styles.pillButton, isCustomDuration && styles.pillButtonActive]}
+            onPress={() => {
+              setIsCustomDuration(true);
+              setMaternityWeeks('');
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.pillButtonText, isCustomDuration && styles.pillButtonTextActive]}>
+              Custom
+            </Text>
+          </TouchableOpacity>
         </View>
-        <ValidatedInput
-          value={maternityWeeks}
-          onChangeText={setMaternityWeeks}
-          validate={validateWeeks}
-          formatValue={formatNumericInput}
-          placeholder="Or enter custom weeks (1-52)"
-          keyboardType="number-pad"
-          returnKeyType="done"
-          error={stepErrors.maternityWeeks}
-        />
+        {isCustomDuration && (
+          <ValidatedInput
+            value={maternityWeeks}
+            onChangeText={setMaternityWeeks}
+            validate={validateWeeks}
+            formatValue={formatNumericInput}
+            placeholder="Enter weeks (1-52)"
+            keyboardType="number-pad"
+            returnKeyType="done"
+            error={stepErrors.maternityWeeks}
+          />
+        )}
       </View>
 
       {/* Advanced Options */}

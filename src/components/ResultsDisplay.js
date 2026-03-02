@@ -104,7 +104,7 @@ export default function ResultsDisplay({ results }) {
         <Text style={styles.period}>
           Over {gross.breakdown.totalWeeks} week
           {gross.breakdown.totalWeeks !== 1 ? 's' : ''}
-          {fte && fte < 1.0 && ` (${fte} FTE)`}
+          {fte && fte < 1.0 && ` (${Math.round(fte * 37.5 * 10) / 10}h/week)`}
         </Text>
 
         <View style={styles.breakdownRow}>
@@ -323,7 +323,7 @@ export default function ResultsDisplay({ results }) {
                 </View>
                 <Text style={styles.detailSubtext}>
                   {results.additionalBenefits.holidayAccrual.daysAccrued.toFixed(1)} days accrued during maternity leave
-                  {fte && fte < 1.0 && ` (${fte} FTE pro-rated)`}
+                  {fte && fte < 1.0 && ` (${Math.round(fte * 37.5 * 10) / 10}h/week pro-rated)`}
                 </Text>
               </>
             )}
@@ -422,9 +422,9 @@ export default function ResultsDisplay({ results }) {
           )}
           {fte && fte < 1.0 && (
             <>
-              Part-time Calculation ({fte} FTE):{'\n'}
+              Part-time Calculation ({Math.round(fte * 37.5 * 10) / 10}h/week):{'\n'}
               {'\u2022'} Maternity pay is based on your actual annual salary{'\n'}
-              {'\u2022'} Holiday accrual is pro-rated to {fte} FTE{'\n'}
+              {'\u2022'} Holiday accrual is pro-rated to {Math.round(fte * 37.5 * 10) / 10}h/week{'\n'}
               {'\u2022'} KIT days daily rate reflects your working pattern{'\n\n'}
             </>
           )}

@@ -18,7 +18,7 @@ export default function ResultsActions({ results }) {
     text += `Take-Home Total: ${formatCurrency(net.total)}\n`;
     text += `Weekly: ${formatCurrency(net.weekly)} | Monthly: ${formatCurrency(net.monthly)}\n`;
     text += `Over ${gross.breakdown.totalWeeks} weeks`;
-    if (fte && fte < 1.0) text += ` (${fte} FTE)`;
+    if (fte && fte < 1.0) text += ` (${Math.round(fte * 37.5 * 10) / 10}h/week)`;
     text += `\n\n`;
     text += `Payment Type: ${type}\n`;
     text += `Gross Pay: ${formatCurrency(gross.total)}\n`;
