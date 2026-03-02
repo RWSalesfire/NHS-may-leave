@@ -20,7 +20,7 @@ export default function CalculatorPage() {
   const [showResults, setShowResults] = useState(false);
   const scrollRef = useRef(null);
 
-  const handleCalculate = useCallback(({ annualSalary, pensionPercentage, maternityWeeks, paymentType, fte, annualHolidayDays, kitDays }) => {
+  const handleCalculate = useCallback(({ annualSalary, pensionPercentage, maternityWeeks, paymentType, fte, annualHolidayDays, kitDays, additionalWeeklyEarnings }) => {
     // Compute results immediately but show calculating screen first
     const calculatedResults = calculateNetMaternityPay(
       annualSalary,
@@ -29,7 +29,8 @@ export default function CalculatorPage() {
       paymentType,
       fte,
       annualHolidayDays,
-      kitDays
+      kitDays,
+      additionalWeeklyEarnings || 0
     );
     setResults(calculatedResults);
     setIsCalculating(true);

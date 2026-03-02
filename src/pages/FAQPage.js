@@ -27,6 +27,10 @@ const FAQ_DATA = [
     answer: "Yes! Regular overtime payments are included in the calculation of your average weekly earnings. This means if you regularly work overtime, your maternity pay will be higher."
   },
   {
+    question: "Can I boost my maternity pay by picking up extra shifts?",
+    answer: "Yes! Your maternity pay is based on your average weekly earnings (AWE) during the last 2 monthly payslips before the qualifying week. Any extra earnings during this period — including overtime, bank shifts through your Trust, unsocial hours premiums, and on-call payments — will increase your AWE and therefore your maternity pay. However, shifts worked through NHS Professionals (NHSP) or external agencies may not count, as they're technically a different employer. Check with your Trust's payroll team to confirm which payments will be included. Use our calculator's 'Bank Shifts & Overtime' feature to see exactly how much extra shifts could boost your take-home pay."
+  },
+  {
     question: "What happens to my pension during maternity leave?",
     answer: "Your pension contributions are based on the maternity pay you actually receive. However, your employer's contributions continue to be based on your full salary during the period you receive occupational maternity pay (weeks 1-26)."
   },

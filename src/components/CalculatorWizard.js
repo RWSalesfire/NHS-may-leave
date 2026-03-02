@@ -30,6 +30,9 @@ export default function CalculatorWizard({ onCalculate }) {
   const [fte, setFte] = useState(1.0);
   const [annualSalary, setAnnualSalary] = useState('');
   const [pensionPercentage, setPensionPercentage] = useState('5');
+  const [extraPayslip1, setExtraPayslip1] = useState('');
+  const [extraPayslip2, setExtraPayslip2] = useState('');
+  const [showBankShiftSection, setShowBankShiftSection] = useState(false);
   const [maternityWeeks, setMaternityWeeks] = useState('39');
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [annualHolidayDays, setAnnualHolidayDays] = useState('27');
@@ -67,6 +70,14 @@ export default function CalculatorWizard({ onCalculate }) {
     const num = parseFloat(val);
     if (isNaN(num) || num < 0) return 'Please enter a valid percentage';
     if (num > 100) return 'Cannot exceed 100%';
+    return null;
+  };
+
+  const validatePayslipExtra = (val) => {
+    if (!val) return null;
+    const num = parseFloat(val);
+    if (isNaN(num) || num < 0) return 'Please enter a valid amount';
+    if (num > 20000) return 'Cannot exceed \u00A320,000 per payslip';
     return null;
   };
 
@@ -130,6 +141,25 @@ export default function CalculatorWizard({ onCalculate }) {
       } else if (pension > 100) {
         errors.pensionPercentage = 'Cannot exceed 100%';
       }
+
+      if (showBankShiftSection) {
+        if (extraPayslip1) {
+          const p1 = parseFloat(extraPayslip1);
+          if (isNaN(p1) || p1 < 0) {
+            errors.extraPayslip1 = 'Please enter a valid amount';
+          } else if (p1 > 20000) {
+            errors.extraPayslip1 = 'Cannot exceed \u00A320,000 per payslip';
+          }
+        }
+        if (extraPayslip2) {
+          const p2 = parseFloat(extraPayslip2);
+          if (isNaN(p2) || p2 < 0) {
+            errors.extraPayslip2 = 'Please enter a valid amount';
+          } else if (p2 > 20000) {
+            errors.extraPayslip2 = 'Cannot exceed \u00A320,000 per payslip';
+          }
+        }
+      }
     }
 
     if (currentStep === 2) {
@@ -171,6 +201,10 @@ export default function CalculatorWizard({ onCalculate }) {
 
   const handleCalculate = () => {
     if (!validateCurrentStep()) return;
+    const p1 = extraPayslip1 ? parseFloat(extraPayslip1) : 0;
+    const p2 = extraPayslip2 ? parseFloat(extraPayslip2) : 0;
+    const additionalWeeklyEarnings = (p1 + p2) / 8;
+
     onCalculate({
       annualSalary: parseFloat(annualSalary),
       pensionPercentage: parseFloat(pensionPercentage),
@@ -179,6 +213,7 @@ export default function CalculatorWizard({ onCalculate }) {
       fte,
       annualHolidayDays: parseFloat(annualHolidayDays),
       kitDays,
+      additionalWeeklyEarnings,
     });
   };
 
@@ -370,6 +405,61 @@ export default function CalculatorWizard({ onCalculate }) {
           error={stepErrors.pensionPercentage}
         />
       </View>
+
+      {/* Bank Shifts & Overtime */}
+      <TouchableOpacity
+        onPress={() => setShowBankShiftSection(!showBankShiftSection)}
+        style={styles.advancedToggle}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.advancedToggleText}>
+          {showBankShiftSection ? '\u25BC' : '\u25B6'} Bank Shifts & Overtime
+        </Text>
+      </TouchableOpacity>
+
+      {showBankShiftSection && (
+        <View style={styles.advancedSection}>
+          <Text style={styles.helperText}>
+            Enter the extra earnings (overtime, bank shifts, unsocial hours) on each of the 2 monthly payslips used to calculate your average weekly earnings.
+          </Text>
+
+          <View style={[styles.fieldGroup, { marginTop: spacing.md }]}>
+            <Text style={styles.label}>Extra on Payslip 1 ({'\u00A3'})</Text>
+            <ValidatedInput
+              value={extraPayslip1}
+              onChangeText={setExtraPayslip1}
+              validate={validatePayslipExtra}
+              formatValue={formatNumericInput}
+              placeholder="e.g. 800"
+              keyboardType="decimal-pad"
+              returnKeyType="next"
+              hint="Additional earnings on your first monthly payslip"
+              error={stepErrors.extraPayslip1}
+            />
+          </View>
+
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Extra on Payslip 2 ({'\u00A3'})</Text>
+            <ValidatedInput
+              value={extraPayslip2}
+              onChangeText={setExtraPayslip2}
+              validate={validatePayslipExtra}
+              formatValue={formatNumericInput}
+              placeholder="e.g. 600"
+              keyboardType="decimal-pad"
+              returnKeyType="done"
+              hint="Additional earnings on your second monthly payslip"
+              error={stepErrors.extraPayslip2}
+            />
+          </View>
+
+          <View style={styles.bandHint}>
+            <Text style={styles.bandHintText}>
+              Only shifts paid through your Trust's payroll count. Shifts through NHS Professionals (NHSP) or external agencies may not be included as they're technically a different employer.
+            </Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 
@@ -400,6 +490,14 @@ export default function CalculatorWizard({ onCalculate }) {
           <Text style={styles.summaryLabel}>Pension:</Text>
           <Text style={styles.summaryValue}>{pensionPercentage}%</Text>
         </View>
+        {((extraPayslip1 && parseFloat(extraPayslip1) > 0) || (extraPayslip2 && parseFloat(extraPayslip2) > 0)) && (
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Extra earnings:</Text>
+            <Text style={styles.summaryValue}>
+              {'\u00A3'}{((parseFloat(extraPayslip1) || 0) + (parseFloat(extraPayslip2) || 0)).toLocaleString('en-GB')} over 2 payslips
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* Duration */}

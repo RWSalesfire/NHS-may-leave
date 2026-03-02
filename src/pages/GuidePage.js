@@ -72,6 +72,54 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Boosting Your Pay: Bank Shifts & Overtime</Text>
+          <Text style={styles.paragraph}>
+            Because maternity pay is based on your <Text style={styles.bold}>average weekly earnings (AWE)</Text> during a specific
+            calculation period, picking up extra shifts during this window can significantly increase your maternity pay.
+          </Text>
+
+          <Text style={[styles.paragraph, { fontWeight: '600', fontFamily: fontFamily.semiBold }]}>
+            The Calculation Period
+          </Text>
+          <Text style={styles.paragraph}>
+            For monthly-paid NHS staff, your AWE is calculated from the <Text style={styles.bold}>last 2 monthly payslips</Text> before
+            the Saturday of the qualifying week (the 15th week before your expected week of childbirth). It's based on when you're{' '}
+            <Text style={styles.bold}>paid</Text>, not when you worked — so account for approximately 1 month of payroll lag.
+          </Text>
+
+          <Text style={[styles.paragraph, { fontWeight: '600', fontFamily: fontFamily.semiBold }]}>
+            What Counts
+          </Text>
+          <View style={styles.list}>
+            <Text style={styles.listItem}>{'\u2022'} Overtime payments</Text>
+            <Text style={styles.listItem}>{'\u2022'} Bank shifts worked through your Trust</Text>
+            <Text style={styles.listItem}>{'\u2022'} Unsocial hours premiums</Text>
+            <Text style={styles.listItem}>{'\u2022'} On-call payments</Text>
+            <Text style={styles.listItem}>{'\u2022'} Any other earnings subject to National Insurance</Text>
+          </View>
+
+          <Text style={[styles.paragraph, { fontWeight: '600', fontFamily: fontFamily.semiBold }]}>
+            What May NOT Count
+          </Text>
+          <Text style={styles.paragraph}>
+            Bank shifts through <Text style={styles.bold}>NHS Professionals (NHSP)</Text> or external agencies may{' '}
+            <Text style={styles.bold}>not</Text> count towards your AWE. These organisations are technically a different employer,
+            so their payments may not appear on your Trust payslip.
+          </Text>
+
+          <Text style={[styles.paragraph, { fontWeight: '600', fontFamily: fontFamily.semiBold }]}>
+            Practical Steps
+          </Text>
+          <View style={styles.list}>
+            <Text style={styles.listItem}>{'\u2022'} Identify your qualifying week (15 weeks before your EWC)</Text>
+            <Text style={styles.listItem}>{'\u2022'} Work backwards to find which 2 monthly payslips will be used</Text>
+            <Text style={styles.listItem}>{'\u2022'} Factor in payroll lag — shifts worked in Month X typically appear on Month X+1 payslip</Text>
+            <Text style={styles.listItem}>{'\u2022'} Confirm with your Trust's HR or payroll team exactly which pay periods count</Text>
+            <Text style={styles.listItem}>{'\u2022'} Use our calculator's "Bank Shifts & Overtime" feature to model the impact on your take-home pay</Text>
+          </View>
+        </View>
+
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Part-Time Staff</Text>
           <Text style={styles.paragraph}>
             If you work part-time, your maternity pay will be calculated based on your part-time salary.

@@ -120,6 +120,34 @@ export default function ResultsDisplay({ results }) {
         </View>
       </AnimatedCard>
 
+      {/* Bank Shift Boost */}
+      {results.bankShiftBoost && results.bankShiftBoost.boostAmount > 0 && (
+        <AnimatedCard
+          index={cardIndex++}
+          isHighlight={false}
+          prefersReducedMotion={prefersReducedMotion}
+          style={[styles.card, styles.boostCard, shadows.md]}
+        >
+          <Text style={styles.boostTitle}>Bank Shift Boost</Text>
+          <Text style={styles.boostAmount}>+{formatCurrency(results.bankShiftBoost.boostAmount)}</Text>
+          <Text style={styles.boostDescription}>
+            Extra {formatCurrency(results.bankShiftBoost.additionalWeeklyEarnings)}/week boosts your total take-home by{' '}
+            <Text style={styles.boostBold}>{formatCurrency(results.bankShiftBoost.boostAmount)}</Text>
+          </Text>
+          <View style={styles.boostComparison}>
+            <View style={styles.boostComparisonItem}>
+              <Text style={styles.boostComparisonLabel}>Without extra shifts</Text>
+              <Text style={styles.boostComparisonValue}>{formatCurrency(results.bankShiftBoost.baselineTotal)}</Text>
+            </View>
+            <Text style={styles.boostArrow}>{'\u2192'}</Text>
+            <View style={styles.boostComparisonItem}>
+              <Text style={styles.boostComparisonLabel}>With extra shifts</Text>
+              <Text style={[styles.boostComparisonValue, styles.boostComparisonValueHighlight]}>{formatCurrency(net.total)}</Text>
+            </View>
+          </View>
+        </AnimatedCard>
+      )}
+
       {/* Results Actions */}
       <AnimatedCard
         index={cardIndex++}
@@ -412,6 +440,14 @@ export default function ResultsDisplay({ results }) {
               {'\u2022'} These additional benefits are shown separately as they may have different tax treatment and payment timing{'\n\n'}
             </>
           )}
+          {results.bankShiftBoost && results.bankShiftBoost.boostAmount > 0 && (
+            <>
+              Bank Shift & Overtime Boost:{'\n'}
+              {'\u2022'} Additional weekly earnings of {formatCurrency(results.bankShiftBoost.additionalWeeklyEarnings)} included in average weekly earnings{'\n'}
+              {'\u2022'} This increases your AWE from {formatCurrency(gross.breakdown.averageWeeklyEarnings - results.bankShiftBoost.additionalWeeklyEarnings)} to {formatCurrency(gross.breakdown.averageWeeklyEarnings)}{'\n'}
+              {'\u2022'} Only earnings paid through your Trust's payroll count — NHSP or agency shifts may not be included{'\n\n'}
+            </>
+          )}
           Deductions are calculated based on your maternity pay income during the{' '}
           {gross.breakdown.totalWeeks}-week period.{'\n\n'}
           Last updated: 2025/26 tax year
@@ -616,6 +652,68 @@ const styles = StyleSheet.create({
   },
   benefitTotal: {
     color: colors.sage,
+  },
+  boostCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: colors.sage,
+  },
+  boostTitle: {
+    ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
+    color: colors.sage,
+    fontWeight: '600',
+    marginBottom: spacing.xs,
+  },
+  boostAmount: {
+    fontSize: 28,
+    fontWeight: '700',
+    fontFamily: fontFamily.bold,
+    color: colors.sage,
+    marginBottom: spacing.sm,
+  },
+  boostDescription: {
+    ...typography.body,
+    fontFamily: fontFamily.regular,
+    color: colors.textSecondary,
+    lineHeight: 22,
+    marginBottom: spacing.md,
+  },
+  boostBold: {
+    fontFamily: fontFamily.semiBold,
+    fontWeight: '600',
+    color: colors.textPrimary,
+  },
+  boostComparison: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: colors.background,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+  },
+  boostComparisonItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  boostComparisonLabel: {
+    ...typography.small,
+    fontFamily: fontFamily.regular,
+    color: colors.textSecondary,
+    marginBottom: spacing.xs,
+  },
+  boostComparisonValue: {
+    ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
+    color: colors.textPrimary,
+    fontWeight: '600',
+  },
+  boostComparisonValueHighlight: {
+    color: colors.sage,
+  },
+  boostArrow: {
+    fontSize: 20,
+    color: colors.sage,
+    marginHorizontal: spacing.sm,
   },
   feedbackCard: {
     backgroundColor: colors.feedbackCardBg,

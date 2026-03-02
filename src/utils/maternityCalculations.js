@@ -74,10 +74,11 @@ export const validateMaternityWeeks = (weeks) => {
 /**
  * Calculate average weekly earnings
  * @param {number} annualSalary - Annual gross salary
+ * @param {number} additionalWeeklyEarnings - Extra weekly earnings from bank shifts, overtime, etc.
  * @returns {number} Average weekly earnings
  */
-export const calculateAverageWeeklyEarnings = (annualSalary) => {
-  return annualSalary / 52;
+export const calculateAverageWeeklyEarnings = (annualSalary, additionalWeeklyEarnings = 0) => {
+  return (annualSalary / 52) + additionalWeeklyEarnings;
 };
 
 /**
@@ -86,8 +87,8 @@ export const calculateAverageWeeklyEarnings = (annualSalary) => {
  * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @returns {object} Breakdown of maternity pay periods
  */
-export const calculateMaternityPay = (annualSalary, customWeeks = 39) => {
-  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary);
+export const calculateMaternityPay = (annualSalary, customWeeks = 39, additionalWeeklyEarnings = 0) => {
+  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary, additionalWeeklyEarnings);
 
   // Calculate dynamic week breakdown
   // If duration <= 6 weeks, all weeks are at higher rate (90%)
@@ -133,8 +134,8 @@ export const calculateMaternityPay = (annualSalary, customWeeks = 39) => {
  * @param {number} customWeeks - Custom maternity leave duration in weeks (default 39)
  * @returns {object} Breakdown of NHS Enhanced maternity pay periods
  */
-export const calculateNHSEnhancedPay = (annualSalary, customWeeks = 39) => {
-  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary);
+export const calculateNHSEnhancedPay = (annualSalary, customWeeks = 39, additionalWeeklyEarnings = 0) => {
+  const averageWeeklyEarnings = calculateAverageWeeklyEarnings(annualSalary, additionalWeeklyEarnings);
 
   // Phase 1: Full pay (100% of salary)
   // Up to first 8 weeks or customWeeks if less
@@ -290,13 +291,14 @@ export const calculateNetMaternityPay = (
   paymentType = 'smp',
   fte = 1.0,
   annualHolidayDays = 27,
-  kitDays = 0
+  kitDays = 0,
+  additionalWeeklyEarnings = 0
 ) => {
   // Calculate gross maternity pay with custom duration and payment type
   const maternityPay =
     paymentType === 'nhsEnhanced'
-      ? calculateNHSEnhancedPay(annualSalary, customWeeks)
-      : calculateMaternityPay(annualSalary, customWeeks);
+      ? calculateNHSEnhancedPay(annualSalary, customWeeks, additionalWeeklyEarnings)
+      : calculateMaternityPay(annualSalary, customWeeks, additionalWeeklyEarnings);
 
   const grossMaternityPay = maternityPay.totalGrossMaternityPay;
 
@@ -322,6 +324,26 @@ export const calculateNetMaternityPay = (
 
   // Calculate KIT days pay
   const kitDaysPay = calculateKITDaysPay(kitDays, annualSalary, fte);
+
+  // Calculate bank shift boost if additional earnings provided
+  let bankShiftBoost = null;
+  if (additionalWeeklyEarnings > 0) {
+    const baselineMaternityPay =
+      paymentType === 'nhsEnhanced'
+        ? calculateNHSEnhancedPay(annualSalary, customWeeks, 0)
+        : calculateMaternityPay(annualSalary, customWeeks, 0);
+    const baselineGross = baselineMaternityPay.totalGrossMaternityPay;
+    const baselineTax = calculateIncomeTax(baselineGross);
+    const baselineNI = calculateNationalInsurance(baselineGross);
+    const baselinePension = calculatePensionContributions(baselineGross, pensionPercentage);
+    const baselineNet = baselineGross - baselineTax - baselineNI - baselinePension;
+
+    bankShiftBoost = {
+      additionalWeeklyEarnings,
+      boostAmount: netMaternityPay - baselineNet,
+      baselineTotal: baselineNet,
+    };
+  }
 
   return {
     gross: {
@@ -353,6 +375,7 @@ export const calculateNetMaternityPay = (
       },
       total: holidayValue + kitDaysPay,
     },
+    bankShiftBoost,
     pensionPercentage,
     paymentType,
     fte,
