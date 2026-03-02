@@ -20,6 +20,7 @@ import BlogPage from './src/pages/BlogPage';
 import ForTrustsPage from './src/pages/ForTrustsPage';
 import AboutPage from './src/pages/AboutPage';
 import ContactPage from './src/pages/ContactPage';
+import NotFoundPage from './src/pages/NotFoundPage';
 
 function LoadingScreen() {
   return (
@@ -71,6 +72,7 @@ export default function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </View>
           <Footer />

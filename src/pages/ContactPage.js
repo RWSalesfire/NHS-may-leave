@@ -10,7 +10,6 @@ export default function ContactPage() {
   const isMobile = width < 640;
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData);
     alert("Thank you for your message! We'll get back to you soon.");
   };
 
