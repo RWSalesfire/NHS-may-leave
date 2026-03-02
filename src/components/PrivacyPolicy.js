@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useNavigate } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 
 export default function PrivacyPolicy({ onClose }) {
   const navigate = Platform.OS === 'web' ? useNavigate() : null;
@@ -10,7 +10,7 @@ export default function PrivacyPolicy({ onClose }) {
     if (onClose) {
       onClose();
     } else if (navigate) {
-      navigate(-1); // Go back to previous page
+      navigate(-1);
     }
   };
 
@@ -20,7 +20,7 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.headerTitle}>Privacy Policy</Text>
         {(onClose || navigate) && (
           <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>✕</Text>
+            <Text style={styles.closeButtonText}>{'\u2715'}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -44,20 +44,20 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.subheading}>2.1 No Personal Data</Text>
         <Text style={styles.paragraph}>
           We <Text style={styles.bold}>do NOT</Text> collect:{'\n'}
-          • Your name, email address, or contact details{'\n'}
-          • Your NHS Trust, pay band, or salary{'\n'}
-          • Your maternity pay calculations or results{'\n'}
-          • Your FTE percentage, holiday accrual, or KIT days{'\n'}
-          • Any personally identifiable information (PII)
+          {'\u2022'} Your name, email address, or contact details{'\n'}
+          {'\u2022'} Your NHS Trust, pay band, or salary{'\n'}
+          {'\u2022'} Your maternity pay calculations or results{'\n'}
+          {'\u2022'} Your FTE percentage, holiday accrual, or KIT days{'\n'}
+          {'\u2022'} Any personally identifiable information (PII)
         </Text>
 
         <Text style={styles.subheading}>2.2 How the Calculator Works</Text>
         <Text style={styles.paragraph}>
           All calculations are performed <Text style={styles.bold}>locally in your browser</Text> using JavaScript. Your inputs (salary, FTE, leave duration) are:{'\n'}
-          • Processed entirely on your device{'\n'}
-          • <Text style={styles.bold}>NOT sent to our servers</Text>{'\n'}
-          • <Text style={styles.bold}>NOT stored in any database</Text>{'\n'}
-          • <Text style={styles.bold}>NOT shared with third parties</Text>
+          {'\u2022'} Processed entirely on your device{'\n'}
+          {'\u2022'} <Text style={styles.bold}>NOT sent to our servers</Text>{'\n'}
+          {'\u2022'} <Text style={styles.bold}>NOT stored in any database</Text>{'\n'}
+          {'\u2022'} <Text style={styles.bold}>NOT shared with third parties</Text>
         </Text>
         <Text style={styles.paragraph}>
           When you close the calculator, your data is <Text style={styles.bold}>permanently deleted</Text> from your browser (unless you save it locally using browser features like bookmarks).
@@ -68,19 +68,19 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.subheading}>3.1 Google Analytics</Text>
         <Text style={styles.paragraph}>
           We use <Text style={styles.bold}>Google Analytics 4</Text> to understand how users interact with the Service. Google Analytics collects <Text style={styles.bold}>anonymous, aggregated data</Text> such as:{'\n'}
-          • Number of visitors and page views{'\n'}
-          • Device type (mobile, desktop, tablet){'\n'}
-          • Browser type (Chrome, Safari, Firefox, etc.){'\n'}
-          • Geographic location (country/region level only, e.g., "United Kingdom"){'\n'}
-          • Time spent on the Service{'\n'}
-          • Which features are used (e.g., "part-time calculator" vs. "full-time calculator")
+          {'\u2022'} Number of visitors and page views{'\n'}
+          {'\u2022'} Device type (mobile, desktop, tablet){'\n'}
+          {'\u2022'} Browser type (Chrome, Safari, Firefox, etc.){'\n'}
+          {'\u2022'} Geographic location (country/region level only, e.g., "United Kingdom"){'\n'}
+          {'\u2022'} Time spent on the Service{'\n'}
+          {'\u2022'} Which features are used (e.g., "part-time calculator" vs. "full-time calculator")
         </Text>
 
         <Text style={styles.paragraph}>
           <Text style={styles.bold}>What Google Analytics Does NOT Collect:</Text>{'\n'}
-          • Your name, email, or NHS Trust{'\n'}
-          • Your salary or maternity pay calculations{'\n'}
-          • Your IP address (we enable <Text style={styles.bold}>IP anonymization</Text> in Google Analytics)
+          {'\u2022'} Your name, email, or NHS Trust{'\n'}
+          {'\u2022'} Your salary or maternity pay calculations{'\n'}
+          {'\u2022'} Your IP address (we enable <Text style={styles.bold}>IP anonymization</Text> in Google Analytics)
         </Text>
 
         <Text style={styles.paragraph}>
@@ -97,9 +97,9 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.subheading}>4.2 Affiliate Links</Text>
         <Text style={styles.paragraph}>
           The Service may include affiliate links to third-party products (e.g., insurance, savings accounts). If you click these links:{'\n'}
-          • You will be directed to the third party's website{'\n'}
-          • We may receive a commission if you make a purchase (at no extra cost to you){'\n'}
-          • The third party's privacy policy applies once you leave our Service
+          {'\u2022'} You will be directed to the third party's website{'\n'}
+          {'\u2022'} We may receive a commission if you make a purchase (at no extra cost to you){'\n'}
+          {'\u2022'} The third party's privacy policy applies once you leave our Service
         </Text>
         <Text style={styles.paragraph}>
           <Text style={styles.bold}>We do NOT share your calculator inputs or personal data with affiliate partners.</Text>
@@ -108,17 +108,17 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.heading}>5. How We Use Collected Data</Text>
         <Text style={styles.paragraph}>
           We use anonymous analytics data to:{'\n'}
-          • Understand how users interact with the Service (e.g., which features are popular){'\n'}
-          • Improve the calculator's accuracy and user experience{'\n'}
-          • Fix bugs and technical issues{'\n'}
-          • Monitor for abusive or fraudulent usage
+          {'\u2022'} Understand how users interact with the Service (e.g., which features are popular){'\n'}
+          {'\u2022'} Improve the calculator's accuracy and user experience{'\n'}
+          {'\u2022'} Fix bugs and technical issues{'\n'}
+          {'\u2022'} Monitor for abusive or fraudulent usage
         </Text>
 
         <Text style={styles.paragraph}>
           <Text style={styles.bold}>We do NOT:</Text>{'\n'}
-          • Sell, rent, or share your data with third parties (except analytics/ad providers as disclosed above){'\n'}
-          • Use data for marketing or profiling{'\n'}
-          • Create individual user profiles or track you across websites
+          {'\u2022'} Sell, rent, or share your data with third parties (except analytics/ad providers as disclosed above){'\n'}
+          {'\u2022'} Use data for marketing or profiling{'\n'}
+          {'\u2022'} Create individual user profiles or track you across websites
         </Text>
 
         <Text style={styles.heading}>6. Your Rights Under UK GDPR</Text>
@@ -139,16 +139,16 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.subheading}>6.3 Right to Object</Text>
         <Text style={styles.paragraph}>
           You can object to analytics tracking by:{'\n'}
-          • Disabling cookies in your browser{'\n'}
-          • Using browser extensions like uBlock Origin or Privacy Badger{'\n'}
-          • Opting out of Google Analytics
+          {'\u2022'} Disabling cookies in your browser{'\n'}
+          {'\u2022'} Using browser extensions like uBlock Origin or Privacy Badger{'\n'}
+          {'\u2022'} Opting out of Google Analytics
         </Text>
 
         <Text style={styles.subheading}>6.4 Right to Complain</Text>
         <Text style={styles.paragraph}>
           If you believe we are not complying with UK GDPR, you can lodge a complaint with the <Text style={styles.bold}>Information Commissioner's Office (ICO)</Text>:{'\n'}
-          • Website: ico.org.uk/make-a-complaint/{'\n'}
-          • Phone: 0303 123 1113
+          {'\u2022'} Website: ico.org.uk/make-a-complaint/{'\n'}
+          {'\u2022'} Phone: 0303 123 1113
         </Text>
 
         <Text style={styles.heading}>7. Data Security</Text>
@@ -161,9 +161,9 @@ export default function PrivacyPolicy({ onClose }) {
         <Text style={styles.subheading}>7.2 Website Security</Text>
         <Text style={styles.paragraph}>
           We use industry-standard security measures:{'\n'}
-          • <Text style={styles.bold}>HTTPS encryption</Text> (all data transmitted between your browser and our servers is encrypted){'\n'}
-          • Regular security updates and monitoring{'\n'}
-          • Third-party services (Google Analytics, AdSense) are compliant with UK GDPR
+          {'\u2022'} <Text style={styles.bold}>HTTPS encryption</Text> (all data transmitted between your browser and our servers is encrypted){'\n'}
+          {'\u2022'} Regular security updates and monitoring{'\n'}
+          {'\u2022'} Third-party services (Google Analytics, AdSense) are compliant with UK GDPR
         </Text>
 
         <Text style={styles.subheading}>7.3 Client-Side Processing</Text>
@@ -190,12 +190,12 @@ export default function PrivacyPolicy({ onClose }) {
         <View style={styles.summary}>
           <Text style={styles.summaryTitle}>Summary (TL;DR)</Text>
           <Text style={styles.summaryText}>
-            ✅ Your maternity pay calculations <Text style={styles.bold}>never leave your device</Text> (client-side only){'\n'}
-            ✅ We do <Text style={styles.bold}>NOT</Text> collect your name, email, salary, or NHS Trust{'\n'}
-            ✅ We use <Text style={styles.bold}>Google Analytics</Text> for anonymous usage statistics (you can opt out){'\n'}
-            ✅ We display <Text style={styles.bold}>ads</Text> and <Text style={styles.bold}>affiliate links</Text> (no data sharing with partners){'\n'}
-            ✅ You can <Text style={styles.bold}>disable cookies</Text> without affecting the calculator's functionality{'\n'}
-            ✅ We comply with <Text style={styles.bold}>UK GDPR</Text> and the Data Protection Act 2018
+            {'\u2705'} Your maternity pay calculations <Text style={styles.bold}>never leave your device</Text> (client-side only){'\n'}
+            {'\u2705'} We do <Text style={styles.bold}>NOT</Text> collect your name, email, salary, or NHS Trust{'\n'}
+            {'\u2705'} We use <Text style={styles.bold}>Google Analytics</Text> for anonymous usage statistics (you can opt out){'\n'}
+            {'\u2705'} We display <Text style={styles.bold}>ads</Text> and <Text style={styles.bold}>affiliate links</Text> (no data sharing with partners){'\n'}
+            {'\u2705'} You can <Text style={styles.bold}>disable cookies</Text> without affecting the calculator's functionality{'\n'}
+            {'\u2705'} We comply with <Text style={styles.bold}>UK GDPR</Text> and the Data Protection Act 2018
           </Text>
         </View>
 
@@ -208,9 +208,11 @@ export default function PrivacyPolicy({ onClose }) {
         <View style={styles.bottomPadding} />
       </ScrollView>
 
-      <TouchableOpacity onPress={onClose} style={styles.bottomButton}>
-        <Text style={styles.bottomButtonText}>Close</Text>
-      </TouchableOpacity>
+      {onClose && (
+        <TouchableOpacity onPress={onClose} style={[styles.bottomButton, shadows.primary]}>
+          <Text style={styles.bottomButtonText}>Close</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -226,12 +228,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.lg,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
+    borderBottomColor: colors.border,
     backgroundColor: colors.background,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.text,
   },
   closeButton: {
@@ -245,9 +248,13 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: spacing.lg,
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
   },
   lastUpdated: {
     fontSize: 12,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     fontStyle: 'italic',
     marginBottom: spacing.md,
@@ -255,6 +262,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.text,
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
@@ -262,48 +270,54 @@ const styles = StyleSheet.create({
   subheading: {
     fontSize: 15,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginTop: spacing.md,
     marginBottom: spacing.xs,
   },
   paragraph: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 22,
     marginBottom: spacing.sm,
   },
   bold: {
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
   },
   highlight: {
     marginVertical: spacing.md,
     padding: spacing.md,
-    backgroundColor: '#FFF9E6',
-    borderRadius: 8,
+    backgroundColor: colors.highlightSurface,
+    borderRadius: borderRadius.md,
     borderLeftWidth: 4,
-    borderLeftColor: '#FFB900',
+    borderLeftColor: colors.warning,
   },
   highlightText: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 22,
   },
   summary: {
     marginTop: spacing.lg,
     padding: spacing.md,
-    backgroundColor: colors.background,
-    borderRadius: 8,
+    backgroundColor: colors.primarySurface,
+    borderRadius: borderRadius.md,
     borderWidth: 1,
     borderColor: colors.primary,
   },
   summaryTitle: {
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.primary,
     marginBottom: spacing.sm,
   },
   summaryText: {
     fontSize: 13,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 20,
   },
@@ -311,12 +325,13 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
     padding: spacing.md,
     backgroundColor: colors.background,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
     borderLeftWidth: 4,
     borderLeftColor: colors.primary,
   },
   agreementText: {
     fontSize: 13,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     fontStyle: 'italic',
     lineHeight: 20,
@@ -328,12 +343,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: spacing.md,
     margin: spacing.lg,
-    borderRadius: 12,
+    borderRadius: borderRadius.md,
     alignItems: 'center',
   },
   bottomButtonText: {
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.cardBackground,
   },
 });

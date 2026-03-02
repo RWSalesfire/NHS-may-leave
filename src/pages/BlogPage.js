@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import PageHeader from '../components/PageHeader';
 
-// Placeholder blog posts
 const BLOG_POSTS = [
   {
     title: "Understanding NHS Maternity Pay: A Complete Guide",
@@ -49,30 +49,46 @@ const BLOG_POSTS = [
   },
 ];
 
+const CATEGORY_COLORS = {
+  'NHS Policy': colors.primary,
+  'Financial Planning': colors.sage,
+  'NHS Specific': colors.accent,
+  'Legal & Policy': colors.primaryDark,
+  'Returning to Work': colors.sage,
+};
+
 export default function BlogPage() {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 640;
+  const cardWidth = isMobile ? '100%' : 520;
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Resources & Guides</Text>
-        <Text style={styles.subtitle}>
-          Helpful articles, tips, and guides for NHS maternity leave
-        </Text>
+        <PageHeader
+          title="Resources & Guides"
+          subtitle="Helpful articles, tips, and guides for NHS maternity leave"
+        />
 
         <View style={styles.blogGrid}>
           {BLOG_POSTS.map((post, index) => (
-            <View key={index} style={styles.blogCard}>
-              <Text style={styles.blogCategory}>{post.category}</Text>
+            <View key={index} style={[styles.blogCard, shadows.md, { width: cardWidth }]}>
+              <View style={[styles.categoryPill, { backgroundColor: (CATEGORY_COLORS[post.category] || colors.primary) + '20' }]}>
+                <Text style={[styles.blogCategory, { color: CATEGORY_COLORS[post.category] || colors.primary }]}>
+                  {post.category}
+                </Text>
+              </View>
               <Text style={styles.blogTitle}>{post.title}</Text>
               <Text style={styles.blogDate}>{post.date}</Text>
               <Text style={styles.blogExcerpt}>{post.excerpt}</Text>
               <Link to={`/blog/${post.slug}`} style={{ textDecoration: 'none', marginTop: spacing.md }}>
-                <Text style={styles.readMore}>Read more →</Text>
+                <Text style={styles.readMore}>Read more {'\u2192'}</Text>
               </Link>
             </View>
           ))}
         </View>
 
-        <View style={styles.comingSoon}>
+        <View style={[styles.comingSoon, shadows.sm]}>
           <Text style={styles.comingSoonTitle}>More Articles Coming Soon!</Text>
           <Text style={styles.comingSoonText}>
             We're working on creating comprehensive guides and resources for NHS staff.
@@ -96,17 +112,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.xl * 2,
   },
-  title: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.primary,
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: spacing.xl * 2,
-  },
   blogGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -114,36 +119,39 @@ const styles = StyleSheet.create({
   },
   blogCard: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     padding: spacing.lg,
-    width: '100%',
-    maxWidth: 550,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  },
+  categoryPill: {
+    alignSelf: 'flex-start',
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.sm + 2,
+    borderRadius: borderRadius.pill,
+    marginBottom: spacing.sm,
   },
   blogCategory: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.primary,
+    fontSize: 11,
+    fontWeight: '700',
+    fontFamily: fontFamily.bold,
     textTransform: 'uppercase',
-    marginBottom: spacing.xs,
+    letterSpacing: 0.5,
   },
   blogTitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.xs,
   },
   blogDate: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     marginBottom: spacing.md,
   },
   blogExcerpt: {
     fontSize: 15,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 22,
   },
@@ -151,10 +159,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 15,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   comingSoon: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     padding: spacing.xl,
     marginTop: spacing.xl * 2,
     alignItems: 'center',
@@ -162,11 +171,13 @@ const styles = StyleSheet.create({
   comingSoonTitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.sm,
   },
   comingSoonText: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     textAlign: 'center',
   },

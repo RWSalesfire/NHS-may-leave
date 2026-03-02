@@ -1,9 +1,54 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+
+function TrustBadge({ text }) {
+  return (
+    <View style={styles.trustItem}>
+      <View style={styles.trustBadge}>
+        <Text style={styles.trustCheck}>{'\u2713'}</Text>
+      </View>
+      <Text style={styles.trustText}>{text}</Text>
+    </View>
+  );
+}
+
+function FeatureCard({ icon, title, description, cardWidth }) {
+  return (
+    <View style={[styles.featureCard, shadows.md, { width: cardWidth }]}>
+      <Text style={styles.featureIcon}>{icon}</Text>
+      <Text style={styles.featureTitle}>{title}</Text>
+      <Text style={styles.featureDescription}>{description}</Text>
+    </View>
+  );
+}
+
+function StepItem({ number, title, description, isLast }) {
+  return (
+    <View style={styles.step}>
+      <View style={styles.stepLeft}>
+        <View style={styles.stepRing}>
+          <Text style={styles.stepNumberText}>{number}</Text>
+        </View>
+        {!isLast && <View style={styles.stepConnector} />}
+      </View>
+      <View style={styles.stepContent}>
+        <Text style={styles.stepTitle}>{title}</Text>
+        <Text style={styles.stepDescription}>{description}</Text>
+      </View>
+    </View>
+  );
+}
 
 export default function HomePage() {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 640;
+  const isDesktop = width >= 1024;
+
+  const featureCardWidth = isDesktop ? 260 : isMobile ? '100%' : 280;
+  const blogCardWidth = isDesktop ? 350 : isMobile ? '100%' : 350;
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -18,26 +63,17 @@ export default function HomePage() {
           </Text>
 
           <Link to="/calculator" style={{ textDecoration: 'none', marginTop: spacing.lg }}>
-            <View style={styles.ctaButton}>
-              <Text style={styles.ctaButtonText}>Calculate Your Maternity Pay →</Text>
+            <View style={[styles.ctaButton, shadows.primary]}>
+              <Text style={styles.ctaButtonText}>Calculate Your Maternity Pay {'\u2192'}</Text>
             </View>
           </Link>
         </View>
 
         {/* Trust Signals */}
         <View style={styles.trustSignals}>
-          <View style={styles.trustItem}>
-            <Text style={styles.trustNumber}>✓</Text>
-            <Text style={styles.trustText}>Updated with latest NHS AFC rates</Text>
-          </View>
-          <View style={styles.trustItem}>
-            <Text style={styles.trustNumber}>✓</Text>
-            <Text style={styles.trustText}>100% free, no registration required</Text>
-          </View>
-          <View style={styles.trustItem}>
-            <Text style={styles.trustNumber}>✓</Text>
-            <Text style={styles.trustText}>Accounts for occupational maternity pay</Text>
-          </View>
+          <TrustBadge text="Updated with latest NHS AFC rates" />
+          <TrustBadge text="100% free, no registration required" />
+          <TrustBadge text="Accounts for occupational maternity pay" />
         </View>
 
         {/* Features Section */}
@@ -45,37 +81,30 @@ export default function HomePage() {
           <Text style={styles.sectionTitle}>Why Use Our Calculator?</Text>
 
           <View style={styles.featureGrid}>
-            <View style={styles.featureCard}>
-              <Text style={styles.featureIcon}>📊</Text>
-              <Text style={styles.featureTitle}>NHS-Specific</Text>
-              <Text style={styles.featureDescription}>
-                Built specifically for NHS staff with occupational maternity pay calculations
-              </Text>
-            </View>
-
-            <View style={styles.featureCard}>
-              <Text style={styles.featureIcon}>💰</Text>
-              <Text style={styles.featureTitle}>Accurate Results</Text>
-              <Text style={styles.featureDescription}>
-                Calculates both occupational and statutory maternity pay with latest tax rates
-              </Text>
-            </View>
-
-            <View style={styles.featureCard}>
-              <Text style={styles.featureIcon}>⚡</Text>
-              <Text style={styles.featureTitle}>Instant Calculation</Text>
-              <Text style={styles.featureDescription}>
-                Get your results in seconds with detailed week-by-week breakdown
-              </Text>
-            </View>
-
-            <View style={styles.featureCard}>
-              <Text style={styles.featureIcon}>🔒</Text>
-              <Text style={styles.featureTitle}>Privacy First</Text>
-              <Text style={styles.featureDescription}>
-                Your data stays in your browser. We don't store any personal information
-              </Text>
-            </View>
+            <FeatureCard
+              icon={'\uD83D\uDCCA'}
+              title="NHS-Specific"
+              description="Built specifically for NHS staff with occupational maternity pay calculations"
+              cardWidth={featureCardWidth}
+            />
+            <FeatureCard
+              icon={'\uD83D\uDCB0'}
+              title="Accurate Results"
+              description="Calculates both occupational and statutory maternity pay with latest tax rates"
+              cardWidth={featureCardWidth}
+            />
+            <FeatureCard
+              icon={'\u26A1'}
+              title="Instant Calculation"
+              description="Get your results in seconds with detailed week-by-week breakdown"
+              cardWidth={featureCardWidth}
+            />
+            <FeatureCard
+              icon={'\uD83D\uDD12'}
+              title="Privacy First"
+              description="Your data stays in your browser. We don't store any personal information"
+              cardWidth={featureCardWidth}
+            />
           </View>
         </View>
 
@@ -87,45 +116,26 @@ export default function HomePage() {
           </Text>
 
           <View style={styles.stepsList}>
-            <View style={styles.step}>
-              <View style={styles.stepNumber}>
-                <Text style={styles.stepNumberText}>1</Text>
-              </View>
-              <View style={styles.stepContent}>
-                <Text style={styles.stepTitle}>Enter Your Details</Text>
-                <Text style={styles.stepDescription}>
-                  Annual salary, NHS band, pension percentage, and maternity leave duration
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.step}>
-              <View style={styles.stepNumber}>
-                <Text style={styles.stepNumberText}>2</Text>
-              </View>
-              <View style={styles.stepContent}>
-                <Text style={styles.stepTitle}>Get Instant Results</Text>
-                <Text style={styles.stepDescription}>
-                  See your total maternity pay, weekly breakdown, and net take-home after tax
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.step}>
-              <View style={styles.stepNumber}>
-                <Text style={styles.stepNumberText}>3</Text>
-              </View>
-              <View style={styles.stepContent}>
-                <Text style={styles.stepTitle}>Plan Your Finances</Text>
-                <Text style={styles.stepDescription}>
-                  Use the results to budget for your maternity leave period
-                </Text>
-              </View>
-            </View>
+            <StepItem
+              number="1"
+              title="Enter Your Details"
+              description="Annual salary, NHS band, pension percentage, and maternity leave duration"
+            />
+            <StepItem
+              number="2"
+              title="Get Instant Results"
+              description="See your total maternity pay, weekly breakdown, and net take-home after tax"
+            />
+            <StepItem
+              number="3"
+              title="Plan Your Finances"
+              description="Use the results to budget for your maternity leave period"
+              isLast
+            />
           </View>
 
           <Link to="/guide" style={{ textDecoration: 'none', alignSelf: 'center', marginTop: spacing.lg }}>
-            <Text style={styles.link}>Learn more about NHS maternity pay →</Text>
+            <Text style={styles.link}>Learn more about NHS maternity pay {'\u2192'}</Text>
           </Link>
         </View>
 
@@ -150,35 +160,19 @@ export default function HomePage() {
           </Text>
 
           <View style={styles.blogGrid}>
-            <View style={styles.blogCard}>
-              <Text style={styles.blogTitle}>Understanding NHS Maternity Pay</Text>
-              <Text style={styles.blogExcerpt}>
-                A complete guide to NHS occupational maternity pay vs statutory maternity pay
-              </Text>
-              <Link to="/blog" style={{ textDecoration: 'none', marginTop: spacing.sm }}>
-                <Text style={styles.link}>Read more →</Text>
-              </Link>
-            </View>
-
-            <View style={styles.blogCard}>
-              <Text style={styles.blogTitle}>Budgeting for Maternity Leave</Text>
-              <Text style={styles.blogExcerpt}>
-                Financial planning tips for NHS staff going on maternity leave
-              </Text>
-              <Link to="/blog" style={{ textDecoration: 'none', marginTop: spacing.sm }}>
-                <Text style={styles.link}>Read more →</Text>
-              </Link>
-            </View>
-
-            <View style={styles.blogCard}>
-              <Text style={styles.blogTitle}>Maternity Pay FAQ</Text>
-              <Text style={styles.blogExcerpt}>
-                Common questions about NHS maternity pay answered
-              </Text>
-              <Link to="/faq" style={{ textDecoration: 'none', marginTop: spacing.sm }}>
-                <Text style={styles.link}>Read more →</Text>
-              </Link>
-            </View>
+            {[
+              { title: 'Understanding NHS Maternity Pay', excerpt: 'A complete guide to NHS occupational maternity pay vs statutory maternity pay', to: '/blog' },
+              { title: 'Budgeting for Maternity Leave', excerpt: 'Financial planning tips for NHS staff going on maternity leave', to: '/blog' },
+              { title: 'Maternity Pay FAQ', excerpt: 'Common questions about NHS maternity pay answered', to: '/faq' },
+            ].map((post, i) => (
+              <View key={i} style={[styles.blogCard, shadows.md, { width: blogCardWidth }]}>
+                <Text style={styles.blogTitle}>{post.title}</Text>
+                <Text style={styles.blogExcerpt}>{post.excerpt}</Text>
+                <Link to={post.to} style={{ textDecoration: 'none', marginTop: spacing.sm }}>
+                  <Text style={styles.link}>Read more {'\u2192'}</Text>
+                </Link>
+              </View>
+            ))}
           </View>
         </View>
       </View>
@@ -204,21 +198,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
   },
   heroTitle: {
-    fontSize: 42,
+    fontSize: 44,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.primary,
     textAlign: 'center',
     marginBottom: spacing.md,
+    lineHeight: 52,
   },
   heroSubtitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     textAlign: 'center',
     marginBottom: spacing.sm,
   },
   heroDescription: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     textAlign: 'center',
     maxWidth: 600,
@@ -226,19 +224,15 @@ const styles = StyleSheet.create({
   },
   ctaButton: {
     backgroundColor: colors.primary,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
-    borderRadius: 12,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+    paddingVertical: spacing.md + 2,
+    paddingHorizontal: spacing.xl + 8,
+    borderRadius: borderRadius.md,
   },
   ctaButtonText: {
     color: colors.cardBackground,
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   trustSignals: {
     flexDirection: 'row',
@@ -256,13 +250,23 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.md,
     marginVertical: spacing.xs,
   },
-  trustNumber: {
-    fontSize: 20,
-    color: colors.success,
+  trustBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: colors.sage,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: spacing.sm,
+  },
+  trustCheck: {
+    fontSize: 14,
+    color: colors.cardBackground,
+    fontWeight: '700',
   },
   trustText: {
     fontSize: 14,
+    fontFamily: fontFamily.medium,
     color: colors.text,
     fontWeight: '500',
   },
@@ -272,12 +276,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 32,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.text,
     textAlign: 'center',
     marginBottom: spacing.sm,
   },
   sectionDescription: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     textAlign: 'center',
     marginBottom: spacing.xl,
@@ -286,18 +292,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    gap: spacing.md,
   },
   featureCard: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     padding: spacing.lg,
-    width: 280,
-    margin: spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    margin: spacing.xs,
   },
   featureIcon: {
     fontSize: 40,
@@ -306,11 +307,13 @@ const styles = StyleSheet.create({
   featureTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.sm,
   },
   featureDescription: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },
@@ -325,33 +328,48 @@ const styles = StyleSheet.create({
   step: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: spacing.lg,
   },
-  stepNumber: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.primary,
+  stepLeft: {
+    alignItems: 'center',
+    marginRight: spacing.md,
+  },
+  stepRing: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    borderWidth: 3,
+    borderColor: colors.primary,
+    backgroundColor: colors.cardBackground,
     justifyContent: 'center',
     alignItems: 'center',
   },
   stepNumberText: {
-    color: colors.cardBackground,
+    color: colors.primary,
     fontSize: 18,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
+  },
+  stepConnector: {
+    width: 2,
+    height: 32,
+    backgroundColor: colors.border,
+    borderStyle: 'dashed',
+    marginVertical: spacing.xs,
   },
   stepContent: {
     flex: 1,
-    marginLeft: spacing.md,
+    paddingBottom: spacing.lg,
   },
   stepTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.xs,
   },
   stepDescription: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },
@@ -359,11 +377,12 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     textDecorationLine: 'underline',
   },
   trustCta: {
-    backgroundColor: colors.primary + '10',
-    borderRadius: 12,
+    backgroundColor: colors.primarySurface,
+    borderRadius: borderRadius.lg,
     padding: spacing.xl,
     marginVertical: spacing.xl,
     alignItems: 'center',
@@ -371,11 +390,13 @@ const styles = StyleSheet.create({
   trustCtaTitle: {
     fontSize: 24,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.primary,
     marginBottom: spacing.sm,
   },
   trustCtaDescription: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     textAlign: 'center',
     maxWidth: 600,
@@ -384,12 +405,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xl,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   trustCtaButtonText: {
     color: colors.cardBackground,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   blogPreview: {
     paddingVertical: spacing.xl,
@@ -398,27 +420,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    gap: spacing.md,
   },
   blogCard: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     padding: spacing.lg,
-    width: 350,
-    margin: spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
   },
   blogTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.sm,
   },
   blogExcerpt: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },

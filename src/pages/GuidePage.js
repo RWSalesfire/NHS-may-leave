@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import PageHeader from '../components/PageHeader';
+
+const PERIOD_COLORS = [colors.sage, colors.primary, colors.accent, colors.textSecondary];
 
 export default function GuidePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>How NHS Maternity Pay Works</Text>
-        <Text style={styles.subtitle}>
-          A complete guide to understanding your maternity pay entitlements
-        </Text>
+        <PageHeader
+          title="How NHS Maternity Pay Works"
+          subtitle="A complete guide to understanding your maternity pay entitlements"
+        />
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>What is NHS Maternity Pay?</Text>
@@ -25,33 +28,17 @@ export default function GuidePage() {
           <Text style={styles.sectionTitle}>NHS Occupational Maternity Pay Structure</Text>
 
           <View style={styles.payStructure}>
-            <View style={styles.payPeriod}>
-              <Text style={styles.payPeriodTitle}>Weeks 1-8: Full Pay</Text>
-              <Text style={styles.payPeriodDescription}>
-                You receive your full salary, minus the amount of Statutory Maternity Pay (SMP) you're entitled to.
-              </Text>
-            </View>
-
-            <View style={styles.payPeriod}>
-              <Text style={styles.payPeriodTitle}>Weeks 9-26: Half Pay + SMP</Text>
-              <Text style={styles.payPeriodDescription}>
-                You receive half of your full salary plus SMP. However, the total cannot exceed your full pay.
-              </Text>
-            </View>
-
-            <View style={styles.payPeriod}>
-              <Text style={styles.payPeriodTitle}>Weeks 27-39: SMP Only</Text>
-              <Text style={styles.payPeriodDescription}>
-                You receive only Statutory Maternity Pay (£184.03 per week for 2026/27 tax year).
-              </Text>
-            </View>
-
-            <View style={styles.payPeriod}>
-              <Text style={styles.payPeriodTitle}>Weeks 40-52: Unpaid</Text>
-              <Text style={styles.payPeriodDescription}>
-                These weeks are unpaid, but you still have the right to return to your job.
-              </Text>
-            </View>
+            {[
+              { title: 'Weeks 1-8: Full Pay', desc: "You receive your full salary, minus the amount of Statutory Maternity Pay (SMP) you're entitled to." },
+              { title: 'Weeks 9-26: Half Pay + SMP', desc: 'You receive half of your full salary plus SMP. However, the total cannot exceed your full pay.' },
+              { title: 'Weeks 27-39: SMP Only', desc: 'You receive only Statutory Maternity Pay (\u00A3184.03 per week for 2026/27 tax year).' },
+              { title: 'Weeks 40-52: Unpaid', desc: 'These weeks are unpaid, but you still have the right to return to your job.' },
+            ].map((period, i) => (
+              <View key={i} style={[styles.payPeriod, { borderLeftColor: PERIOD_COLORS[i] }]}>
+                <Text style={[styles.payPeriodTitle, { color: PERIOD_COLORS[i] }]}>{period.title}</Text>
+                <Text style={styles.payPeriodDescription}>{period.desc}</Text>
+              </View>
+            ))}
           </View>
         </View>
 
@@ -61,9 +48,9 @@ export default function GuidePage() {
             To qualify for NHS occupational maternity pay, you must:
           </Text>
           <View style={styles.list}>
-            <Text style={styles.listItem}>• Have at least 12 months of continuous NHS service at the beginning of the 11th week before your baby is due</Text>
-            <Text style={styles.listItem}>• Provide the required notice to your employer (usually at least 28 days before you intend to start maternity leave)</Text>
-            <Text style={styles.listItem}>• Intend to return to work for at least 3 months after your maternity leave</Text>
+            <Text style={styles.listItem}>{'\u2022'} Have at least 12 months of continuous NHS service at the beginning of the 11th week before your baby is due</Text>
+            <Text style={styles.listItem}>{'\u2022'} Provide the required notice to your employer (usually at least 28 days before you intend to start maternity leave)</Text>
+            <Text style={styles.listItem}>{'\u2022'} Intend to return to work for at least 3 months after your maternity leave</Text>
           </View>
           <Text style={styles.paragraph}>
             Even if you don't qualify for occupational maternity pay, you may still be eligible for Statutory Maternity Pay if you've worked for your employer for at least 26 weeks.
@@ -77,10 +64,10 @@ export default function GuidePage() {
             <Text style={styles.bold}>8 weeks before the 15th week before your due date</Text>. This includes:
           </Text>
           <View style={styles.list}>
-            <Text style={styles.listItem}>• Your basic salary</Text>
-            <Text style={styles.listItem}>• Regular overtime payments</Text>
-            <Text style={styles.listItem}>• Shift allowances (e.g., unsocial hours payments)</Text>
-            <Text style={styles.listItem}>• Any other regular payments</Text>
+            <Text style={styles.listItem}>{'\u2022'} Your basic salary</Text>
+            <Text style={styles.listItem}>{'\u2022'} Regular overtime payments</Text>
+            <Text style={styles.listItem}>{'\u2022'} Shift allowances (e.g., unsocial hours payments)</Text>
+            <Text style={styles.listItem}>{'\u2022'} Any other regular payments</Text>
           </View>
         </View>
 
@@ -133,8 +120,8 @@ export default function GuidePage() {
         <View style={styles.ctaSection}>
           <Text style={styles.ctaTitle}>Ready to Calculate Your Maternity Pay?</Text>
           <Link to="/calculator" style={{ textDecoration: 'none', marginTop: spacing.md }}>
-            <View style={styles.ctaButton}>
-              <Text style={styles.ctaButtonText}>Use the Calculator →</Text>
+            <View style={[styles.ctaButton, shadows.primary]}>
+              <Text style={styles.ctaButtonText}>Use the Calculator {'\u2192'}</Text>
             </View>
           </Link>
         </View>
@@ -163,34 +150,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.xl * 2,
   },
-  title: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.primary,
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: spacing.xl,
-  },
   section: {
     marginBottom: spacing.xl,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.md,
   },
   paragraph: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 24,
     marginBottom: spacing.md,
   },
   bold: {
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   payStructure: {
     gap: spacing.md,
@@ -198,18 +177,19 @@ const styles = StyleSheet.create({
   payPeriod: {
     backgroundColor: colors.cardBackground,
     padding: spacing.lg,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
     borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
+    ...shadows.sm,
   },
   payPeriodTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.primary,
+    fontFamily: fontFamily.semiBold,
     marginBottom: spacing.xs,
   },
   payPeriodDescription: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },
@@ -218,20 +198,22 @@ const styles = StyleSheet.create({
   },
   listItem: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 24,
     marginBottom: spacing.xs,
   },
   ctaSection: {
-    backgroundColor: colors.primary + '10',
+    backgroundColor: colors.primarySurface,
     padding: spacing.xl,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     alignItems: 'center',
     marginVertical: spacing.xl,
   },
   ctaTitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.primary,
     textAlign: 'center',
   },
@@ -239,11 +221,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xl,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   ctaButtonText: {
     color: colors.cardBackground,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
 });

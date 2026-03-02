@@ -1,8 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView, Platform } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Platform, Text, ActivityIndicator } from 'react-native';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { colors } from './src/constants/theme';
+import { colors, fontFamily } from './src/constants/theme';
+import useFonts from './src/hooks/useFonts';
 
 // Components
 import Header from './src/components/Header';
@@ -20,7 +21,26 @@ import ForTrustsPage from './src/pages/ForTrustsPage';
 import AboutPage from './src/pages/AboutPage';
 import ContactPage from './src/pages/ContactPage';
 
+function LoadingScreen() {
+  return (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={colors.primary} />
+      <Text style={styles.loadingText}>Loading...</Text>
+    </View>
+  );
+}
+
 export default function App() {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <LoadingScreen />
+      </SafeAreaView>
+    );
+  }
+
   // For non-web platforms, show just the calculator
   if (Platform.OS !== 'web') {
     return (
@@ -70,5 +90,17 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    fontFamily: fontFamily.medium,
+    color: colors.textSecondary,
   },
 });

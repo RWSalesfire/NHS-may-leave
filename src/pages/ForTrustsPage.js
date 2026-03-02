@@ -1,18 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import PageHeader from '../components/PageHeader';
 
 export default function ForTrustsPage() {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 640;
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         {/* Hero Section */}
         <View style={styles.hero}>
-          <Text style={styles.heroTitle}>White-Label Calculator for NHS Trusts</Text>
-          <Text style={styles.heroSubtitle}>
-            Empower your staff with accurate maternity pay calculations
-          </Text>
+          <PageHeader
+            title="White-Label Calculator for NHS Trusts"
+            subtitle="Empower your staff with accurate maternity pay calculations"
+          />
         </View>
 
         {/* Problem Statement */}
@@ -40,65 +44,22 @@ export default function ForTrustsPage() {
           <Text style={styles.sectionTitle}>Features</Text>
 
           <View style={styles.featuresList}>
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>🎨</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Custom Branding</Text>
-                <Text style={styles.featureDescription}>
-                  Your Trust's logo, colors, and branding throughout the calculator
-                </Text>
+            {[
+              { icon: '\uD83C\uDFA8', title: 'Custom Branding', desc: "Your Trust's logo, colors, and branding throughout the calculator" },
+              { icon: '\u2699\uFE0F', title: 'Trust-Specific Settings', desc: 'Customize for your local policies, additional benefits, or special circumstances' },
+              { icon: '\uD83D\uDCCA', title: 'Usage Analytics', desc: 'Track usage metrics to understand staff engagement and common queries' },
+              { icon: '\u2705', title: 'Always Up-to-Date', desc: 'Automatically updated with latest tax rates and NHS pay scales' },
+              { icon: '\uD83D\uDD12', title: 'GDPR Compliant', desc: 'All calculations happen in the browser - no personal data is stored' },
+              { icon: '\uD83D\uDCBB', title: 'Easy Integration', desc: 'Simple embed code or iframe integration with your existing systems' },
+            ].map((feature, i) => (
+              <View key={i} style={[styles.featureItem, shadows.md]}>
+                <Text style={styles.featureIcon}>{feature.icon}</Text>
+                <View style={styles.featureContent}>
+                  <Text style={styles.featureTitle}>{feature.title}</Text>
+                  <Text style={styles.featureDescription}>{feature.desc}</Text>
+                </View>
               </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>⚙️</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Trust-Specific Settings</Text>
-                <Text style={styles.featureDescription}>
-                  Customize for your local policies, additional benefits, or special circumstances
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>📊</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Usage Analytics</Text>
-                <Text style={styles.featureDescription}>
-                  Track usage metrics to understand staff engagement and common queries
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>✅</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Always Up-to-Date</Text>
-                <Text style={styles.featureDescription}>
-                  Automatically updated with latest tax rates and NHS pay scales
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>🔒</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>GDPR Compliant</Text>
-                <Text style={styles.featureDescription}>
-                  All calculations happen in the browser - no personal data is stored
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.featureItem}>
-              <Text style={styles.featureIcon}>💻</Text>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Easy Integration</Text>
-                <Text style={styles.featureDescription}>
-                  Simple embed code or iframe integration with your existing systems
-                </Text>
-              </View>
-            </View>
+            ))}
           </View>
         </View>
 
@@ -107,76 +68,37 @@ export default function ForTrustsPage() {
           <Text style={styles.sectionTitle}>Benefits for Your Trust</Text>
 
           <View style={styles.benefitsList}>
-            <View style={styles.benefitItem}>
-              <Text style={styles.benefitNumber}>⏱️</Text>
-              <View style={styles.benefitContent}>
-                <Text style={styles.benefitTitle}>Reduce HR Workload</Text>
-                <Text style={styles.benefitDescription}>
-                  Estimated 200+ hours saved per year on maternity pay queries
-                </Text>
+            {[
+              { icon: '\u23F1\uFE0F', title: 'Reduce HR Workload', desc: 'Estimated 200+ hours saved per year on maternity pay queries' },
+              { icon: '\uD83D\uDE0A', title: 'Improve Staff Experience', desc: 'Empower staff with self-service tools and instant answers' },
+              { icon: '\uD83D\uDCC8', title: 'Better Planning', desc: 'Help staff plan financially for maternity leave, reducing stress' },
+            ].map((benefit, i) => (
+              <View key={i} style={styles.benefitItem}>
+                <Text style={styles.benefitNumber}>{benefit.icon}</Text>
+                <View style={styles.benefitContent}>
+                  <Text style={styles.benefitTitle}>{benefit.title}</Text>
+                  <Text style={styles.benefitDescription}>{benefit.desc}</Text>
+                </View>
               </View>
-            </View>
-
-            <View style={styles.benefitItem}>
-              <Text style={styles.benefitNumber}>😊</Text>
-              <View style={styles.benefitContent}>
-                <Text style={styles.benefitTitle}>Improve Staff Experience</Text>
-                <Text style={styles.benefitDescription}>
-                  Empower staff with self-service tools and instant answers
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.benefitItem}>
-              <Text style={styles.benefitNumber}>📈</Text>
-              <View style={styles.benefitContent}>
-                <Text style={styles.benefitTitle}>Better Planning</Text>
-                <Text style={styles.benefitDescription}>
-                  Help staff plan financially for maternity leave, reducing stress
-                </Text>
-              </View>
-            </View>
+            ))}
           </View>
         </View>
 
         {/* Contact Form */}
-        <View style={styles.contactSection}>
+        <View style={[styles.contactSection, shadows.md]}>
           <Text style={styles.contactTitle}>Request a Demo</Text>
           <Text style={styles.contactDescription}>
             Interested in bringing this calculator to your Trust? Get in touch for a personalized demo.
           </Text>
 
           <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              placeholder="Trust Name"
-              placeholderTextColor={colors.textSecondary}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Your Name"
-              placeholderTextColor={colors.textSecondary}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Your Role (e.g., HR Director)"
-              placeholderTextColor={colors.textSecondary}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email Address"
-              placeholderTextColor={colors.textSecondary}
-              keyboardType="email-address"
-            />
-            <TextInput
-              style={[styles.input, styles.textarea]}
-              placeholder="Message (optional)"
-              placeholderTextColor={colors.textSecondary}
-              multiline
-              numberOfLines={4}
-            />
+            <TextInput style={styles.input} placeholder="Trust Name" placeholderTextColor={colors.textSecondary} />
+            <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={colors.textSecondary} />
+            <TextInput style={styles.input} placeholder="Your Role (e.g., HR Director)" placeholderTextColor={colors.textSecondary} />
+            <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor={colors.textSecondary} keyboardType="email-address" />
+            <TextInput style={[styles.input, styles.textarea]} placeholder="Message (optional)" placeholderTextColor={colors.textSecondary} multiline numberOfLines={4} />
 
-            <TouchableOpacity style={styles.submitButton}>
+            <TouchableOpacity style={[styles.submitButton, shadows.primary]}>
               <Text style={styles.submitButtonText}>Request Demo</Text>
             </TouchableOpacity>
 
@@ -193,8 +115,8 @@ export default function ForTrustsPage() {
             See how the calculator works before requesting a demo
           </Text>
           <Link to="/calculator" style={{ textDecoration: 'none', marginTop: spacing.md }}>
-            <View style={styles.tryButton}>
-              <Text style={styles.tryButtonText}>Use the Calculator →</Text>
+            <View style={[styles.tryButton, shadows.primary]}>
+              <Text style={styles.tryButtonText}>Use the Calculator {'\u2192'}</Text>
             </View>
           </Link>
         </View>
@@ -217,19 +139,7 @@ const styles = StyleSheet.create({
   },
   hero: {
     alignItems: 'center',
-    marginBottom: spacing.xl * 2,
-  },
-  heroTitle: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.primary,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
-  },
-  heroSubtitle: {
-    fontSize: 20,
-    color: colors.textSecondary,
-    textAlign: 'center',
+    marginBottom: spacing.xl,
   },
   section: {
     marginBottom: spacing.xl * 2,
@@ -237,11 +147,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 28,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.md,
   },
   paragraph: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 24,
   },
@@ -253,7 +165,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     backgroundColor: colors.cardBackground,
     padding: spacing.lg,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   featureIcon: {
     fontSize: 32,
@@ -264,11 +176,13 @@ const styles = StyleSheet.create({
   featureTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.xs,
   },
   featureDescription: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },
@@ -289,29 +203,33 @@ const styles = StyleSheet.create({
   benefitTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginBottom: spacing.xs,
   },
   benefitDescription: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 20,
   },
   contactSection: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     padding: spacing.xl,
     marginBottom: spacing.xl * 2,
   },
   contactTitle: {
     fontSize: 24,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.primary,
     marginBottom: spacing.sm,
     textAlign: 'center',
   },
   contactDescription: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     textAlign: 'center',
     marginBottom: spacing.xl,
@@ -320,12 +238,13 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   input: {
-    backgroundColor: colors.background,
-    borderWidth: 1,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 2,
     borderColor: colors.border,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
     padding: spacing.md,
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
   },
   textarea: {
@@ -335,7 +254,7 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
     alignItems: 'center',
     marginTop: spacing.md,
   },
@@ -343,9 +262,11 @@ const styles = StyleSheet.create({
     color: colors.cardBackground,
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   formNote: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     textAlign: 'center',
     marginTop: spacing.md,
@@ -353,21 +274,24 @@ const styles = StyleSheet.create({
   email: {
     color: colors.primary,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   trySection: {
-    backgroundColor: colors.primary + '10',
-    borderRadius: 12,
+    backgroundColor: colors.primarySurface,
+    borderRadius: borderRadius.lg,
     padding: spacing.xl,
     alignItems: 'center',
   },
   tryTitle: {
     fontSize: 24,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.primary,
     marginBottom: spacing.sm,
   },
   tryDescription: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     textAlign: 'center',
   },
@@ -375,11 +299,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xl,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   tryButtonText: {
     color: colors.cardBackground,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
 });

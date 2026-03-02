@@ -1,73 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily } from '../constants/theme';
 
 export default function Footer() {
-  // For non-web platforms, show minimal footer
   if (Platform.OS !== 'web') {
     return (
       <View style={styles.footer}>
-        <Text style={styles.disclaimer}>
-          Not affiliated with or endorsed by the NHS
-        </Text>
         <Text style={styles.copyright}>
-          © {new Date().getFullYear()} NHS Maternity Pay Calculator
+          {'\u00A9'} {new Date().getFullYear()} NHS Maternity Pay Calculator {'\u00B7'} Not affiliated with the NHS
         </Text>
       </View>
     );
   }
 
-  // For web platform, show full footer with navigation
+  return <WebFooter />;
+}
+
+function FooterLink({ to, children }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <Link
+      to={to}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ textDecoration: 'none' }}
+    >
+      <Text style={[styles.footerLink, hovered && styles.footerLinkHover]}>
+        {children}
+      </Text>
+    </Link>
+  );
+}
+
+function WebFooter() {
   return (
     <View style={styles.footer}>
       <View style={styles.footerContent}>
-        <View style={styles.footerSection}>
-          <Text style={styles.footerSectionTitle}>Quick Links</Text>
-          <Link to="/calculator" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>Calculator</Text>
-          </Link>
-          <Link to="/guide" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>How It Works</Text>
-          </Link>
-          <Link to="/faq" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>FAQ</Text>
-          </Link>
-          <Link to="/blog" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>Resources</Text>
-          </Link>
+        <Text style={styles.brand}>NHS Maternity Pay Calculator</Text>
+
+        <View style={styles.linksRow}>
+          <FooterLink to="/calculator">Calculator</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/guide">How It Works</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/faq">FAQ</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/about">About</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/contact">Contact</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/terms">Terms</FooterLink>
+          <Text style={styles.sep}>{'\u00B7'}</Text>
+          <FooterLink to="/privacy">Privacy</FooterLink>
         </View>
 
-        <View style={styles.footerSection}>
-          <Text style={styles.footerSectionTitle}>Company</Text>
-          <Link to="/about" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>About Us</Text>
-          </Link>
-          <Link to="/contact" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>Contact</Text>
-          </Link>
-          <Link to="/for-trusts" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>For NHS Trusts</Text>
-          </Link>
-        </View>
-
-        <View style={styles.footerSection}>
-          <Text style={styles.footerSectionTitle}>Legal</Text>
-          <Link to="/terms" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>Terms of Service</Text>
-          </Link>
-          <Link to="/privacy" style={{ textDecoration: 'none', marginBottom: spacing.xs }}>
-            <Text style={styles.footerLink}>Privacy Policy</Text>
-          </Link>
-        </View>
-      </View>
-
-      <View style={styles.footerBottom}>
-        <Text style={styles.disclaimer}>
-          Not affiliated with or endorsed by the NHS
-        </Text>
         <Text style={styles.copyright}>
-          © {new Date().getFullYear()} NHS Maternity Pay Calculator. All rights reserved.
+          {'\u00A9'} {new Date().getFullYear()} NHS Maternity Pay Calculator {'\u00B7'} Not affiliated with or endorsed by the NHS
         </Text>
       </View>
     </View>
@@ -76,51 +66,46 @@ export default function Footer() {
 
 const styles = StyleSheet.create({
   footer: {
-    backgroundColor: colors.cardBackground,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    backgroundColor: colors.textPrimary,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
   },
   footerContent: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
     maxWidth: 1200,
     alignSelf: 'center',
     width: '100%',
-    paddingVertical: spacing.xl,
-    paddingHorizontal: spacing.lg,
+    alignItems: 'center',
+    gap: spacing.xs + 2,
   },
-  footerSection: {
-    minWidth: 150,
-  },
-  footerSectionTitle: {
-    fontSize: 14,
+  brand: {
+    fontSize: 13,
     fontWeight: '600',
-    color: colors.text,
-    marginBottom: spacing.md,
+    fontFamily: fontFamily.semiBold,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  linksRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
   footerLink: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    marginBottom: spacing.xs,
+    fontSize: 12,
+    fontFamily: fontFamily.regular,
+    color: 'rgba(255,255,255,0.55)',
   },
-  footerBottom: {
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    alignItems: 'center',
+  footerLinkHover: {
+    color: 'rgba(255,255,255,0.9)',
   },
-  disclaimer: {
-    fontSize: 11,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: spacing.xs,
-    fontStyle: 'italic',
+  sep: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.25)',
   },
   copyright: {
     fontSize: 11,
-    color: colors.textSecondary,
+    fontFamily: fontFamily.regular,
+    color: 'rgba(255,255,255,0.35)',
     textAlign: 'center',
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useNavigate } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 
 export default function TermsOfService({ onClose }) {
   const navigate = Platform.OS === 'web' ? useNavigate() : null;
@@ -10,7 +10,7 @@ export default function TermsOfService({ onClose }) {
     if (onClose) {
       onClose();
     } else if (navigate) {
-      navigate(-1); // Go back to previous page
+      navigate(-1);
     }
   };
 
@@ -20,7 +20,7 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.headerTitle}>Terms of Service</Text>
         {(onClose || navigate) && (
           <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>✕</Text>
+            <Text style={styles.closeButtonText}>{'\u2715'}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -48,17 +48,17 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.subheading}>3.2 Estimates Only</Text>
         <Text style={styles.paragraph}>
           All calculations are <Text style={styles.bold}>estimates</Text> based on:{'\n'}
-          • Current UK tax rates and thresholds (2025/26 tax year){'\n'}
-          • NHS Agenda for Change maternity pay policies{'\n'}
-          • Standard assumptions about tax codes and deductions
+          {'\u2022'} Current UK tax rates and thresholds (2025/26 tax year){'\n'}
+          {'\u2022'} NHS Agenda for Change maternity pay policies{'\n'}
+          {'\u2022'} Standard assumptions about tax codes and deductions
         </Text>
         <Text style={styles.paragraph}>
           <Text style={styles.bold}>Actual pay may vary</Text> due to:{'\n'}
-          • Individual tax codes and circumstances{'\n'}
-          • Local Trust agreements or variations{'\n'}
-          • Changes in tax rates or NHS policies{'\n'}
-          • Second jobs, student loan deductions, or other individual factors{'\n'}
-          • Errors or omissions in the information you provide
+          {'\u2022'} Individual tax codes and circumstances{'\n'}
+          {'\u2022'} Local Trust agreements or variations{'\n'}
+          {'\u2022'} Changes in tax rates or NHS policies{'\n'}
+          {'\u2022'} Second jobs, student loan deductions, or other individual factors{'\n'}
+          {'\u2022'} Errors or omissions in the information you provide
         </Text>
 
         <Text style={styles.subheading}>3.3 Verify with Your Employer</Text>
@@ -81,12 +81,12 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.subheading}>4.2 Prohibited Use</Text>
         <Text style={styles.paragraph}>
           You may NOT:{'\n'}
-          • Use the Service for commercial purposes without written permission{'\n'}
-          • Reverse engineer, decompile, or attempt to extract source code{'\n'}
-          • Use automated tools (bots, scrapers) to access the Service excessively{'\n'}
-          • Submit false, misleading, or malicious data to disrupt the Service{'\n'}
-          • Resell, redistribute, or white-label the Service without authorization{'\n'}
-          • Remove or alter any copyright, trademark, or proprietary notices
+          {'\u2022'} Use the Service for commercial purposes without written permission{'\n'}
+          {'\u2022'} Reverse engineer, decompile, or attempt to extract source code{'\n'}
+          {'\u2022'} Use automated tools (bots, scrapers) to access the Service excessively{'\n'}
+          {'\u2022'} Submit false, misleading, or malicious data to disrupt the Service{'\n'}
+          {'\u2022'} Resell, redistribute, or white-label the Service without authorization{'\n'}
+          {'\u2022'} Remove or alter any copyright, trademark, or proprietary notices
         </Text>
 
         <Text style={styles.heading}>5. Accuracy and Updates</Text>
@@ -94,9 +94,9 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.subheading}>5.1 No Guarantees</Text>
         <Text style={styles.paragraph}>
           We strive for accuracy but <Text style={styles.bold}>do not guarantee</Text> that:{'\n'}
-          • Calculations are error-free or complete{'\n'}
-          • The Service will be uninterrupted or bug-free{'\n'}
-          • Results reflect your specific tax or employment situation
+          {'\u2022'} Calculations are error-free or complete{'\n'}
+          {'\u2022'} The Service will be uninterrupted or bug-free{'\n'}
+          {'\u2022'} Results reflect your specific tax or employment situation
         </Text>
 
         <Text style={styles.subheading}>5.2 Updates</Text>
@@ -114,22 +114,22 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.subheading}>6.2 Limitation of Damages</Text>
         <Text style={styles.paragraph}>
           TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR:{'\n'}
-          • Any indirect, incidental, consequential, or punitive damages{'\n'}
-          • Loss of income, profits, or financial losses arising from use of the Service{'\n'}
-          • Errors or inaccuracies in calculations{'\n'}
-          • Decisions made based on the Service's results{'\n'}
-          • Downtime, service interruptions, or data loss
+          {'\u2022'} Any indirect, incidental, consequential, or punitive damages{'\n'}
+          {'\u2022'} Loss of income, profits, or financial losses arising from use of the Service{'\n'}
+          {'\u2022'} Errors or inaccuracies in calculations{'\n'}
+          {'\u2022'} Decisions made based on the Service's results{'\n'}
+          {'\u2022'} Downtime, service interruptions, or data loss
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>IN NO EVENT SHALL OUR TOTAL LIABILITY EXCEED £100 (ONE HUNDRED POUNDS STERLING).</Text>
+          <Text style={styles.bold}>IN NO EVENT SHALL OUR TOTAL LIABILITY EXCEED {'\u00A3'}100 (ONE HUNDRED POUNDS STERLING).</Text>
         </Text>
 
         <Text style={styles.subheading}>6.3 Your Responsibility</Text>
         <Text style={styles.paragraph}>
           You acknowledge that:{'\n'}
-          • You are solely responsible for verifying all calculations{'\n'}
-          • You use the Service at your own risk{'\n'}
-          • You will not hold us liable for any financial decisions made based on the Service
+          {'\u2022'} You are solely responsible for verifying all calculations{'\n'}
+          {'\u2022'} You use the Service at your own risk{'\n'}
+          {'\u2022'} You will not hold us liable for any financial decisions made based on the Service
         </Text>
 
         <Text style={styles.heading}>7. Third-Party Services</Text>
@@ -137,17 +137,17 @@ export default function TermsOfService({ onClose }) {
         <Text style={styles.subheading}>7.1 Advertising and Affiliate Links</Text>
         <Text style={styles.paragraph}>
           The Service may display advertisements and affiliate links to third-party products or services (e.g., insurance, savings accounts). We are not responsible for:{'\n'}
-          • The accuracy, quality, or safety of third-party products{'\n'}
-          • Transactions between you and third-party providers{'\n'}
-          • Third-party privacy practices or terms of service
+          {'\u2022'} The accuracy, quality, or safety of third-party products{'\n'}
+          {'\u2022'} Transactions between you and third-party providers{'\n'}
+          {'\u2022'} Third-party privacy practices or terms of service
         </Text>
 
         <Text style={styles.heading}>8. Changes to the Service</Text>
         <Text style={styles.paragraph}>
           We reserve the right to:{'\n'}
-          • Modify, suspend, or discontinue the Service at any time without notice{'\n'}
-          • Update these Terms at any time (changes will be posted with a new "Last Updated" date){'\n'}
-          • Introduce paid features or change our pricing model
+          {'\u2022'} Modify, suspend, or discontinue the Service at any time without notice{'\n'}
+          {'\u2022'} Update these Terms at any time (changes will be posted with a new "Last Updated" date){'\n'}
+          {'\u2022'} Introduce paid features or change our pricing model
         </Text>
         <Text style={styles.paragraph}>
           <Text style={styles.bold}>Your continued use of the Service after changes constitutes acceptance of the updated Terms.</Text>
@@ -173,9 +173,11 @@ export default function TermsOfService({ onClose }) {
         <View style={styles.bottomPadding} />
       </ScrollView>
 
-      <TouchableOpacity onPress={onClose} style={styles.bottomButton}>
-        <Text style={styles.bottomButtonText}>Close</Text>
-      </TouchableOpacity>
+      {onClose && (
+        <TouchableOpacity onPress={onClose} style={[styles.bottomButton, shadows.primary]}>
+          <Text style={styles.bottomButtonText}>Close</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -191,12 +193,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.lg,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
+    borderBottomColor: colors.border,
     backgroundColor: colors.background,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.text,
   },
   closeButton: {
@@ -210,9 +213,13 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: spacing.lg,
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
   },
   lastUpdated: {
     fontSize: 12,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     fontStyle: 'italic',
     marginBottom: spacing.md,
@@ -220,6 +227,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.text,
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
@@ -227,29 +235,33 @@ const styles = StyleSheet.create({
   subheading: {
     fontSize: 15,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginTop: spacing.md,
     marginBottom: spacing.xs,
   },
   paragraph: {
     fontSize: 14,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 22,
     marginBottom: spacing.sm,
   },
   bold: {
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
   },
   agreement: {
     marginTop: spacing.lg,
     padding: spacing.md,
-    backgroundColor: colors.background,
-    borderRadius: 8,
+    backgroundColor: colors.primarySurface,
+    borderRadius: borderRadius.md,
     borderLeftWidth: 4,
     borderLeftColor: colors.primary,
   },
   agreementText: {
     fontSize: 13,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     fontStyle: 'italic',
     lineHeight: 20,
@@ -261,12 +273,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: spacing.md,
     margin: spacing.lg,
-    borderRadius: 12,
+    borderRadius: borderRadius.md,
     alignItems: 'center',
   },
   bottomButtonText: {
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.cardBackground,
   },
 });

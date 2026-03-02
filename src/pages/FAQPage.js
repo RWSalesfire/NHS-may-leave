@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { Link } from 'react-router-dom';
-import { colors, spacing } from '../constants/theme';
+import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import PageHeader from '../components/PageHeader';
+import useReducedMotion from '../hooks/useReducedMotion';
 
 const FAQ_DATA = [
   {
@@ -10,7 +12,7 @@ const FAQ_DATA = [
   },
   {
     question: "How much will I get paid during maternity leave?",
-    answer: "NHS maternity pay is structured as follows: Full pay for 8 weeks, Half pay + SMP for 18 weeks (capped at full pay), SMP only for 13 weeks (£184.03/week for 2026/27), and unpaid for the remaining weeks up to 52 weeks total. Use our calculator to get your exact amount based on your salary and circumstances."
+    answer: "NHS maternity pay is structured as follows: Full pay for 8 weeks, Half pay + SMP for 18 weeks (capped at full pay), SMP only for 13 weeks (\u00A3184.03/week for 2026/27), and unpaid for the remaining weeks up to 52 weeks total. Use our calculator to get your exact amount based on your salary and circumstances."
   },
   {
     question: "How is my maternity pay calculated?",
@@ -66,6 +68,51 @@ const FAQ_DATA = [
   },
 ];
 
+function FAQItem({ faq, index, isExpanded, onToggle }) {
+  const prefersReducedMotion = useReducedMotion();
+  const chevronRotation = useRef(new Animated.Value(isExpanded ? 1 : 0)).current;
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      chevronRotation.setValue(isExpanded ? 1 : 0);
+    } else {
+      Animated.spring(chevronRotation, {
+        toValue: isExpanded ? 1 : 0,
+        useNativeDriver: true,
+        tension: 60,
+        friction: 10,
+      }).start();
+    }
+  }, [isExpanded]);
+
+  const rotateInterpolation = chevronRotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '90deg'],
+  });
+
+  return (
+    <TouchableOpacity
+      style={[styles.faqItem, isExpanded && styles.faqItemActive]}
+      onPress={onToggle}
+      activeOpacity={0.8}
+    >
+      <View style={styles.faqQuestion}>
+        <Text style={styles.faqQuestionText}>{faq.question}</Text>
+        <Animated.Text
+          style={[styles.faqChevron, { transform: [{ rotate: rotateInterpolation }] }]}
+        >
+          {'\u203A'}
+        </Animated.Text>
+      </View>
+      {isExpanded && (
+        <View style={styles.faqAnswer}>
+          <Text style={styles.faqAnswerText}>{faq.answer}</Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+}
+
 export default function FAQPage() {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
@@ -76,31 +123,20 @@ export default function FAQPage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Frequently Asked Questions</Text>
-        <Text style={styles.subtitle}>
-          Common questions about NHS maternity pay answered
-        </Text>
+        <PageHeader
+          title="Frequently Asked Questions"
+          subtitle="Common questions about NHS maternity pay answered"
+        />
 
         <View style={styles.faqList}>
           {FAQ_DATA.map((faq, index) => (
-            <TouchableOpacity
+            <FAQItem
               key={index}
-              style={styles.faqItem}
-              onPress={() => toggleFAQ(index)}
-              activeOpacity={0.8}
-            >
-              <View style={styles.faqQuestion}>
-                <Text style={styles.faqQuestionText}>{faq.question}</Text>
-                <Text style={styles.faqToggle}>
-                  {expandedIndex === index ? '−' : '+'}
-                </Text>
-              </View>
-              {expandedIndex === index && (
-                <View style={styles.faqAnswer}>
-                  <Text style={styles.faqAnswerText}>{faq.answer}</Text>
-                </View>
-              )}
-            </TouchableOpacity>
+              faq={faq}
+              index={index}
+              isExpanded={expandedIndex === index}
+              onToggle={() => toggleFAQ(index)}
+            />
           ))}
         </View>
 
@@ -111,7 +147,7 @@ export default function FAQPage() {
           </Text>
           <View style={styles.ctaButtons}>
             <Link to="/calculator" style={{ textDecoration: 'none' }}>
-              <View style={styles.ctaButton}>
+              <View style={[styles.ctaButton, shadows.primary]}>
                 <Text style={styles.ctaButtonText}>Use Calculator</Text>
               </View>
             </Link>
@@ -141,26 +177,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.xl * 2,
   },
-  title: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.primary,
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: spacing.xl,
-  },
   faqList: {
     gap: spacing.md,
   },
   faqItem: {
     backgroundColor: colors.cardBackground,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
     borderWidth: 1,
     borderColor: colors.border,
     overflow: 'hidden',
+    ...shadows.sm,
+  },
+  faqItemActive: {
+    borderColor: colors.primary,
+    borderWidth: 2,
   },
   faqQuestion: {
     flexDirection: 'row',
@@ -172,13 +202,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.text,
     marginRight: spacing.md,
   },
-  faqToggle: {
-    fontSize: 24,
+  faqChevron: {
+    fontSize: 28,
     color: colors.primary,
-    fontWeight: '600',
+    fontWeight: '300',
   },
   faqAnswer: {
     padding: spacing.lg,
@@ -188,24 +219,28 @@ const styles = StyleSheet.create({
   },
   faqAnswerText: {
     fontSize: 15,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 22,
+    paddingTop: spacing.md,
   },
   ctaSection: {
-    backgroundColor: colors.primary + '10',
+    backgroundColor: colors.primarySurface,
     padding: spacing.xl,
-    borderRadius: 12,
+    borderRadius: borderRadius.lg,
     alignItems: 'center',
     marginTop: spacing.xl * 2,
   },
   ctaTitle: {
     fontSize: 24,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
     color: colors.primary,
     marginBottom: spacing.sm,
   },
   ctaText: {
     fontSize: 16,
+    fontFamily: fontFamily.regular,
     color: colors.text,
     textAlign: 'center',
     marginBottom: spacing.lg,
@@ -220,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xl,
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   ctaButtonSecondary: {
     backgroundColor: 'transparent',
@@ -231,6 +266,7 @@ const styles = StyleSheet.create({
     color: colors.cardBackground,
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
   },
   ctaButtonTextSecondary: {
     color: colors.primary,
