@@ -1,19 +1,105 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
-import { colors, spacing, borderRadius, typography } from '../constants/theme';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Animated } from 'react-native';
+import { colors, spacing, borderRadius, typography, fontFamily, shadows } from '../constants/theme';
 import { formatCurrency } from '../utils/maternityCalculations';
+import ResultsActions from './ResultsActions';
+import useReducedMotion from '../hooks/useReducedMotion';
+
+const STAGGER_DELAY = 150;
+
+function AnimatedCard({ index, isHighlight, prefersReducedMotion, children, style }) {
+  const fadeAnim = useRef(new Animated.Value(prefersReducedMotion ? 1 : 0)).current;
+  const slideAnim = useRef(new Animated.Value(prefersReducedMotion ? 0 : 30)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const delay = index * STAGGER_DELAY;
+
+    const animations = [
+      Animated.spring(fadeAnim, {
+        toValue: 1,
+        useNativeDriver: true,
+        tension: 60,
+        friction: 9,
+        delay,
+      }),
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        useNativeDriver: true,
+        tension: 60,
+        friction: 9,
+        delay,
+      }),
+    ];
+
+    // Highlight card gets a subtle bounce
+    if (isHighlight) {
+      animations.push(
+        Animated.sequence([
+          Animated.delay(delay + 300),
+          Animated.spring(scaleAnim, {
+            toValue: 1.03,
+            useNativeDriver: true,
+            tension: 120,
+            friction: 6,
+          }),
+          Animated.spring(scaleAnim, {
+            toValue: 1.0,
+            useNativeDriver: true,
+            tension: 80,
+            friction: 8,
+          }),
+        ])
+      );
+    }
+
+    Animated.parallel(animations).start();
+  }, []);
+
+  return (
+    <Animated.View
+      style={[
+        style,
+        {
+          opacity: fadeAnim,
+          transform: [
+            { translateY: slideAnim },
+            { scale: isHighlight ? scaleAnim : 1 },
+          ],
+        },
+      ]}
+    >
+      {children}
+    </Animated.View>
+  );
+}
 
 export default function ResultsDisplay({ results }) {
+  const prefersReducedMotion = useReducedMotion();
+
   if (!results) return null;
 
   const { gross, deductions, net, paymentType, fte } = results;
   const isNHSEnhanced = paymentType === 'nhsEnhanced';
 
+  let cardIndex = 0;
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      nativeID="results-printable"
+    >
       {/* Net Take-Home Summary */}
-      <View style={[styles.card, styles.highlightCard]}>
-        <Text style={styles.cardTitle}>Your Take-Home Maternity Pay</Text>
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={true}
+        prefersReducedMotion={prefersReducedMotion}
+        style={[styles.card, styles.highlightCard]}
+      >
+        <Text style={styles.highlightCardTitle}>Your Take-Home Maternity Pay</Text>
         <Text style={styles.mainAmount}>{formatCurrency(net.total)}</Text>
         <Text style={styles.period}>
           Over {gross.breakdown.totalWeeks} week
@@ -32,16 +118,29 @@ export default function ResultsDisplay({ results }) {
             <Text style={styles.breakdownAmount}>{formatCurrency(net.monthly)}</Text>
           </View>
         </View>
-      </View>
+      </AnimatedCard>
+
+      {/* Results Actions */}
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={false}
+        prefersReducedMotion={prefersReducedMotion}
+      >
+        <ResultsActions results={results} />
+      </AnimatedCard>
 
       {/* Gross Pay Breakdown */}
-      <View style={styles.card}>
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={false}
+        prefersReducedMotion={prefersReducedMotion}
+        style={[styles.card, shadows.md]}
+      >
         <Text style={styles.cardTitle}>Gross Maternity Pay</Text>
         <Text style={styles.amount}>{formatCurrency(gross.total)}</Text>
 
         <View style={styles.section}>
           {isNHSEnhanced ? (
-            // NHS Enhanced 3-phase breakdown
             <>
               {gross.breakdown.fullPay.weeks > 0 && (
                 <>
@@ -95,7 +194,6 @@ export default function ResultsDisplay({ results }) {
               )}
             </>
           ) : (
-            // Standard SMP 2-phase breakdown
             <>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>
@@ -110,7 +208,6 @@ export default function ResultsDisplay({ results }) {
                 {formatCurrency(gross.breakdown.higherRate.weeklyAmount)} per week
               </Text>
 
-              {/* Only show standard rate section if there are weeks */}
               {gross.breakdown.standardRate.weeks > 0 && (
                 <>
                   <View style={[styles.detailRow, { marginTop: spacing.md }]}>
@@ -130,10 +227,15 @@ export default function ResultsDisplay({ results }) {
             </>
           )}
         </View>
-      </View>
+      </AnimatedCard>
 
       {/* Deductions */}
-      <View style={styles.card}>
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={false}
+        prefersReducedMotion={prefersReducedMotion}
+        style={[styles.card, shadows.md]}
+      >
         <Text style={styles.cardTitle}>Deductions</Text>
 
         <View style={styles.section}>
@@ -167,18 +269,22 @@ export default function ResultsDisplay({ results }) {
             </Text>
           </View>
         </View>
-      </View>
+      </AnimatedCard>
 
       {/* Additional Benefits Card */}
       {results.additionalBenefits && results.additionalBenefits.total > 0 && (
-        <View style={styles.card}>
+        <AnimatedCard
+          index={cardIndex++}
+          isHighlight={false}
+          prefersReducedMotion={prefersReducedMotion}
+          style={[styles.card, shadows.md]}
+        >
           <Text style={styles.cardTitle}>Additional Benefits</Text>
           <Text style={styles.benefitSubtext}>
             Benefits you'll receive in addition to maternity pay
           </Text>
 
           <View style={styles.section}>
-            {/* Holiday Accrual */}
             {results.additionalBenefits.holidayAccrual.value > 0 && (
               <>
                 <View style={styles.detailRow}>
@@ -194,7 +300,6 @@ export default function ResultsDisplay({ results }) {
               </>
             )}
 
-            {/* KIT Days */}
             {results.additionalBenefits.kitDays.pay > 0 && (
               <>
                 <View style={[styles.detailRow, results.additionalBenefits.holidayAccrual.value > 0 && { marginTop: spacing.md }]}>
@@ -209,7 +314,6 @@ export default function ResultsDisplay({ results }) {
               </>
             )}
 
-            {/* Total Additional Benefits */}
             <View style={[styles.detailRow, styles.totalRow]}>
               <Text style={styles.totalLabel}>Total Additional Value</Text>
               <Text style={[styles.totalValue, styles.benefitTotal]}>
@@ -217,12 +321,17 @@ export default function ResultsDisplay({ results }) {
               </Text>
             </View>
           </View>
-        </View>
+        </AnimatedCard>
       )}
 
       {/* Warning Card for Unpaid Weeks */}
       {gross.breakdown.totalWeeks > 39 && (
-        <View style={[styles.card, styles.warningCard]}>
+        <AnimatedCard
+          index={cardIndex++}
+          isHighlight={false}
+          prefersReducedMotion={prefersReducedMotion}
+          style={[styles.card, styles.warningCard, shadows.sm]}
+        >
           <Text style={styles.warningTitle}>Unpaid Leave Period</Text>
           <Text style={styles.warningText}>
             You've calculated for {gross.breakdown.totalWeeks} weeks of maternity
@@ -231,11 +340,16 @@ export default function ResultsDisplay({ results }) {
             Weeks 40-{gross.breakdown.totalWeeks} would be unpaid leave, which is why
             your weekly and monthly averages may be lower than expected.
           </Text>
-        </View>
+        </AnimatedCard>
       )}
 
       {/* Info Card */}
-      <View style={[styles.card, styles.infoCard]}>
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={false}
+        prefersReducedMotion={prefersReducedMotion}
+        style={[styles.card, styles.infoCard]}
+      >
         <Text style={styles.infoTitle}>About This Calculation</Text>
         <Text style={styles.infoText}>
           This calculator uses 2025/26 UK tax rates, National Insurance
@@ -243,15 +357,15 @@ export default function ResultsDisplay({ results }) {
           {isNHSEnhanced ? (
             <>
               NHS Enhanced Maternity Pay (Agenda for Change) is paid for up to 39 weeks:{'\n\n'}
-              • First 8 weeks: 100% of full salary{'\n'}
-              • Next 18 weeks: 50% of salary + £184.75 SMP per week{'\n'}
-              • Final 13 weeks: £184.75 SMP per week only{'\n\n'}
+              {'\u2022'} First 8 weeks: 100% of full salary{'\n'}
+              {'\u2022'} Next 18 weeks: 50% of salary + {'\u00A3'}184.75 SMP per week{'\n'}
+              {'\u2022'} Final 13 weeks: {'\u00A3'}184.75 SMP per week only{'\n\n'}
             </>
           ) : gross.breakdown.totalWeeks === 39 ? (
             <>
               Statutory Maternity Pay (SMP) is paid for up to 39 weeks:{'\n\n'}
-              • First 6 weeks: 90% of average weekly earnings{'\n'}
-              • Next 33 weeks: £184.75 per week or 90% of average weekly earnings
+              {'\u2022'} First 6 weeks: 90% of average weekly earnings{'\n'}
+              {'\u2022'} Next 33 weeks: {'\u00A3'}184.75 per week or 90% of average weekly earnings
               (whichever is lower){'\n\n'}
             </>
           ) : gross.breakdown.totalWeeks <= 6 ? (
@@ -259,16 +373,16 @@ export default function ResultsDisplay({ results }) {
               Your calculation is for {gross.breakdown.totalWeeks} week
               {gross.breakdown.totalWeeks !== 1 ? 's' : ''}, which falls entirely
               within the higher rate period:{'\n\n'}
-              • All {gross.breakdown.totalWeeks} week
+              {'\u2022'} All {gross.breakdown.totalWeeks} week
               {gross.breakdown.totalWeeks !== 1 ? 's' : ''}: 90% of average weekly
               earnings{'\n\n'}
             </>
           ) : (
             <>
               Your calculation is for {gross.breakdown.totalWeeks} weeks:{'\n\n'}
-              • First {gross.breakdown.higherRate?.weeks || 0} weeks: 90% of average weekly
+              {'\u2022'} First {gross.breakdown.higherRate?.weeks || 0} weeks: 90% of average weekly
               earnings{'\n'}
-              • Next {gross.breakdown.standardRate?.weeks || 0} weeks: £184.75 per week or
+              {'\u2022'} Next {gross.breakdown.standardRate?.weeks || 0} weeks: {'\u00A3'}184.75 per week or
               90% of average weekly earnings (whichever is lower){'\n\n'}
             </>
           )}
@@ -281,46 +395,51 @@ export default function ResultsDisplay({ results }) {
           {fte && fte < 1.0 && (
             <>
               Part-time Calculation ({fte} FTE):{'\n'}
-              • Maternity pay is based on your actual annual salary{'\n'}
-              • Holiday accrual is pro-rated to {fte} FTE{'\n'}
-              • KIT days daily rate reflects your working pattern{'\n\n'}
+              {'\u2022'} Maternity pay is based on your actual annual salary{'\n'}
+              {'\u2022'} Holiday accrual is pro-rated to {fte} FTE{'\n'}
+              {'\u2022'} KIT days daily rate reflects your working pattern{'\n\n'}
             </>
           )}
           {results.additionalBenefits && results.additionalBenefits.total > 0 && (
             <>
               Additional Benefits:{'\n'}
               {results.additionalBenefits.holidayAccrual.value > 0 && (
-                <>• Holiday accrual: You continue to accrue holiday during maternity leave at your normal rate{'\n'}</>
+                <>{'\u2022'} Holiday accrual: You continue to accrue holiday during maternity leave at your normal rate{'\n'}</>
               )}
               {results.additionalBenefits.kitDays.pay > 0 && (
-                <>• KIT days: Keeping in Touch days ({results.additionalBenefits.kitDays.days} included) are paid at your normal daily rate on top of maternity pay{'\n'}</>
+                <>{'\u2022'} KIT days: Keeping in Touch days ({results.additionalBenefits.kitDays.days} included) are paid at your normal daily rate on top of maternity pay{'\n'}</>
               )}
-              • These additional benefits are shown separately as they may have different tax treatment and payment timing{'\n\n'}
+              {'\u2022'} These additional benefits are shown separately as they may have different tax treatment and payment timing{'\n\n'}
             </>
           )}
           Deductions are calculated based on your maternity pay income during the{' '}
           {gross.breakdown.totalWeeks}-week period.{'\n\n'}
           Last updated: 2025/26 tax year
         </Text>
-      </View>
+      </AnimatedCard>
 
       {/* Feedback Card */}
-      <View style={[styles.card, styles.feedbackCard]}>
+      <AnimatedCard
+        index={cardIndex++}
+        isHighlight={false}
+        prefersReducedMotion={prefersReducedMotion}
+        style={[styles.card, styles.feedbackCard]}
+      >
         <Text style={styles.feedbackTitle}>Was this helpful?</Text>
         <Text style={styles.feedbackText}>
           Help us improve this calculator by sharing your feedback. Your input helps NHS staff plan their maternity leave with confidence.
         </Text>
         <TouchableOpacity
-          style={styles.feedbackButton}
+          style={[styles.feedbackButton, shadows.primary]}
           onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLSd38DVf5ZtRUsnQ_JXOJQFFHIvSRpZizy4toUm32VjzvAi7Mw/viewform')}
           activeOpacity={0.8}
         >
           <Text style={styles.feedbackButtonText}>Give Feedback</Text>
         </TouchableOpacity>
         <Text style={styles.feedbackNote}>
-          Takes less than 2 minutes • Completely anonymous
+          Takes less than 2 minutes {'\u2022'} Completely anonymous
         </Text>
-      </View>
+      </AnimatedCard>
 
       <View style={styles.bottomSpacing} />
     </ScrollView>
@@ -337,34 +456,39 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.lg,
     padding: spacing.lg,
     marginBottom: spacing.md,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
   },
   highlightCard: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primaryDark,
+  },
+  highlightCardTitle: {
+    ...typography.subheading,
+    fontFamily: fontFamily.medium,
+    color: 'rgba(255,255,255,0.8)',
+    marginBottom: spacing.sm,
   },
   cardTitle: {
     ...typography.subheading,
+    fontFamily: fontFamily.medium,
     color: colors.textSecondary,
     marginBottom: spacing.sm,
   },
   mainAmount: {
     fontSize: 40,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.cardBackground,
     marginBottom: spacing.xs,
   },
   amount: {
     fontSize: 32,
     fontWeight: '700',
+    fontFamily: fontFamily.bold,
     color: colors.primary,
     marginBottom: spacing.md,
   },
   period: {
     ...typography.body,
+    fontFamily: fontFamily.regular,
     color: colors.cardBackground,
     opacity: 0.9,
     marginBottom: spacing.lg,
@@ -373,7 +497,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: borderRadius.md,
     padding: spacing.md,
   },
@@ -384,16 +508,18 @@ const styles = StyleSheet.create({
   divider: {
     width: 1,
     height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
   },
   breakdownLabel: {
     ...typography.small,
+    fontFamily: fontFamily.regular,
     color: colors.cardBackground,
     opacity: 0.8,
     marginBottom: spacing.xs,
   },
   breakdownAmount: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.cardBackground,
     fontWeight: '600',
   },
@@ -408,15 +534,18 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     ...typography.body,
+    fontFamily: fontFamily.regular,
     color: colors.textPrimary,
   },
   detailValue: {
     ...typography.body,
+    fontFamily: fontFamily.semiBold,
     color: colors.textPrimary,
     fontWeight: '600',
   },
   detailSubtext: {
     ...typography.small,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     marginTop: spacing.xs,
     marginBottom: spacing.sm,
@@ -429,11 +558,13 @@ const styles = StyleSheet.create({
   },
   totalLabel: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.textPrimary,
     fontWeight: '600',
   },
   totalValue: {
     ...typography.subheading,
+    fontFamily: fontFamily.bold,
     color: colors.accent,
     fontWeight: '700',
   },
@@ -444,28 +575,32 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.textPrimary,
     fontWeight: '600',
     marginBottom: spacing.sm,
   },
   infoText: {
     ...typography.body,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 24,
   },
   warningCard: {
-    backgroundColor: '#FFF9F5',
+    backgroundColor: colors.warningCardBg,
     borderLeftWidth: 4,
-    borderLeftColor: colors.accent,
+    borderLeftColor: colors.warning,
   },
   warningTitle: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.textPrimary,
     fontWeight: '600',
     marginBottom: spacing.sm,
   },
   warningText: {
     ...typography.body,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 24,
   },
@@ -474,21 +609,23 @@ const styles = StyleSheet.create({
   },
   benefitSubtext: {
     ...typography.small,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     marginBottom: spacing.md,
     fontStyle: 'italic',
   },
   benefitTotal: {
-    color: '#7FD4A8', // Success green color
+    color: colors.sage,
   },
   feedbackCard: {
-    backgroundColor: '#F8F9FF',
+    backgroundColor: colors.feedbackCardBg,
     borderWidth: 1,
     borderColor: colors.primary,
     borderStyle: 'dashed',
   },
   feedbackTitle: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.textPrimary,
     fontWeight: '600',
     marginBottom: spacing.xs,
@@ -496,6 +633,7 @@ const styles = StyleSheet.create({
   },
   feedbackText: {
     ...typography.body,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     lineHeight: 22,
     textAlign: 'center',
@@ -506,19 +644,16 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.md,
     padding: spacing.md,
     alignItems: 'center',
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
   },
   feedbackButtonText: {
     ...typography.subheading,
+    fontFamily: fontFamily.semiBold,
     color: colors.cardBackground,
     fontWeight: '600',
   },
   feedbackNote: {
     ...typography.small,
+    fontFamily: fontFamily.regular,
     color: colors.textSecondary,
     textAlign: 'center',
     marginTop: spacing.sm,
