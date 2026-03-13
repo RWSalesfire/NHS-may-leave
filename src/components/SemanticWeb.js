@@ -10,11 +10,19 @@ function flattenStyle(style) {
   return StyleSheet.flatten(style);
 }
 
+// React Native Web's View sets display:flex, flexDirection:column, and box-sizing
+// by default. Raw HTML elements need these explicitly to behave the same way.
+const VIEW_DEFAULTS = {
+  display: 'flex',
+  flexDirection: 'column',
+  boxSizing: 'border-box',
+};
+
 function createSemanticView(tag) {
   if (Platform.OS !== 'web') return View;
 
   return React.forwardRef(function SemanticView({ style, ...props }, ref) {
-    return React.createElement(tag, { ...props, ref, style: flattenStyle(style) });
+    return React.createElement(tag, { ...props, ref, style: { ...VIEW_DEFAULTS, ...flattenStyle(style) } });
   });
 }
 
