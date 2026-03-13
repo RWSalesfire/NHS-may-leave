@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import usePageMeta from '../hooks/usePageMeta';
 import { H1, H2, Section, Article } from '../components/SemanticWeb';
+import AdUnit from '../components/AdUnit';
 
 /* ─── Custom Icons (replacing emojis) ─── */
 
@@ -378,6 +379,8 @@ export default function HomePage() {
             <Text style={styles.textLink}>Learn more about NHS maternity pay</Text>
           </Link>
         </Section>
+
+        <AdUnit slot="2240359644" style={{ marginVertical: spacing.md }} />
 
         {/* NHS Trust CTA */}
         <View style={[styles.trustCta, shadows.sm, isMobile && styles.trustCtaMobile]}>

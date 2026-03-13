@@ -170,17 +170,21 @@ export default function FAQPage() {
 
         <View style={styles.faqList}>
           {FAQ_DATA.map((faq, index) => (
-            <FAQItem
-              key={index}
-              faq={faq}
-              index={index}
-              isExpanded={expandedIndex === index}
-              onToggle={() => toggleFAQ(index)}
-            />
+            <React.Fragment key={index}>
+              <FAQItem
+                faq={faq}
+                index={index}
+                isExpanded={expandedIndex === index}
+                onToggle={() => toggleFAQ(index)}
+              />
+              {index === 7 && (
+                <AdUnit slot="4791335512" layout="in-article" style={{ marginVertical: spacing.sm }} />
+              )}
+            </React.Fragment>
           ))}
         </View>
 
-        <AdUnit slot="FAQ_INCONTENT_SLOT" format="auto" />
+        <AdUnit slot="1294439054" style={{ marginTop: spacing.lg }} />
 
         <View style={styles.ctaSection}>
           <Text style={styles.ctaTitle}>Still Have Questions?</Text>

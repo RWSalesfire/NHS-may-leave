@@ -116,7 +116,7 @@ export default function CalculatorPage() {
             ) : showResults ? (
               <>
                 <ResultsDisplay results={results} calculationInputs={calculationInputs} onRecalculate={handleRecalculate} />
-                <AdUnit slot="CALCULATOR_RESULTS_SLOT" format="horizontal" />
+                <AdUnit slot="9796250181" style={{ marginTop: spacing.lg }} />
                 <View style={styles.resetButtonContainer}>
                   <TouchableOpacity
                     style={[styles.resetButton, shadows.primary]}

@@ -148,7 +148,7 @@ export default function GuidePage() {
           </Text>
         </View>
 
-        <AdUnit slot="GUIDE_INCONTENT_SLOT" format="auto" />
+        <AdUnit slot="8965550098" layout="in-article" style={{ marginVertical: spacing.lg }} />
 
         <View style={styles.section}>
           <H2 style={styles.sectionTitle}>Tax and National Insurance</H2>
@@ -186,6 +186,8 @@ export default function GuidePage() {
             of your maternity leave or taken when you return to work.
           </Text>
         </View>
+
+        <AdUnit slot="1917760162" style={{ marginBottom: spacing.lg }} />
 
         <View style={styles.ctaSection}>
           <Text style={styles.ctaTitle}>Ready to Calculate Your Maternity Pay?</Text>

@@ -5,6 +5,7 @@ import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
 import { Article } from '../components/SemanticWeb';
+import AdUnit from '../components/AdUnit';
 import UnderstandingNHSMaternityPay from './blog/UnderstandingNHSMaternityPay';
 import BudgetingForMaternityLeave from './blog/BudgetingForMaternityLeave';
 import MaternityPayByBand from './blog/MaternityPayByBand';
@@ -190,6 +191,7 @@ function BlogPostView({ slug }) {
           <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
         </Link>
         {renderContent()}
+        <AdUnit slot="6778370455" style={{ marginTop: spacing.xl }} />
       </View>
     </Article>
   );
