@@ -72,6 +72,8 @@ export default function ContactPage() {
                   onChangeText={(text) => setFormData({ ...formData, name: text })}
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField(null)}
+                  accessibilityLabel="Your name"
+                  autoComplete="name"
                 />
               </View>
 
@@ -86,6 +88,8 @@ export default function ContactPage() {
                   onChangeText={(text) => setFormData({ ...formData, email: text })}
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
+                  accessibilityLabel="Email address"
+                  autoComplete="email"
                 />
               </View>
 
@@ -99,6 +103,7 @@ export default function ContactPage() {
                   onChangeText={(text) => setFormData({ ...formData, subject: text })}
                   onFocus={() => setFocusedField('subject')}
                   onBlur={() => setFocusedField(null)}
+                  accessibilityLabel="Subject"
                 />
               </View>
 
@@ -114,6 +119,7 @@ export default function ContactPage() {
                   onChangeText={(text) => setFormData({ ...formData, message: text })}
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField(null)}
+                  accessibilityLabel="Message"
                 />
               </View>
 
@@ -130,6 +136,8 @@ export default function ContactPage() {
                   style={[styles.submitButton, shadows.primary, submitting && { opacity: 0.6 }]}
                   onPress={handleSubmit}
                   disabled={submitting}
+                  accessibilityRole="button"
+                  accessibilityLabel={submitting ? 'Sending message' : 'Send message'}
                 >
                   <Text style={styles.submitButtonText}>{submitting ? 'Sending...' : 'Send Message'}</Text>
                 </TouchableOpacity>

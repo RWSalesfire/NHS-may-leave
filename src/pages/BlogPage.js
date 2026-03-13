@@ -12,12 +12,54 @@ import MaternityPayByBand from './blog/MaternityPayByBand';
 import NHSMaternityLeaveRights from './blog/NHSMaternityLeaveRights';
 import ReturningToWorkAfterMaternity from './blog/ReturningToWorkAfterMaternity';
 import KITDaysExplained from './blog/KITDaysExplained';
+import SpreadingMaternityPay from './blog/SpreadingMaternityPay';
+import MaternityPayAndPension from './blog/MaternityPayAndPension';
+import AnnualLeaveDuringMaternity from './blog/AnnualLeaveDuringMaternity';
+import MaternityPaySecondBaby from './blog/MaternityPaySecondBaby';
+
+const BLOG_AUTHOR = {
+  name: 'MyMatPay Team',
+  credential: 'NHS maternity pay specialists',
+};
 
 const BLOG_POSTS = [
+  {
+    title: "Can You Spread NHS Maternity Pay Over 12 Months?",
+    excerpt: "Some NHS Trusts allow you to average your maternity pay into equal monthly payments. Learn how spreading works, whether your Trust offers it, and if it is the right choice for you.",
+    date: "March 13, 2026",
+    lastUpdated: "March 13, 2026",
+    category: "Financial Planning",
+    slug: "spreading-maternity-pay"
+  },
+  {
+    title: "NHS Maternity Pay and Your Pension: What You Need to Know",
+    excerpt: "How maternity leave affects your NHS pension contributions, what your employer pays, and how to buy back pension for unpaid periods.",
+    date: "March 13, 2026",
+    lastUpdated: "March 13, 2026",
+    category: "Financial Planning",
+    slug: "maternity-pay-and-pension"
+  },
+  {
+    title: "Annual Leave During NHS Maternity Leave: Your Rights",
+    excerpt: "You continue to accrue annual leave throughout maternity leave, including unpaid periods. Learn how to use this strategically to extend your time off.",
+    date: "March 13, 2026",
+    lastUpdated: "March 13, 2026",
+    category: "Legal & Policy",
+    slug: "annual-leave-during-maternity"
+  },
+  {
+    title: "NHS Maternity Pay for a Second Baby: What Changes?",
+    excerpt: "Planning a second baby while working for the NHS? Learn how back-to-back pregnancies affect your average weekly earnings and what you can do about it.",
+    date: "March 13, 2026",
+    lastUpdated: "March 13, 2026",
+    category: "NHS Policy",
+    slug: "maternity-pay-second-baby"
+  },
   {
     title: "How Bank Shifts Can Boost Your NHS Maternity Pay",
     excerpt: "A practical guide to strategically timing extra shifts to maximise your average weekly earnings and increase your maternity pay. Learn what counts, what doesn't, and how to plan.",
     date: "March 2, 2026",
+    lastUpdated: "March 13, 2026",
     category: "Financial Planning",
     slug: "bank-shifts-maternity-pay"
   },
@@ -25,6 +67,7 @@ const BLOG_POSTS = [
     title: "Understanding NHS Maternity Pay: A Complete Guide",
     excerpt: "Everything you need to know about NHS occupational maternity pay, including eligibility, payment structure, and how it compares to statutory maternity pay.",
     date: "March 1, 2026",
+    lastUpdated: "March 13, 2026",
     category: "NHS Policy",
     slug: "understanding-nhs-maternity-pay"
   },
@@ -32,6 +75,7 @@ const BLOG_POSTS = [
     title: "Budgeting for Maternity Leave: Financial Planning Tips for NHS Staff",
     excerpt: "Practical advice on how to prepare financially for maternity leave, including budgeting strategies and money-saving tips.",
     date: "February 28, 2026",
+    lastUpdated: "March 13, 2026",
     category: "Financial Planning",
     slug: "budgeting-for-maternity-leave"
   },
@@ -39,6 +83,7 @@ const BLOG_POSTS = [
     title: "Maternity Pay Differences: Band 2 vs Band 5 vs Band 8",
     excerpt: "How maternity pay varies across different NHS bands and what you can expect based on your salary grade.",
     date: "February 25, 2026",
+    lastUpdated: "March 13, 2026",
     category: "NHS Specific",
     slug: "maternity-pay-by-band"
   },
@@ -46,6 +91,7 @@ const BLOG_POSTS = [
     title: "Your Rights: NHS Maternity Leave Policy Explained",
     excerpt: "A comprehensive guide to your legal rights during maternity leave, including job protection and return-to-work options.",
     date: "February 20, 2026",
+    lastUpdated: "March 13, 2026",
     category: "Legal & Policy",
     slug: "nhs-maternity-leave-rights"
   },
@@ -53,6 +99,7 @@ const BLOG_POSTS = [
     title: "Returning to NHS Work After Maternity Leave: What to Expect",
     excerpt: "Tips and guidance for planning your return to work, including flexible working options and childcare considerations.",
     date: "February 15, 2026",
+    lastUpdated: "March 13, 2026",
     category: "Returning to Work",
     slug: "returning-to-work-after-maternity"
   },
@@ -60,6 +107,7 @@ const BLOG_POSTS = [
     title: "Keeping in Touch (KIT) Days: How They Work",
     excerpt: "Everything you need to know about KIT days, including how to use them and how they affect your maternity pay.",
     date: "February 10, 2026",
+    lastUpdated: "March 13, 2026",
     category: "NHS Policy",
     slug: "kit-days-explained"
   },
@@ -190,6 +238,14 @@ function BlogPostView({ slug }) {
         return <ReturningToWorkAfterMaternity post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
       case 'kit-days-explained':
         return <KITDaysExplained post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'spreading-maternity-pay':
+        return <SpreadingMaternityPay post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'maternity-pay-and-pension':
+        return <MaternityPayAndPension post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'annual-leave-during-maternity':
+        return <AnnualLeaveDuringMaternity post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'maternity-pay-second-baby':
+        return <MaternityPaySecondBaby post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
       default:
         return null;
     }
@@ -205,6 +261,13 @@ function BlogPostView({ slug }) {
           <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
         </Link>
         {renderContent()}
+        <View style={styles.authorByline}>
+          <Text style={styles.authorName}>By {BLOG_AUTHOR.name}</Text>
+          <Text style={styles.authorCredential}>{BLOG_AUTHOR.credential}</Text>
+          {post.lastUpdated && post.lastUpdated !== post.date && (
+            <Text style={styles.lastUpdated}>Last updated: {post.lastUpdated}</Text>
+          )}
+        </View>
         <AdUnit slot="6778370455" style={{ marginTop: spacing.xl }} />
 
         {/* Related Articles */}
@@ -393,6 +456,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: fontFamily.semiBold,
+  },
+  authorByline: {
+    marginTop: spacing.xl,
+    paddingTop: spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  authorName: {
+    fontSize: 14,
+    fontFamily: fontFamily.semiBold,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  authorCredential: {
+    fontSize: 13,
+    fontFamily: fontFamily.regular,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  lastUpdated: {
+    fontSize: 13,
+    fontFamily: fontFamily.regular,
+    color: colors.textSecondary,
+    marginTop: spacing.xs,
   },
   relatedSection: {
     marginTop: spacing.xl * 2,

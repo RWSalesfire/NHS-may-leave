@@ -128,11 +128,11 @@ export default function ForTrustsPage() {
           </Text>
 
           <View style={styles.form}>
-            <TextInput style={styles.input} placeholder="Trust Name" placeholderTextColor={colors.textSecondary} value={formData.trustName} onChangeText={(text) => setFormData({ ...formData, trustName: text })} />
-            <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={colors.textSecondary} value={formData.name} onChangeText={(text) => setFormData({ ...formData, name: text })} />
-            <TextInput style={styles.input} placeholder="Your Role (e.g., HR Director)" placeholderTextColor={colors.textSecondary} value={formData.role} onChangeText={(text) => setFormData({ ...formData, role: text })} />
-            <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor={colors.textSecondary} keyboardType="email-address" value={formData.email} onChangeText={(text) => setFormData({ ...formData, email: text })} />
-            <TextInput style={[styles.input, styles.textarea]} placeholder="Message (optional)" placeholderTextColor={colors.textSecondary} multiline numberOfLines={4} value={formData.message} onChangeText={(text) => setFormData({ ...formData, message: text })} />
+            <TextInput style={styles.input} placeholder="Trust Name" placeholderTextColor={colors.textSecondary} value={formData.trustName} onChangeText={(text) => setFormData({ ...formData, trustName: text })} accessibilityLabel="Trust name" autoComplete="organization" />
+            <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={colors.textSecondary} value={formData.name} onChangeText={(text) => setFormData({ ...formData, name: text })} accessibilityLabel="Your name" autoComplete="name" />
+            <TextInput style={styles.input} placeholder="Your Role (e.g., HR Director)" placeholderTextColor={colors.textSecondary} value={formData.role} onChangeText={(text) => setFormData({ ...formData, role: text })} accessibilityLabel="Your role" />
+            <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor={colors.textSecondary} keyboardType="email-address" value={formData.email} onChangeText={(text) => setFormData({ ...formData, email: text })} accessibilityLabel="Email address" autoComplete="email" />
+            <TextInput style={[styles.input, styles.textarea]} placeholder="Message (optional)" placeholderTextColor={colors.textSecondary} multiline numberOfLines={4} value={formData.message} onChangeText={(text) => setFormData({ ...formData, message: text })} accessibilityLabel="Message" />
 
             {error ? (
               <Text style={styles.errorText}>{error}</Text>
@@ -147,6 +147,8 @@ export default function ForTrustsPage() {
                 style={[styles.submitButton, shadows.primary, submitting && { opacity: 0.6 }]}
                 onPress={handleDemoSubmit}
                 disabled={submitting}
+                accessibilityRole="button"
+                accessibilityLabel={submitting ? 'Sending demo request' : 'Request demo'}
               >
                 <Text style={styles.submitButtonText}>{submitting ? 'Sending...' : 'Request Demo'}</Text>
               </TouchableOpacity>
