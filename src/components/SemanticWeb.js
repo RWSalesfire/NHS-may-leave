@@ -35,6 +35,15 @@ function createSemanticView(tag) {
   });
 }
 
+// React Native treats lineHeight as absolute pixels, but CSS treats unitless
+// line-height as a multiplier of font-size. Convert to px string for raw elements.
+function fixTextStyles(styleObj) {
+  if (styleObj && typeof styleObj.lineHeight === 'number') {
+    return { ...styleObj, lineHeight: styleObj.lineHeight + 'px' };
+  }
+  return styleObj;
+}
+
 function createSemanticText(tag, resetStyle) {
   if (Platform.OS !== 'web') return Text;
 
@@ -42,7 +51,7 @@ function createSemanticText(tag, resetStyle) {
     const merged = resetStyle
       ? { ...resetStyle, ...flattenStyle(style) }
       : flattenStyle(style);
-    return React.createElement(tag, { ...props, ref, style: merged });
+    return React.createElement(tag, { ...props, ref, style: fixTextStyles(merged) });
   });
 }
 
