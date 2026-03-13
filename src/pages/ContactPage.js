@@ -11,11 +11,36 @@ export default function ContactPage() {
   });
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [focusedField, setFocusedField] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
 
-  const handleSubmit = () => {
-    alert("Thank you for your message! We'll get back to you soon.");
+  const handleSubmit = async () => {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setError('Please fill in your name, email, and message.');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      const response = await fetch('https://formspree.io/f/xkgwlpdn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setError('Something went wrong. Please try emailing us directly at support@nhsmatpay.com.');
+      }
+    } catch {
+      setError('Something went wrong. Please try emailing us directly at support@nhsmatpay.com.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputStyle = (field) => [
@@ -92,9 +117,23 @@ export default function ContactPage() {
                 />
               </View>
 
-              <TouchableOpacity style={[styles.submitButton, shadows.primary]} onPress={handleSubmit}>
-                <Text style={styles.submitButtonText}>Send Message</Text>
-              </TouchableOpacity>
+              {error ? (
+                <Text style={styles.errorText}>{error}</Text>
+              ) : null}
+
+              {submitted ? (
+                <View style={styles.successBox}>
+                  <Text style={styles.successText}>Thank you for your message. We will get back to you within 48 hours.</Text>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={[styles.submitButton, shadows.primary, submitting && { opacity: 0.6 }]}
+                  onPress={handleSubmit}
+                  disabled={submitting}
+                >
+                  <Text style={styles.submitButtonText}>{submitting ? 'Sending...' : 'Send Message'}</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
 
@@ -334,5 +373,22 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.regular,
     color: colors.text,
     lineHeight: 20,
+  },
+  errorText: {
+    fontSize: 14,
+    fontFamily: fontFamily.regular,
+    color: '#D32F2F',
+    marginBottom: spacing.sm,
+  },
+  successBox: {
+    backgroundColor: '#E8F5E9',
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+  },
+  successText: {
+    fontSize: 15,
+    fontFamily: fontFamily.medium,
+    color: '#2E7D32',
+    textAlign: 'center',
   },
 });

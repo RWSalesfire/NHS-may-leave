@@ -90,7 +90,7 @@ function CookieSettingsLink() {
 
 const styles = StyleSheet.create({
   footer: {
-    backgroundColor: colors.textPrimary,
+    backgroundColor: colors.text,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
   },

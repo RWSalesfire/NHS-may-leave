@@ -1,44 +1,49 @@
-// NHS Maternity Pay Calculator — Warm & Reassuring Theme
-// Soft blues, blush/coral/sage accents, rounded elements
+// NHS Maternity Pay Calculator — Professional & Warm Theme
+// Confident NHS-adjacent blue, blush/coral/sage accents, refined warmth
 
 export const colors = {
-  // Primary — Soft Periwinkle Blue
-  primary: '#5B8DB8',
-  primaryLight: '#92B4D4',
-  primaryDark: '#3D6F99',
+  // Primary — Confident Blue (NHS-inspired, warmer)
+  primary: '#2B6CB0',
+  primaryLight: '#6BA3D6',
+  primaryDark: '#1A4D80',
+  primaryMuted: '#8BB8DC',
 
   // Accent — Warm Blush Coral
   accent: '#E8907A',
   accentLight: '#F2B5A6',
+  accentSoft: '#FCEEE9',
 
   // Sage — Calm Green (also used as success)
   sage: '#7BAE8C',
   sageLight: '#A8CDB5',
   sageDark: '#5E9470',
+  sageSoft: '#EEF6F1',
 
   // Warm Surfaces
   warmCream: '#FDF8F3',
   blush: '#FDE8E3',
 
   // Backgrounds
-  background: '#FDF8F3',
+  background: '#FAFAF8',
   cardBackground: '#FFFFFF',
   inputBackground: '#FDF8F3',
 
   // Borders & Dividers
-  border: '#E4DDD6',
+  border: '#E8E4DE',
+  borderLight: '#F0ECE6',
 
   // Text
-  text: '#1E3048',
-  textPrimary: '#1E3048',
+  text: '#1A2B3D',
+  textPrimary: '#1A2B3D',
   textSecondary: '#5A6B7F',
+  textMuted: '#8B95A3',
 
   // Status
   success: '#7BAE8C',
   warning: '#E8A838',
   error: '#D46B6B',
 
-  // Semantic Surface Tokens (replaces color + hex opacity hacks)
+  // Semantic Surface Tokens
   primarySurface: '#EBF2F8',
   warningSurface: '#FDF3E0',
   successSurface: '#EDF6F0',
@@ -46,6 +51,10 @@ export const colors = {
   warningCardBg: '#FEF7E8',
   feedbackCardBg: '#F4F6FC',
   legalDivider: '#E4DDD6',
+
+  // Hero gradient
+  heroGradientStart: '#EBF2F8',
+  heroGradientEnd: '#FAFAF8',
 };
 
 export const spacing = {
@@ -117,31 +126,31 @@ export const fontFamily = {
 
 export const shadows = {
   sm: {
-    shadowColor: '#1E3048',
+    shadowColor: '#1A2B3D',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.05,
     shadowRadius: 3,
     elevation: 1,
   },
   md: {
-    shadowColor: '#1E3048',
+    shadowColor: '#1A2B3D',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
+    shadowOpacity: 0.07,
+    shadowRadius: 10,
     elevation: 2,
   },
   lg: {
-    shadowColor: '#1E3048',
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: '#1A2B3D',
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.1,
-    shadowRadius: 16,
+    shadowRadius: 20,
     elevation: 4,
   },
   primary: {
-    shadowColor: '#5B8DB8',
+    shadowColor: '#2B6CB0',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
+    shadowOpacity: 0.2,
+    shadowRadius: 14,
     elevation: 5,
   },
 };

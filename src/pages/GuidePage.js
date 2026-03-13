@@ -5,8 +5,6 @@ import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
 import AdUnit from '../components/AdUnit';
-import AffiliateBanner from '../components/AffiliateBanner';
-import AFFILIATES from '../constants/affiliates';
 
 const PERIOD_COLORS = [colors.sage, colors.primary, colors.accent, colors.textSecondary];
 
@@ -138,13 +136,6 @@ export default function GuidePage() {
         </View>
 
         <AdUnit slot="GUIDE_INCONTENT_SLOT" format="auto" />
-        <AffiliateBanner
-          affiliateId="maternityBooks"
-          title={AFFILIATES.maternityBooks.title}
-          description={AFFILIATES.maternityBooks.description}
-          ctaText={AFFILIATES.maternityBooks.ctaText}
-          url={AFFILIATES.maternityBooks.url}
-        />
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tax and National Insurance</Text>

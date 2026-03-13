@@ -4,6 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
+import UnderstandingNHSMaternityPay from './blog/UnderstandingNHSMaternityPay';
+import BudgetingForMaternityLeave from './blog/BudgetingForMaternityLeave';
+import MaternityPayByBand from './blog/MaternityPayByBand';
+import NHSMaternityLeaveRights from './blog/NHSMaternityLeaveRights';
+import ReturningToWorkAfterMaternity from './blog/ReturningToWorkAfterMaternity';
+import KITDaysExplained from './blog/KITDaysExplained';
 
 const BLOG_POSTS = [
   {
@@ -156,22 +162,24 @@ function BlogPostView({ slug }) {
   }
 
   const renderContent = () => {
-    if (slug === 'bank-shifts-maternity-pay') {
-      return <BankShiftsBlogPost post={post} />;
+    switch (slug) {
+      case 'bank-shifts-maternity-pay':
+        return <BankShiftsBlogPost post={post} />;
+      case 'understanding-nhs-maternity-pay':
+        return <UnderstandingNHSMaternityPay post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'budgeting-for-maternity-leave':
+        return <BudgetingForMaternityLeave post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'maternity-pay-by-band':
+        return <MaternityPayByBand post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'nhs-maternity-leave-rights':
+        return <NHSMaternityLeaveRights post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'returning-to-work-after-maternity':
+        return <ReturningToWorkAfterMaternity post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      case 'kit-days-explained':
+        return <KITDaysExplained post={post} styles={styles} CATEGORY_COLORS={CATEGORY_COLORS} />;
+      default:
+        return null;
     }
-    return (
-      <View>
-        <View style={[styles.categoryPill, { backgroundColor: (CATEGORY_COLORS[post.category] || colors.primary) + '20', marginBottom: spacing.md }]}>
-          <Text style={[styles.blogCategory, { color: CATEGORY_COLORS[post.category] || colors.primary }]}>
-            {post.category}
-          </Text>
-        </View>
-        <Text style={styles.articleTitle}>{post.title}</Text>
-        <Text style={styles.articleDate}>{post.date}</Text>
-        <Text style={styles.articleBody}>{post.excerpt}</Text>
-        <Text style={styles.articleBody}>Full article coming soon.</Text>
-      </View>
-    );
   };
 
   return (
@@ -224,14 +232,6 @@ export default function BlogPage() {
               </Link>
             </View>
           ))}
-        </View>
-
-        <View style={[styles.comingSoon, shadows.sm]}>
-          <Text style={styles.comingSoonTitle}>More Articles Coming Soon!</Text>
-          <Text style={styles.comingSoonText}>
-            We're working on creating comprehensive guides and resources for NHS staff.
-            Check back regularly for new articles.
-          </Text>
         </View>
       </View>
     </ScrollView>
@@ -298,26 +298,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     fontFamily: fontFamily.semiBold,
-  },
-  comingSoon: {
-    backgroundColor: colors.cardBackground,
-    borderRadius: borderRadius.lg,
-    padding: spacing.xl,
-    marginTop: spacing.xl * 2,
-    alignItems: 'center',
-  },
-  comingSoonTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    fontFamily: fontFamily.semiBold,
-    color: colors.text,
-    marginBottom: spacing.sm,
-  },
-  comingSoonText: {
-    fontSize: 16,
-    fontFamily: fontFamily.regular,
-    color: colors.textSecondary,
-    textAlign: 'center',
   },
   articleContent: {
     maxWidth: 800,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
@@ -12,6 +12,36 @@ export default function ForTrustsPage() {
   });
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
+  const [formData, setFormData] = useState({ trustName: '', name: '', role: '', email: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleDemoSubmit = async () => {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.trustName.trim()) {
+      setError('Please fill in trust name, your name, and email.');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      const response = await fetch('https://formspree.io/f/xkgwlpdn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ ...formData, _subject: 'Trust Demo Request' }),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ trustName: '', name: '', role: '', email: '', message: '' });
+      } else {
+        setError('Something went wrong. Please try emailing us directly at trusts@nhsmatpay.com.');
+      }
+    } catch {
+      setError('Something went wrong. Please try emailing us directly at trusts@nhsmatpay.com.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -97,15 +127,29 @@ export default function ForTrustsPage() {
           </Text>
 
           <View style={styles.form}>
-            <TextInput style={styles.input} placeholder="Trust Name" placeholderTextColor={colors.textSecondary} />
-            <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={colors.textSecondary} />
-            <TextInput style={styles.input} placeholder="Your Role (e.g., HR Director)" placeholderTextColor={colors.textSecondary} />
-            <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor={colors.textSecondary} keyboardType="email-address" />
-            <TextInput style={[styles.input, styles.textarea]} placeholder="Message (optional)" placeholderTextColor={colors.textSecondary} multiline numberOfLines={4} />
+            <TextInput style={styles.input} placeholder="Trust Name" placeholderTextColor={colors.textSecondary} value={formData.trustName} onChangeText={(text) => setFormData({ ...formData, trustName: text })} />
+            <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={colors.textSecondary} value={formData.name} onChangeText={(text) => setFormData({ ...formData, name: text })} />
+            <TextInput style={styles.input} placeholder="Your Role (e.g., HR Director)" placeholderTextColor={colors.textSecondary} value={formData.role} onChangeText={(text) => setFormData({ ...formData, role: text })} />
+            <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor={colors.textSecondary} keyboardType="email-address" value={formData.email} onChangeText={(text) => setFormData({ ...formData, email: text })} />
+            <TextInput style={[styles.input, styles.textarea]} placeholder="Message (optional)" placeholderTextColor={colors.textSecondary} multiline numberOfLines={4} value={formData.message} onChangeText={(text) => setFormData({ ...formData, message: text })} />
 
-            <TouchableOpacity style={[styles.submitButton, shadows.primary]}>
-              <Text style={styles.submitButtonText}>Request Demo</Text>
-            </TouchableOpacity>
+            {error ? (
+              <Text style={styles.errorText}>{error}</Text>
+            ) : null}
+
+            {submitted ? (
+              <View style={styles.successBox}>
+                <Text style={styles.successText}>Thank you for your interest. We will be in touch within 48 hours.</Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={[styles.submitButton, shadows.primary, submitting && { opacity: 0.6 }]}
+                onPress={handleDemoSubmit}
+                disabled={submitting}
+              >
+                <Text style={styles.submitButtonText}>{submitting ? 'Sending...' : 'Request Demo'}</Text>
+              </TouchableOpacity>
+            )}
 
             <Text style={styles.formNote}>
               Or email us directly at: <Text style={styles.email}>trusts@nhsmatpay.com</Text>
@@ -311,5 +355,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: fontFamily.semiBold,
+  },
+  errorText: {
+    fontSize: 14,
+    fontFamily: fontFamily.regular,
+    color: '#D32F2F',
+  },
+  successBox: {
+    backgroundColor: '#E8F5E9',
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+  },
+  successText: {
+    fontSize: 15,
+    fontFamily: fontFamily.medium,
+    color: '#2E7D32',
+    textAlign: 'center',
   },
 });

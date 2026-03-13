@@ -2,42 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mymatpay.com/</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/calculator</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/guide</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/faq</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/blog</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://mymatpay.com/blog/bank-shifts-maternity-pay</loc>
+    <lastmod>2026-03-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/understanding-nhs-maternity-pay</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/budgeting-for-maternity-leave</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/maternity-pay-by-band</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/nhs-maternity-leave-rights</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/returning-to-work-after-maternity</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mymatpay.com/blog/kit-days-explained</loc>
+    <lastmod>2026-03-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mymatpay.com/for-trusts</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/about</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/contact</loc>
+    <lastmod>2026-03-13</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/terms</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://mymatpay.com/privacy</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.3</priority>
   </url>
 </urlset>

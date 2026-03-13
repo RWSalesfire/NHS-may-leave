@@ -16,8 +16,6 @@ import { calculateNetMaternityPay } from '../utils/maternityCalculations';
 import usePageMeta from '../hooks/usePageMeta';
 import { trackEvent } from '../utils/analytics';
 import AdUnit from '../components/AdUnit';
-import AffiliateBanner from '../components/AffiliateBanner';
-import AFFILIATES from '../constants/affiliates';
 
 export default function CalculatorPage() {
   usePageMeta({
@@ -119,13 +117,6 @@ export default function CalculatorPage() {
             ) : showResults ? (
               <>
                 <ResultsDisplay results={results} calculationInputs={calculationInputs} onRecalculate={handleRecalculate} />
-                <AffiliateBanner
-                  affiliateId="budgeting"
-                  title={AFFILIATES.budgeting.title}
-                  description={AFFILIATES.budgeting.description}
-                  ctaText={AFFILIATES.budgeting.ctaText}
-                  url={AFFILIATES.budgeting.url}
-                />
                 <AdUnit slot="CALCULATOR_RESULTS_SLOT" format="horizontal" />
                 <View style={styles.resetButtonContainer}>
                   <TouchableOpacity
