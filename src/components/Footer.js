@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily } from '../constants/theme';
+import { FooterEl } from './SemanticWeb';
 
 export default function Footer() {
   if (Platform.OS !== 'web') {
@@ -36,7 +37,7 @@ function FooterLink({ to, children }) {
 
 function WebFooter() {
   return (
-    <View style={styles.footer}>
+    <FooterEl style={styles.footer}>
       <View style={styles.footerContent}>
         <Text style={styles.brand}>NHS Maternity Pay Calculator</Text>
 
@@ -62,7 +63,7 @@ function WebFooter() {
           {'\u00A9'} {new Date().getFullYear()} NHS Maternity Pay Calculator {'\u00B7'} Not affiliated with or endorsed by the NHS
         </Text>
       </View>
-    </View>
+    </FooterEl>
   );
 }
 

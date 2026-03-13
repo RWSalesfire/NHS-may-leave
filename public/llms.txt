@@ -1,0 +1,43 @@
+# MyMatPay - NHS Maternity Pay Calculator
+
+> Free NHS maternity pay calculator for NHS staff. Calculates Occupational Maternity Pay (OMP), Statutory Maternity Pay (SMP), and total leave income based on NHS Agenda for Change pay bands. Updated for the 2026/27 tax year.
+
+## Key Information
+
+NHS maternity pay for Agenda for Change staff has four phases:
+- Weeks 1-8: Full pay (basic salary, offset by SMP)
+- Weeks 9-26: Half pay plus SMP (capped at full pay)
+- Weeks 27-39: SMP only (flat rate, currently set by HMRC annually)
+- Weeks 40-52: Unpaid leave
+
+To qualify for NHS occupational maternity pay, staff need 12 months of continuous NHS service by the 11th week before the expected week of childbirth and must intend to return to work for at least 3 months.
+
+Average Weekly Earnings (AWE) are calculated from the last 2 monthly payslips before the qualifying week. AWE includes base salary, overtime, bank shifts through your Trust, unsocial hours, and on-call payments.
+
+Keeping in Touch (KIT) days: up to 10 days of work allowed during maternity leave without ending leave or losing SMP.
+
+## Pages
+
+- [Calculator](https://mymatpay.com/calculator): Interactive maternity pay calculator by NHS band
+- [Guide](https://mymatpay.com/guide): Step-by-step guide to how NHS maternity pay works
+- [FAQ](https://mymatpay.com/faq): 16 common questions about NHS maternity pay
+- [Blog](https://mymatpay.com/blog): Articles on NHS maternity pay topics
+
+### Blog Articles
+
+- [Understanding NHS Maternity Pay](https://mymatpay.com/blog/understanding-nhs-maternity-pay): Complete guide to OMP vs SMP, eligibility, and week-by-week pay structure
+- [How Bank Shifts Boost Your Pay](https://mymatpay.com/blog/bank-shifts-maternity-pay): Timing extra shifts to maximise average weekly earnings
+- [Budgeting for Maternity Leave](https://mymatpay.com/blog/budgeting-for-maternity-leave): Financial planning tips for NHS staff
+- [Maternity Pay by Band](https://mymatpay.com/blog/maternity-pay-by-band): Pay comparison across Band 2, 5, and 8
+- [NHS Maternity Leave Rights](https://mymatpay.com/blog/nhs-maternity-leave-rights): Employment protections and legal rights
+- [Returning to Work](https://mymatpay.com/blog/returning-to-work-after-maternity): Planning your return after maternity leave
+- [KIT Days Explained](https://mymatpay.com/blog/kit-days-explained): How Keeping in Touch days work, payment, and strategic timing
+
+## About
+
+MyMatPay is a free, independent tool. Not affiliated with or endorsed by the NHS. All calculations are estimates based on NHS Agenda for Change terms and conditions. Users should verify amounts with their Trust's HR department.
+
+## Contact
+
+- Website: https://mymatpay.com/contact
+- Email: trusts@nhsmatpay.com (NHS Trust enquiries)

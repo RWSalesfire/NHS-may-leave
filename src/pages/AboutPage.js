@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
+import { H2, Section } from '../components/SemanticWeb';
 
 export default function AboutPage() {
   usePageMeta({
@@ -19,7 +20,7 @@ export default function AboutPage() {
         />
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Our Story</Text>
+          <H2 style={styles.sectionTitle}>Our Story</H2>
           <Text style={styles.paragraph}>
             We created the NHS Maternity Pay Calculator after hearing from countless NHS staff members
             who struggled to understand their maternity pay entitlements. The combination of occupational
@@ -33,7 +34,7 @@ export default function AboutPage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Our Values</Text>
+          <H2 style={styles.sectionTitle}>Our Values</H2>
 
           <View style={styles.valuesList}>
             {[
@@ -54,7 +55,7 @@ export default function AboutPage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>How We Make Money</Text>
+          <H2 style={styles.sectionTitle}>How We Make Money</H2>
           <Text style={styles.paragraph}>
             This calculator is completely free to use. We generate revenue through:
           </Text>
@@ -78,16 +79,40 @@ export default function AboutPage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Data Accuracy Commitment</Text>
+          <H2 style={styles.sectionTitle}>Data Accuracy Commitment</H2>
           <Text style={styles.paragraph}>
             We update our calculator quarterly (or more frequently if tax rates or NHS pay scales change)
             to ensure accuracy. Our calculations are based on:
           </Text>
           <View style={styles.list}>
-            <Text style={styles.listItem}>{'\u2022'} Latest HMRC tax rates and thresholds</Text>
-            <Text style={styles.listItem}>{'\u2022'} Current National Insurance contribution rates</Text>
-            <Text style={styles.listItem}>{'\u2022'} NHS Agenda for Change terms and conditions</Text>
-            <Text style={styles.listItem}>{'\u2022'} Current Statutory Maternity Pay rates</Text>
+            <Text style={styles.listItem}>{'\u2022'} Latest{' '}
+              <Text
+                accessibilityRole="link"
+                style={{ color: colors.primary, textDecorationLine: 'underline' }}
+                onPress={() => window.open('https://www.gov.uk/income-tax-rates', '_blank')}
+              >HMRC tax rates and thresholds</Text>
+            </Text>
+            <Text style={styles.listItem}>{'\u2022'} Current{' '}
+              <Text
+                accessibilityRole="link"
+                style={{ color: colors.primary, textDecorationLine: 'underline' }}
+                onPress={() => window.open('https://www.gov.uk/national-insurance-rates-letters', '_blank')}
+              >National Insurance contribution rates</Text>
+            </Text>
+            <Text style={styles.listItem}>{'\u2022'}{' '}
+              <Text
+                accessibilityRole="link"
+                style={{ color: colors.primary, textDecorationLine: 'underline' }}
+                onPress={() => window.open('https://www.nhsemployers.org/articles/pay-scales-202425', '_blank')}
+              >NHS Agenda for Change terms and conditions</Text>
+            </Text>
+            <Text style={styles.listItem}>{'\u2022'} Current{' '}
+              <Text
+                accessibilityRole="link"
+                style={{ color: colors.primary, textDecorationLine: 'underline' }}
+                onPress={() => window.open('https://www.gov.uk/maternity-pay-leave/pay', '_blank')}
+              >Statutory Maternity Pay rates</Text>
+            </Text>
           </View>
           <Text style={styles.paragraph}>
             While we strive for accuracy, we always recommend verifying final amounts with your
@@ -96,7 +121,27 @@ export default function AboutPage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Privacy Commitment</Text>
+          <H2 style={styles.sectionTitle}>Our Methodology</H2>
+          <Text style={styles.paragraph}>
+            Our calculator follows the NHS Terms and Conditions of Service handbook (Section 15:
+            Maternity Leave and Pay) published by{' '}
+            <Text
+              accessibilityRole="link"
+              style={{ color: colors.primary, textDecorationLine: 'underline' }}
+              onPress={() => window.open('https://www.nhsemployers.org/articles/maternity-leave-and-pay', '_blank')}
+            >NHS Employers</Text>.
+            Tax calculations use HMRC's published PAYE thresholds and NI rates for the current
+            tax year. All NHS pay band data comes from the official Agenda for Change pay scales.
+          </Text>
+          <Text style={styles.paragraph}>
+            The calculator is built and maintained by a team with direct experience of NHS payroll
+            systems. We regularly cross-reference our results against real payslip data shared
+            anonymously by NHS staff to verify accuracy.
+          </Text>
+        </View>
+
+        <View style={styles.section}>
+          <H2 style={styles.sectionTitle}>Privacy Commitment</H2>
           <Text style={styles.paragraph}>
             We take your privacy seriously:
           </Text>
@@ -124,7 +169,7 @@ export default function AboutPage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Contact Us</Text>
+          <H2 style={styles.sectionTitle}>Contact Us</H2>
           <Text style={styles.paragraph}>
             Have feedback, questions, or spotted an error? We'd love to hear from you.
           </Text>

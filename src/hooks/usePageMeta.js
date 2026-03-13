@@ -2,35 +2,28 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { trackPageView } from '../utils/analytics';
 
-export default function usePageMeta({ title, description }) {
+export default function usePageMeta({ title, description, ogType }) {
   useEffect(() => {
     if (Platform.OS !== 'web') return;
 
     document.title = title;
 
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
+    const setMeta = (selector, attr, value) => {
+      const el = document.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
+    };
 
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
+    const canonicalUrl = 'https://mymatpay.com' + window.location.pathname;
 
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', description);
-
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://mymatpay.com' + window.location.pathname);
-
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://mymatpay.com' + window.location.pathname);
-
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) twitterTitle.setAttribute('content', title);
-
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescription) twitterDescription.setAttribute('content', description);
+    setMeta('meta[name="description"]', 'content', description);
+    setMeta('meta[property="og:title"]', 'content', title);
+    setMeta('meta[property="og:description"]', 'content', description);
+    setMeta('meta[property="og:url"]', 'content', canonicalUrl);
+    setMeta('meta[property="og:type"]', 'content', ogType || 'website');
+    setMeta('link[rel="canonical"]', 'href', canonicalUrl);
+    setMeta('meta[name="twitter:title"]', 'content', title);
+    setMeta('meta[name="twitter:description"]', 'content', description);
 
     trackPageView(window.location.pathname, title);
-  }, [title, description]);
+  }, [title, description, ogType]);
 }

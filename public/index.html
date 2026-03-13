@@ -14,25 +14,31 @@
     <!-- Cookie Consent Banner (orestbida/cookieconsent v3.1.0 — MIT, free) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css" />
 
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Built for NHS staff." />
+    <!-- Preconnect to third-party origins for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+    <!-- SEO Meta Tags (updated dynamically by usePageMeta hook per route) -->
+    <meta name="description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Instant results, no sign-up." />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mymatpay.com/" />
-    <meta property="og:title" content="NHS Maternity Pay Calculator" />
-    <meta property="og:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band." />
+    <meta property="og:title" content="NHS Maternity Pay Calculator — Free Estimate for NHS Staff" />
+    <meta property="og:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Instant results, no sign-up." />
     <meta property="og:image" content="https://mymatpay.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="MyMatPay" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NHS Maternity Pay Calculator" />
-    <meta name="twitter:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band." />
+    <meta name="twitter:title" content="NHS Maternity Pay Calculator — Free Estimate for NHS Staff" />
+    <meta name="twitter:description" content="Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Instant results, no sign-up." />
     <meta name="twitter:image" content="https://mymatpay.com/og-image.png" />
 
-    <!-- Canonical URL -->
+    <!-- Canonical URL (updated dynamically by usePageMeta hook per route) -->
     <link rel="canonical" href="https://mymatpay.com/" />
 
     <!-- Structured Data (JSON-LD) -->
@@ -40,25 +46,45 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
+      "@id": "https://mymatpay.com/#calculator",
       "name": "NHS Maternity Pay Calculator",
-      "url": "https://mymatpay.com",
+      "url": "https://mymatpay.com/calculator",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
       "offers": {
         "@type": "Offer",
-        "price": "0",
+        "price": 0,
         "priceCurrency": "GBP"
       },
-      "description": "Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band."
+      "description": "Free NHS maternity pay calculator. Estimate your Occupational Maternity Pay, SMP, and total leave income based on your NHS pay band. Updated for 2026/27 tax year.",
+      "screenshot": "https://mymatpay.com/og-image.png",
+      "featureList": "NHS pay band selection, Occupational Maternity Pay calculation, Statutory Maternity Pay calculation, Week-by-week breakdown, Tax and NI deductions, Bank shifts and overtime modelling",
+      "author": { "@id": "https://mymatpay.com/#organization" }
     }
     </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "mymatpay.com",
+      "@id": "https://mymatpay.com/#organization",
+      "name": "MyMatPay",
       "url": "https://mymatpay.com",
-      "description": "Free NHS maternity pay calculator for NHS staff"
+      "description": "Free NHS maternity pay calculator for NHS staff. Calculates Occupational Maternity Pay, Statutory Maternity Pay, and total leave income based on NHS Agenda for Change pay bands.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://mymatpay.com/contact"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "MyMatPay",
+      "url": "https://mymatpay.com",
+      "publisher": { "@id": "https://mymatpay.com/#organization" }
     }
     </script>
 

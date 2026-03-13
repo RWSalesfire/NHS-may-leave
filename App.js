@@ -4,6 +4,7 @@ import { StyleSheet, View, ScrollView, SafeAreaView, Platform, Text, ActivityInd
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { colors, fontFamily } from './src/constants/theme';
 import useFonts from './src/hooks/useFonts';
+import { Main } from './src/components/SemanticWeb';
 
 // Components
 import Header from './src/components/Header';
@@ -60,6 +61,7 @@ export default function App() {
         <View style={styles.appContainer}>
           <Header />
           <ScrollView style={styles.mainContent} contentContainerStyle={styles.mainContentInner}>
+            <Main style={{ flex: 1 }}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/calculator" element={<CalculatorPage />} />
@@ -74,6 +76,7 @@ export default function App() {
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
+            </Main>
             <Footer />
           </ScrollView>
         </View>

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import usePageMeta from '../hooks/usePageMeta';
+import { H1, H2, Section, Article } from '../components/SemanticWeb';
 
 /* ─── Custom Icons (replacing emojis) ─── */
 
@@ -289,10 +290,10 @@ export default function HomePage() {
             <Text style={styles.heroBadgeText}>Updated for 2026/27 Tax Year</Text>
           </View>
 
-          <Text style={[styles.heroTitle, isMobile && styles.heroTitleMobile]}>
+          <H1 style={[styles.heroTitle, isMobile && styles.heroTitleMobile]}>
             Know exactly what{'\n'}you'll take home on{' '}
             <Text style={styles.heroTitleAccent}>maternity leave</Text>
-          </Text>
+          </H1>
 
           <Text style={[styles.heroDescription, isMobile && styles.heroDescMobile]}>
             The free calculator built specifically for NHS staff. Get your week-by-week
@@ -318,11 +319,11 @@ export default function HomePage() {
 
       <View style={[styles.content, isMobile && styles.contentMobile]}>
         {/* Features Section */}
-        <View style={[styles.section, isMobile && styles.sectionMobile]}>
+        <Section style={[styles.section, isMobile && styles.sectionMobile]}>
           <Text style={styles.sectionLabel}>Why this calculator</Text>
-          <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
+          <H2 style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
             Built for NHS staff, by people who understand the system
-          </Text>
+          </H2>
 
           <View style={[styles.featureGrid, isMobile && styles.featureGridMobile]}>
             <FeatureCard
@@ -350,14 +351,14 @@ export default function HomePage() {
               isMobile={isMobile}
             />
           </View>
-        </View>
+        </Section>
 
         {/* How It Works */}
-        <View style={[styles.section, isMobile && styles.sectionMobile]}>
+        <Section style={[styles.section, isMobile && styles.sectionMobile]}>
           <Text style={styles.sectionLabel}>How it works</Text>
-          <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
+          <H2 style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
             Three steps to clarity
-          </Text>
+          </H2>
 
           {isDesktop ? (
             <View style={styles.stepsRow}>
@@ -376,7 +377,7 @@ export default function HomePage() {
           <Link to="/guide" style={{ textDecoration: 'none', alignSelf: 'center', marginTop: isMobile ? spacing.lg : spacing.xl }}>
             <Text style={styles.textLink}>Learn more about NHS maternity pay</Text>
           </Link>
-        </View>
+        </Section>
 
         {/* NHS Trust CTA */}
         <View style={[styles.trustCta, shadows.sm, isMobile && styles.trustCtaMobile]}>
@@ -398,18 +399,18 @@ export default function HomePage() {
         </View>
 
         {/* Resources */}
-        <View style={[styles.section, isMobile && styles.sectionMobile]}>
+        <Section style={[styles.section, isMobile && styles.sectionMobile]}>
           <Text style={styles.sectionLabel}>Resources</Text>
-          <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
+          <H2 style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>
             Guides to help you prepare
-          </Text>
+          </H2>
 
           <View style={[styles.blogGrid, isMobile && styles.blogGridMobile]}>
             {blogs.map((post, i) => (
               <BlogCard key={i} {...post} isMobile={isMobile} />
             ))}
           </View>
-        </View>
+        </Section>
       </View>
     </View>
   );

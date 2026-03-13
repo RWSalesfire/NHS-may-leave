@@ -5,17 +5,18 @@ import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
 import AdUnit from '../components/AdUnit';
+import { H2, Section, Article } from '../components/SemanticWeb';
 
 const PERIOD_COLORS = [colors.sage, colors.primary, colors.accent, colors.textSecondary];
 
 export default function GuidePage() {
   usePageMeta({
-    title: 'NHS Maternity Pay Guide 2025/26 | How It Works',
+    title: 'NHS Maternity Pay Guide 2026/27 | How It Works',
     description: 'Complete guide to NHS maternity pay. Learn about OMP, SMP, eligibility, how your salary is calculated, bank shifts, part-time pay, pension, and KIT days.',
   });
 
   return (
-    <View style={styles.container}>
+    <Article style={styles.container}>
       <View style={styles.content}>
         <PageHeader
           title="How NHS Maternity Pay Works"
@@ -23,16 +24,22 @@ export default function GuidePage() {
         />
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>What is NHS Maternity Pay?</Text>
+          <H2 style={styles.sectionTitle}>What is NHS Maternity Pay?</H2>
           <Text style={styles.paragraph}>
             NHS maternity pay consists of two components: <Text style={styles.bold}>Occupational Maternity Pay (OMP)</Text> and{' '}
             <Text style={styles.bold}>Statutory Maternity Pay (SMP)</Text>. NHS staff receive more generous
             maternity pay compared to employees who only receive statutory maternity pay.
+            Full details are set out in the{' '}
+            <Text
+              accessibilityRole="link"
+              style={{ color: colors.primary, textDecorationLine: 'underline' }}
+              onPress={() => window.open('https://www.nhsemployers.org/articles/maternity-leave-and-pay', '_blank')}
+            >NHS Employers maternity guidance</Text>.
           </Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>NHS Occupational Maternity Pay Structure</Text>
+          <H2 style={styles.sectionTitle}>NHS Occupational Maternity Pay Structure</H2>
 
           <View style={styles.payStructure}>
             {[
@@ -50,7 +57,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Eligibility Criteria</Text>
+          <H2 style={styles.sectionTitle}>Eligibility Criteria</H2>
           <Text style={styles.paragraph}>
             To qualify for NHS occupational maternity pay, you must:
           </Text>
@@ -61,11 +68,17 @@ export default function GuidePage() {
           </View>
           <Text style={styles.paragraph}>
             Even if you don't qualify for occupational maternity pay, you may still be eligible for Statutory Maternity Pay if you've worked for your employer for at least 26 weeks.
+            See the full eligibility details on{' '}
+            <Text
+              accessibilityRole="link"
+              style={{ color: colors.primary, textDecorationLine: 'underline' }}
+              onPress={() => window.open('https://www.gov.uk/maternity-pay-leave/eligibility', '_blank')}
+            >gov.uk</Text>.
           </Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>How Salary is Calculated</Text>
+          <H2 style={styles.sectionTitle}>How Salary is Calculated</H2>
           <Text style={styles.paragraph}>
             Your maternity pay is based on your <Text style={styles.bold}>average weekly earnings</Text> during the{' '}
             <Text style={styles.bold}>8 weeks before the 15th week before your due date</Text>. This includes:
@@ -79,7 +92,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Boosting Your Pay: Bank Shifts & Overtime</Text>
+          <H2 style={styles.sectionTitle}>Boosting Your Pay: Bank Shifts & Overtime</H2>
           <Text style={styles.paragraph}>
             Because maternity pay is based on your <Text style={styles.bold}>average weekly earnings (AWE)</Text> during a specific
             calculation period, picking up extra shifts during this window can significantly increase your maternity pay.
@@ -127,7 +140,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Part-Time Staff</Text>
+          <H2 style={styles.sectionTitle}>Part-Time Staff</H2>
           <Text style={styles.paragraph}>
             If you work part-time, your maternity pay will be calculated based on your part-time salary.
             You'll still receive the same proportion of pay (full pay for 8 weeks, half pay + SMP for 18 weeks, etc.),
@@ -138,7 +151,7 @@ export default function GuidePage() {
         <AdUnit slot="GUIDE_INCONTENT_SLOT" format="auto" />
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tax and National Insurance</Text>
+          <H2 style={styles.sectionTitle}>Tax and National Insurance</H2>
           <Text style={styles.paragraph}>
             Maternity pay is subject to income tax and National Insurance contributions, just like your regular salary.
             However, because you're receiving less income during maternity leave, you may fall into a lower tax bracket
@@ -150,7 +163,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Pension Contributions</Text>
+          <H2 style={styles.sectionTitle}>Pension Contributions</H2>
           <Text style={styles.paragraph}>
             During your maternity leave, your pension contributions will be based on the maternity pay you actually receive,
             not your full salary. However, your employer's contributions continue to be based on your full salary during
@@ -159,7 +172,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Keeping in Touch (KIT) Days</Text>
+          <H2 style={styles.sectionTitle}>Keeping in Touch (KIT) Days</H2>
           <Text style={styles.paragraph}>
             You can work up to 10 Keeping in Touch (KIT) days during your maternity leave without losing any maternity pay.
             You'll be paid your normal rate for these days, and they won't affect your maternity pay entitlement.
@@ -167,7 +180,7 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Annual Leave</Text>
+          <H2 style={styles.sectionTitle}>Annual Leave</H2>
           <Text style={styles.paragraph}>
             You continue to accrue annual leave during your maternity leave. This annual leave can be added to the end
             of your maternity leave or taken when you return to work.
@@ -184,14 +197,14 @@ export default function GuidePage() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>More Questions?</Text>
+          <H2 style={styles.sectionTitle}>More Questions?</H2>
           <Text style={styles.paragraph}>
             Check our <Link to="/faq" style={{ color: colors.primary, textDecorationLine: 'underline' }}>FAQ page</Link> for
             answers to common questions about NHS maternity pay.
           </Text>
         </View>
       </View>
-    </View>
+    </Article>
   );
 }
 

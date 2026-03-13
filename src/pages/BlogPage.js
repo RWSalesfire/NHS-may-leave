@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
+import { Article } from '../components/SemanticWeb';
 import UnderstandingNHSMaternityPay from './blog/UnderstandingNHSMaternityPay';
 import BudgetingForMaternityLeave from './blog/BudgetingForMaternityLeave';
 import MaternityPayByBand from './blog/MaternityPayByBand';
@@ -183,26 +184,33 @@ function BlogPostView({ slug }) {
   };
 
   return (
-    <View style={styles.container}>
+    <Article style={styles.container}>
       <View style={styles.articleContent}>
         <Link to="/blog" style={{ textDecoration: 'none', marginBottom: spacing.lg }}>
           <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
         </Link>
         {renderContent()}
       </View>
-    </View>
+    </Article>
   );
 }
 
 export default function BlogPage() {
-  usePageMeta({
-    title: 'NHS Maternity Pay Blog | Tips & Updates',
-    description: 'Tips, guides, and updates about NHS maternity pay. Learn how to maximise your pay, budget for maternity leave, and understand your rights.',
-  });
   const { slug } = useParams();
   const { width } = useWindowDimensions();
   const isMobile = width < 640;
   const cardWidth = isMobile ? '100%' : 520;
+
+  // Find the post for per-post meta, or use blog index meta
+  const post = slug ? BLOG_POSTS.find(p => p.slug === slug) : null;
+
+  usePageMeta(post ? {
+    title: `${post.title} | mymatpay.com`,
+    description: post.excerpt,
+  } : {
+    title: 'NHS Maternity Pay Blog | Tips & Updates',
+    description: 'Tips, guides, and updates about NHS maternity pay. Learn how to maximise your pay, budget for maternity leave, and understand your rights.',
+  });
 
   if (slug) {
     return <BlogPostView slug={slug} />;

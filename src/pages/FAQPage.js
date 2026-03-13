@@ -6,6 +6,7 @@ import PageHeader from '../components/PageHeader';
 import useReducedMotion from '../hooks/useReducedMotion';
 import usePageMeta from '../hooks/usePageMeta';
 import AdUnit from '../components/AdUnit';
+import { Section } from '../components/SemanticWeb';
 
 const FAQ_DATA = [
   {
@@ -125,6 +126,35 @@ export default function FAQPage() {
     description: 'Answers to frequently asked questions about NHS maternity pay, eligibility, overtime, part-time pay, KIT days, annual leave, and more.',
   });
   const [expandedIndex, setExpandedIndex] = useState(null);
+
+  // Inject FAQPage schema for search engines and AI crawlers
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const existingScript = document.getElementById('faq-schema');
+    if (existingScript) return;
+
+    const script = document.createElement('script');
+    script.id = 'faq-schema';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQ_DATA.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById('faq-schema');
+      if (el) el.remove();
+    };
+  }, []);
 
   const toggleFAQ = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);

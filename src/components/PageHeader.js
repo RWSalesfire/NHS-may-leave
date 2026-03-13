@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, spacing, fontFamily } from '../constants/theme';
+import { H1, P } from './SemanticWeb';
 
 export default function PageHeader({ title, subtitle }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+      <H1 style={styles.title}>{title}</H1>
+      {subtitle && <P style={styles.subtitle}>{subtitle}</P>}
     </View>
   );
 }

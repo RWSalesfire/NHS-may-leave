@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
 import { Link, useLocation } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import { Header as HeaderEl, Nav } from './SemanticWeb';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,7 +44,7 @@ export default function Header() {
   };
 
   return (
-    <View style={[styles.header, shadows.md]}>
+    <HeaderEl style={[styles.header, shadows.md]}>
       <View style={styles.headerContent}>
         {/* Logo/Brand */}
         <Link to="/" style={{ textDecoration: 'none' }}>
@@ -55,7 +56,7 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         {!isMobile && (
-          <View style={styles.desktopNav}>
+          <Nav style={styles.desktopNav}>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/calculator">Calculator</NavLink>
             <NavLink to="/guide">How It Works</NavLink>
@@ -70,7 +71,7 @@ export default function Header() {
                 <Text style={styles.ctaNavText}>Calculate Now</Text>
               </View>
             </Link>
-          </View>
+          </Nav>
         )}
 
         {/* Mobile Menu Button */}
@@ -86,16 +87,16 @@ export default function Header() {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && isMobile && (
-        <View style={styles.mobileMenu}>
+        <Nav style={styles.mobileMenu}>
           <NavLink to="/" onPress={() => setMenuOpen(false)}>Home</NavLink>
           <NavLink to="/calculator" onPress={() => setMenuOpen(false)}>Calculator</NavLink>
           <NavLink to="/guide" onPress={() => setMenuOpen(false)}>How It Works</NavLink>
           <NavLink to="/faq" onPress={() => setMenuOpen(false)}>FAQ</NavLink>
           <NavLink to="/blog" onPress={() => setMenuOpen(false)}>Resources</NavLink>
           <NavLink to="/for-trusts" onPress={() => setMenuOpen(false)}>For NHS Trusts</NavLink>
-        </View>
+        </Nav>
       )}
-    </View>
+    </HeaderEl>
   );
 }
 
