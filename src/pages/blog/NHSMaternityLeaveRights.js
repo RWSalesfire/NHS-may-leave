@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, shadows } from '../../constants/theme';
+import { H1, H2 } from '../../components/SemanticWeb';
 
 export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS }) {
   return (
@@ -11,14 +12,14 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
           {post.category}
         </Text>
       </View>
-      <Text style={styles.articleTitle}>{post.title}</Text>
+      <H1 style={styles.articleTitle}>{post.title}</H1>
       <Text style={styles.articleDate}>{post.date}</Text>
 
       <Text style={styles.articleBody}>
         As an NHS employee, you have strong legal protections during pregnancy and maternity leave. These rights come from a combination of UK employment law and the NHS Agenda for Change terms and conditions. Knowing your rights means you can focus on your pregnancy and your baby without worrying about your job. This guide covers everything from day-one protections through to your return to work.
       </Text>
 
-      <Text style={styles.articleHeading}>Your Rights from Day One of Pregnancy</Text>
+      <H2 style={styles.articleHeading}>Your Rights from Day One of Pregnancy</H2>
       <Text style={styles.articleBody}>
         Your employment rights begin as soon as you are pregnant, regardless of how long you have worked for the NHS. From day one, you are protected against:{'\n\n'}
         <Text style={styles.articleBold}>Unfair dismissal:</Text> It is automatically unfair to dismiss you for any reason connected to your pregnancy, childbirth, or maternity leave. This applies from the first day of employment with no qualifying period.{'\n\n'}
@@ -26,7 +27,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         <Text style={styles.articleBold}>Health and safety:</Text> Your employer must carry out a risk assessment of your working conditions once they know you are pregnant. For NHS clinical staff, this is particularly relevant for roles involving heavy lifting, exposure to infections, radiation, or prolonged standing.
       </Text>
 
-      <Text style={styles.articleHeading}>Time Off for Antenatal Care</Text>
+      <H2 style={styles.articleHeading}>Time Off for Antenatal Care</H2>
       <Text style={styles.articleBody}>
         You have the right to paid time off for all antenatal appointments, including:{'\n\n'}
         - Midwife appointments{'\n'}
@@ -38,7 +39,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         Your employer can ask to see your appointment card after the first appointment, but they cannot refuse you time off. For NHS staff working shifts, you should give your manager reasonable notice so rotas can be adjusted, but they must accommodate you.
       </Text>
 
-      <Text style={styles.articleHeading}>When and How to Tell Your Employer</Text>
+      <H2 style={styles.articleHeading}>When and How to Tell Your Employer</H2>
       <Text style={styles.articleBody}>
         Legally, you must notify your employer of your pregnancy by the 15th week before your expected week of childbirth (roughly the 25th week of pregnancy). You need to confirm:{'\n\n'}
         - That you are pregnant{'\n'}
@@ -52,7 +53,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         You can change your maternity leave start date by giving at least 28 days' notice. If your baby arrives early, your maternity leave starts automatically on the day after the birth.
       </Text>
 
-      <Text style={styles.articleHeading}>Maternity Leave Entitlement</Text>
+      <H2 style={styles.articleHeading}>Maternity Leave Entitlement</H2>
       <Text style={styles.articleBody}>
         All NHS employees are entitled to:{'\n\n'}
         <Text style={styles.articleBold}>52 weeks of maternity leave</Text> - split into 26 weeks of Ordinary Maternity Leave (OML) and 26 weeks of Additional Maternity Leave (AML). This is a day-one right with no qualifying period.{'\n\n'}
@@ -60,7 +61,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         <Text style={styles.articleBold}>Compulsory maternity leave</Text> means you must take at least 2 weeks off after the birth (4 weeks if you work in a factory setting, though this rarely applies to NHS roles).
       </Text>
 
-      <Text style={styles.articleHeading}>Annual Leave and Bank Holidays</Text>
+      <H2 style={styles.articleHeading}>Annual Leave and Bank Holidays</H2>
       <Text style={styles.articleBody}>
         This is one of the most valuable and often overlooked aspects of NHS maternity rights. You continue to accrue annual leave and bank holidays throughout your entire maternity leave, including the unpaid period.
       </Text>
@@ -77,7 +78,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         Speak to your manager early about how you want to use your accrued leave. Many NHS staff add their annual leave to the end of maternity leave, effectively extending paid leave by 8-9 weeks.
       </Text>
 
-      <Text style={styles.articleHeading}>Pension Rights During Maternity Leave</Text>
+      <H2 style={styles.articleHeading}>Pension Rights During Maternity Leave</H2>
       <Text style={styles.articleBody}>
         Your NHS pension is fully protected during maternity leave:{'\n\n'}
         - During paid maternity leave, you continue to pay pension contributions based on your actual maternity pay{'\n'}
@@ -89,7 +90,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         This means your NHS pension is not disadvantaged by taking maternity leave, which is important for long-term retirement planning.
       </Text>
 
-      <Text style={styles.articleHeading}>Protection Against Redundancy</Text>
+      <H2 style={styles.articleHeading}>Protection Against Redundancy</H2>
       <Text style={styles.articleBody}>
         If your role is affected by a restructure or redundancy during maternity leave, you have <Text style={styles.articleBold}>priority rights to suitable alternative employment</Text>. This means your employer must offer you any suitable vacancy in preference to other employees, without requiring you to go through a competitive interview process.
       </Text>
@@ -97,7 +98,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         In the NHS, restructures do happen, particularly during service redesigns. If your manager mentions any organisational changes while you are on leave, ask specifically about how your priority right applies.
       </Text>
 
-      <Text style={styles.articleHeading}>Keeping in Touch (KIT) Days</Text>
+      <H2 style={styles.articleHeading}>Keeping in Touch (KIT) Days</H2>
       <Text style={styles.articleBody}>
         You can work up to 10 Keeping in Touch days during your maternity leave without it affecting your maternity pay or ending your leave. These are voluntary - neither you nor your employer can insist on them. KIT days can be used for:{'\n\n'}
         - Training or study days{'\n'}
@@ -113,7 +114,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         .
       </Text>
 
-      <Text style={styles.articleHeading}>Your Right to Return</Text>
+      <H2 style={styles.articleHeading}>Your Right to Return</H2>
       <Text style={styles.articleBody}>
         After Ordinary Maternity Leave (first 26 weeks), you have the right to return to <Text style={styles.articleBold}>exactly the same job</Text> on the same terms and conditions.
       </Text>
@@ -124,7 +125,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         You do not need to give notice if you return on your expected date. If you want to return earlier, you must give at least 8 weeks' notice.
       </Text>
 
-      <Text style={styles.articleHeading}>Flexible Working Requests</Text>
+      <H2 style={styles.articleHeading}>Flexible Working Requests</H2>
       <Text style={styles.articleBody}>
         From day one of employment, you have the right to request flexible working. Common requests from NHS staff returning from maternity leave include:{'\n\n'}
         - Reduced hours (moving from full-time to part-time){'\n'}
@@ -137,7 +138,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         Your employer must consider your request and can only refuse on specific business grounds. The NHS generally has a good track record on flexible working, and many Trusts actively promote it. Submit your request in writing and your employer must respond within 2 months.
       </Text>
 
-      <Text style={styles.articleHeading}>What to Do If Your Rights Are Not Respected</Text>
+      <H2 style={styles.articleHeading}>What to Do If Your Rights Are Not Respected</H2>
       <Text style={styles.articleBody}>
         If you believe your rights are being breached, take these steps:{'\n\n'}
         1. Raise it informally with your manager first{'\n'}
@@ -151,7 +152,7 @@ export default function NHSMaternityLeaveRights({ post, styles, CATEGORY_COLORS 
         Keep written records of any conversations or incidents. Save emails and take notes of meetings with dates and who was present.
       </Text>
 
-      <Text style={styles.articleHeading}>Plan Your Leave with Confidence</Text>
+      <H2 style={styles.articleHeading}>Plan Your Leave with Confidence</H2>
       <Text style={styles.articleBody}>
         Understanding your rights helps you plan your maternity leave without uncertainty. Use our calculator to see your pay breakdown, and read our{' '}
         <Link to="/guide" style={{ color: colors.primary }}>

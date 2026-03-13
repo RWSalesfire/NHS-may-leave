@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { colors, spacing, fontFamily, borderRadius } from '../constants/theme';
-import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
+import { H1 } from '../components/SemanticWeb';
 
 export default function NotFoundPage() {
   usePageMeta({
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
     <View style={[styles.container, styles.content]}>
       <View style={[styles.card, isMobile && styles.cardMobile]}>
         <Text style={styles.errorCode}>404</Text>
-        <Text style={styles.title}>Page Not Found</Text>
+        <H1 style={styles.title}>Page Not Found</H1>
         <Text style={styles.description}>
           Sorry, we couldn't find the page you're looking for. It may have been moved or doesn't exist.
         </Text>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
+import { H2, Section } from '../components/SemanticWeb';
 
 export default function ForTrustsPage() {
   usePageMeta({
@@ -56,7 +57,7 @@ export default function ForTrustsPage() {
 
         {/* Problem Statement */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>The Challenge</Text>
+          <H2 style={styles.sectionTitle}>The Challenge</H2>
           <Text style={styles.paragraph}>
             HR departments spend countless hours answering maternity pay questions and helping staff
             calculate their entitlements. Staff often feel uncertain about their financial situation
@@ -66,7 +67,7 @@ export default function ForTrustsPage() {
 
         {/* Solution */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Our Solution</Text>
+          <H2 style={styles.sectionTitle}>Our Solution</H2>
           <Text style={styles.paragraph}>
             A white-label maternity pay calculator that integrates seamlessly with your Trust's intranet
             or HR portal, providing staff with instant, accurate calculations while reducing the burden
@@ -76,7 +77,7 @@ export default function ForTrustsPage() {
 
         {/* Features */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Features</Text>
+          <H2 style={styles.sectionTitle}>Features</H2>
 
           <View style={styles.featuresList}>
             {[
@@ -100,7 +101,7 @@ export default function ForTrustsPage() {
 
         {/* Benefits */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Benefits for Your Trust</Text>
+          <H2 style={styles.sectionTitle}>Benefits for Your Trust</H2>
 
           <View style={styles.benefitsList}>
             {[

@@ -20,8 +20,18 @@ Keeping in Touch (KIT) days: up to 10 days of work allowed during maternity leav
 
 - [Calculator](https://mymatpay.com/calculator): Interactive maternity pay calculator by NHS band
 - [Guide](https://mymatpay.com/guide): Step-by-step guide to how NHS maternity pay works
-- [FAQ](https://mymatpay.com/faq): 16 common questions about NHS maternity pay
+- [FAQ](https://mymatpay.com/faq): 28 common questions about NHS maternity pay
 - [Blog](https://mymatpay.com/blog): Articles on NHS maternity pay topics
+
+### Maternity Pay by Band
+
+- [Band 2](https://mymatpay.com/nhs-maternity-pay-band-2): Healthcare assistants, support workers - salary £23,500-£25,000
+- [Band 3](https://mymatpay.com/nhs-maternity-pay-band-3): Senior HCAs, pharmacy technicians - salary £25,000-£26,500
+- [Band 4](https://mymatpay.com/nhs-maternity-pay-band-4): Assistant practitioners, senior admin - salary £26,500-£29,000
+- [Band 5](https://mymatpay.com/nhs-maternity-pay-band-5): Staff nurses, midwives, AHPs - salary £31,000-£34,500
+- [Band 6](https://mymatpay.com/nhs-maternity-pay-band-6): Senior nurses, specialist practitioners - salary £37,500-£44,000
+- [Band 7](https://mymatpay.com/nhs-maternity-pay-band-7): Advanced practitioners, team leads - salary £45,000-£52,000
+- [Band 8](https://mymatpay.com/nhs-maternity-pay-band-8): Managers, senior managers - salary £53,000-£72,000
 
 ### Blog Articles
 

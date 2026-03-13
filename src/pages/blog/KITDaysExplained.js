@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, shadows } from '../../constants/theme';
+import { H1, H2 } from '../../components/SemanticWeb';
 
 export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
   return (
@@ -11,14 +12,14 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
           {post.category}
         </Text>
       </View>
-      <Text style={styles.articleTitle}>{post.title}</Text>
+      <H1 style={styles.articleTitle}>{post.title}</H1>
       <Text style={styles.articleDate}>{post.date}</Text>
 
       <Text style={styles.articleBody}>
         Keeping in Touch days (usually called KIT days) are one of the most useful but poorly understood aspects of maternity leave. They allow you to work up to 10 days during your maternity leave without ending your leave or losing your maternity pay. For NHS staff, using KIT days strategically can ease your return, keep you connected, and put extra money in your pocket. Here is everything you need to know.
       </Text>
 
-      <Text style={styles.articleHeading}>What Are KIT Days?</Text>
+      <H2 style={styles.articleHeading}>What Are KIT Days?</H2>
       <Text style={styles.articleBody}>
         KIT days are a legal provision that allows employees on maternity leave to work for up to <Text style={styles.articleBold}>10 days</Text> during their leave without bringing their maternity leave or maternity pay to an end. They were introduced specifically to help women stay connected with their workplace during an extended absence.
       </Text>
@@ -31,7 +32,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         - They cannot be taken during the compulsory 2-week maternity leave period immediately after birth
       </Text>
 
-      <Text style={styles.articleHeading}>How KIT Day Pay Works in the NHS</Text>
+      <H2 style={styles.articleHeading}>How KIT Day Pay Works in the NHS</H2>
       <Text style={styles.articleBody}>
         This is where it gets important, and where NHS Trusts vary. There are two main approaches Trusts take to paying KIT days:
       </Text>
@@ -48,7 +49,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         <Text style={styles.articleBold}>Always check your Trust's KIT day policy before agreeing to work.</Text> Ask your HR department or check your Trust's maternity policy document.
       </Text>
 
-      <Text style={styles.articleHeading}>What Can You Use KIT Days For?</Text>
+      <H2 style={styles.articleHeading}>What Can You Use KIT Days For?</H2>
       <Text style={styles.articleBody}>
         KIT days are flexible and can be used for any work-related activity. Common uses in the NHS include:
       </Text>
@@ -60,7 +61,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         <Text style={styles.articleBold}>CPD and study days:</Text> Conferences, workshops, or study days that contribute to your professional development and revalidation.
       </Text>
 
-      <Text style={styles.articleHeading}>When to Use Your KIT Days: Strategic Timing</Text>
+      <H2 style={styles.articleHeading}>When to Use Your KIT Days: Strategic Timing</H2>
       <Text style={styles.articleBody}>
         You have 10 KIT days to use across your entire maternity leave. Think about when they will be most valuable:
       </Text>
@@ -74,7 +75,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         A common strategy: use 2-3 KIT days for essential training or updates in the middle of your leave, then save 5-6 KIT days for the final month before your return. This gives you income during the lower-paid period and helps you transition back.
       </Text>
 
-      <Text style={styles.articleHeading}>Financial Impact: 10 KIT Days by Band</Text>
+      <H2 style={styles.articleHeading}>Financial Impact: 10 KIT Days by Band</H2>
       <Text style={styles.articleBody}>
         Here is what 10 KIT days are worth at different bands (gross pay, assuming your Trust pays on top of SMP):
       </Text>
@@ -89,7 +90,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         For higher bands, 10 KIT days represent a meaningful addition to your maternity leave income.
       </Text>
 
-      <Text style={styles.articleHeading}>Tax and National Insurance on KIT Days</Text>
+      <H2 style={styles.articleHeading}>Tax and National Insurance on KIT Days</H2>
       <Text style={styles.articleBody}>
         KIT day payments are treated as normal earnings for tax and National Insurance purposes. They will appear on your payslip and are subject to the usual deductions. Because your overall earnings are lower during maternity leave, the tax impact is usually modest.
       </Text>
@@ -97,7 +98,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         One thing to watch: KIT day payments during certain weeks could potentially affect your SMP if they change your earnings record. In practice, this is rare and only relevant if your KIT days fall during the SMP calculation period (which would be unusual). If in doubt, ask your payroll department.
       </Text>
 
-      <Text style={styles.articleHeading}>What Happens If You Work More Than 10 Days?</Text>
+      <H2 style={styles.articleHeading}>What Happens If You Work More Than 10 Days?</H2>
       <Text style={styles.articleBody}>
         If you work more than 10 KIT days, each additional day could be treated as you having returned to work, which would end your maternity leave and maternity pay. This is a significant risk, so keep careful count.
       </Text>
@@ -105,7 +106,7 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         Note: any day on which you do any work counts as one KIT day, even if you only work for an hour. A 2-hour training session uses the same KIT day allocation as a full 12-hour clinical shift. Plan accordingly.
       </Text>
 
-      <Text style={styles.articleHeading}>KIT Days and Childcare</Text>
+      <H2 style={styles.articleHeading}>KIT Days and Childcare</H2>
       <Text style={styles.articleBody}>
         A practical consideration: if you use KIT days before your regular childcare arrangement starts, you will need to arrange ad hoc care. Options include:{'\n\n'}
         - Partner taking a day of annual leave{'\n'}
@@ -114,12 +115,12 @@ export default function KITDaysExplained({ post, styles, CATEGORY_COLORS }) {
         - NHS workplace crche if your hospital has one
       </Text>
 
-      <Text style={styles.articleHeading}>Shared Parental Leave in Touch (SPLIT) Days</Text>
+      <H2 style={styles.articleHeading}>Shared Parental Leave in Touch (SPLIT) Days</H2>
       <Text style={styles.articleBody}>
         If you have opted into Shared Parental Leave rather than maternity leave, you receive <Text style={styles.articleBold}>20 SPLIT days</Text> instead of 10 KIT days. These work in the same way but give you more flexibility. SPLIT days are separate from your partner's entitlement.
       </Text>
 
-      <Text style={styles.articleHeading}>Practical Steps</Text>
+      <H2 style={styles.articleHeading}>Practical Steps</H2>
       <Text style={styles.articleBody}>
         1. Read your Trust's KIT day policy to understand how payment works{'\n'}
         2. Discuss potential KIT days with your manager before going on leave{'\n'}

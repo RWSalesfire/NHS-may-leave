@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, shadows } from '../../constants/theme';
+import { H1, H2 } from '../../components/SemanticWeb';
 
 export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLORS }) {
   return (
@@ -11,14 +12,14 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
           {post.category}
         </Text>
       </View>
-      <Text style={styles.articleTitle}>{post.title}</Text>
+      <H1 style={styles.articleTitle}>{post.title}</H1>
       <Text style={styles.articleDate}>{post.date}</Text>
 
       <Text style={styles.articleBody}>
         Maternity leave is one of the most significant financial transitions you will face as an NHS worker. Even with the relatively generous NHS occupational maternity pay, your income drops noticeably from month 3 onwards and disappears entirely after month 9 if you take the full year. Planning ahead can be the difference between enjoying your maternity leave and spending it worrying about money.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 1: Map Your Income Month by Month</Text>
+      <H2 style={styles.articleHeading}>Step 1: Map Your Income Month by Month</H2>
       <Text style={styles.articleBody}>
         The first thing to do is work out exactly what you will receive each month during your maternity leave. NHS maternity pay is not a flat amount; it changes across three distinct phases.
       </Text>
@@ -39,7 +40,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         {' '}to get your personalised figures. The exact amounts depend on your band, step point, and working pattern.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 2: Calculate Your Essential Monthly Outgoings</Text>
+      <H2 style={styles.articleHeading}>Step 2: Calculate Your Essential Monthly Outgoings</H2>
       <Text style={styles.articleBody}>
         List every fixed cost you cannot avoid. Be honest and thorough:
       </Text>
@@ -58,7 +59,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         For most NHS staff, essential monthly outgoings fall between {'\u00A3'}1,200 and {'\u00A3'}2,000 depending on housing costs and location. The goal is to identify the gap between your reduced maternity pay and your essentials.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 3: Build a Maternity Leave Savings Target</Text>
+      <H2 style={styles.articleHeading}>Step 3: Build a Maternity Leave Savings Target</H2>
       <Text style={styles.articleBody}>
         Once you know your income timeline and your essentials, calculate the shortfall for each month and add them up. This gives you a total savings target.
       </Text>
@@ -76,7 +77,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         If taking 9 months instead of 12, the target drops to {'\u00A3'}2,550. That is a much more achievable figure and one of the reasons many NHS staff return after 9 months rather than taking the full year.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 4: Start Saving Early</Text>
+      <H2 style={styles.articleHeading}>Step 4: Start Saving Early</H2>
       <Text style={styles.articleBody}>
         The earlier you start, the less painful it is. If you know your plans 12 months in advance, that target of {'\u00A3'}7,350 works out at around {'\u00A3'}613/month. With 6 months' notice, it is {'\u00A3'}1,225/month, which is far harder to manage.
       </Text>
@@ -89,7 +90,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         - Sell items you no longer need - baby equipment from friends and family groups can save hundreds
       </Text>
 
-      <Text style={styles.articleHeading}>Step 5: Reduce Costs Before Baby Arrives</Text>
+      <H2 style={styles.articleHeading}>Step 5: Reduce Costs Before Baby Arrives</H2>
       <Text style={styles.articleBody}>
         There are several costs you can cut or reduce during maternity leave:{'\n\n'}
         <Text style={styles.articleBold}>Commuting:</Text> If you normally drive to work, you will save on fuel, parking, and potentially car insurance (notify your insurer of reduced mileage for a lower premium).{'\n\n'}
@@ -98,7 +99,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         <Text style={styles.articleBold}>Uniform costs:</Text> No dry cleaning or replacement scrubs needed during leave.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 6: Check Your Benefits Entitlements</Text>
+      <H2 style={styles.articleHeading}>Step 6: Check Your Benefits Entitlements</H2>
       <Text style={styles.articleBody}>
         Many NHS staff do not realise they may qualify for additional financial support during maternity leave. Income-based benefits are assessed on your current income, not your normal salary, so you may become eligible during the lower-paid months:
       </Text>
@@ -110,7 +111,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         <Text style={styles.articleBold}>NHS Pension:</Text> Your pension contributions are reduced in line with your maternity pay, but your Trust continues full employer contributions. No action needed.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 7: Plan for Baby Costs</Text>
+      <H2 style={styles.articleHeading}>Step 7: Plan for Baby Costs</H2>
       <Text style={styles.articleBody}>
         First babies do not need to be expensive. The biggest costs in the first year are:{'\n\n'}
         - Car seat: {'\u00A3'}50-200 (buy new for safety){'\n'}
@@ -123,7 +124,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         NHS staff often have good networks for second-hand baby items. Ask colleagues who have recently had babies. Many hospitals also have staff Facebook groups where baby items are given away or sold cheaply.
       </Text>
 
-      <Text style={styles.articleHeading}>Step 8: Consider Your Return Date</Text>
+      <H2 style={styles.articleHeading}>Step 8: Consider Your Return Date</H2>
       <Text style={styles.articleBody}>
         When you return to work significantly affects your finances. Returning after 9 months means you avoid the 3 unpaid months but need childcare sooner. Returning after 6 months maximises your income but means earlier childcare costs.
       </Text>
@@ -138,7 +139,7 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
         {' '}for more on this.
       </Text>
 
-      <Text style={styles.articleHeading}>A Simple Budget Template</Text>
+      <H2 style={styles.articleHeading}>A Simple Budget Template</H2>
       <Text style={styles.articleBody}>
         Here is a straightforward approach:{'\n\n'}
         1. Get your personalised maternity pay figures from our calculator{'\n'}
@@ -155,6 +156,18 @@ export default function BudgetingForMaternityLeave({ post, styles, CATEGORY_COLO
           <Text style={styles.ctaButtonText}>Calculate Your Maternity Pay {'\u2192'}</Text>
         </View>
       </Link>
+
+      <Text style={styles.articleBody}>
+        Want to understand how your maternity pay is calculated? Read our{' '}
+        <Link to="/blog/understanding-nhs-maternity-pay" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>complete guide to NHS maternity pay</Text>
+        </Link>
+        . You can also see how{' '}
+        <Link to="/blog/bank-shifts-maternity-pay" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>bank shifts can boost your maternity pay</Text>
+        </Link>
+        {' '}during the calculation window.
+      </Text>
 
       <Text style={styles.articleBody}>
         <Text style={styles.articleBold}>Disclaimer:</Text> This article provides general financial guidance and is not regulated financial advice. Benefit entitlements depend on individual circumstances. Check GOV.UK or speak to Citizens Advice for personalised benefits guidance.

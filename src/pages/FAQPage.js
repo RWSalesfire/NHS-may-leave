@@ -73,6 +73,54 @@ const FAQ_DATA = [
     question: "Is maternity pay taxed?",
     answer: "Yes, maternity pay is subject to income tax and National Insurance contributions. However, because you're receiving less income, you may fall into a lower tax bracket and pay less tax overall. Our calculator shows your net (take-home) pay after tax."
   },
+  {
+    question: "Can I spread my NHS maternity pay over 12 months?",
+    answer: "Some NHS Trusts allow you to spread your occupational maternity pay evenly across your entire leave period instead of receiving it in the standard phases (full pay, half pay, SMP, unpaid). This gives you a more consistent monthly income but means less in the early months. Check with your Trust's HR or payroll department whether this option is available, as it is not offered everywhere."
+  },
+  {
+    question: "What is the difference between OMP and SMP?",
+    answer: "Statutory Maternity Pay (SMP) is the legal minimum all qualifying employees receive: 90% of average weekly earnings for 6 weeks, then a flat rate (currently \u00A3184.75/week) for 33 weeks. Occupational Maternity Pay (OMP) is the NHS top-up under Agenda for Change: full pay for 8 weeks, then half pay plus SMP for 18 weeks. OMP requires 12 months of continuous NHS service and an intention to return for at least 3 months."
+  },
+  {
+    question: "Do NHS Professionals (NHSP) shifts count towards maternity pay?",
+    answer: "Shifts worked through NHS Professionals or external agencies may not count towards your average weekly earnings (AWE), because NHSP is technically a separate employer. Only earnings paid through your substantive Trust's payroll are guaranteed to be included. If your Trust runs its own internal bank, those shifts will count. Always check with your payroll department before relying on NHSP shifts to boost your maternity pay."
+  },
+  {
+    question: "What happens if I get pregnant again while on maternity leave?",
+    answer: "If you become pregnant again during maternity leave, you are entitled to a new period of maternity leave and pay, provided you meet the eligibility criteria. Your 12 months' continuous service still counts. However, your AWE for the second maternity may be based on the maternity pay you were receiving (which is lower than your normal salary), so this could reduce your pay for the second leave. Speak to your HR department early to understand your options."
+  },
+  {
+    question: "Can I start maternity leave before my due date?",
+    answer: "Yes. You can start maternity leave from 11 weeks before your expected week of childbirth. Many NHS staff choose to start 2-4 weeks before their due date. If you are off sick with a pregnancy-related illness in the 4 weeks before your due date, your maternity leave may be triggered automatically. You should agree your start date with your employer in advance."
+  },
+  {
+    question: "What if I have less than 12 months' NHS service?",
+    answer: "If you have less than 12 months of continuous NHS service at the 11th week before your due date, you will not qualify for NHS Occupational Maternity Pay (OMP). However, you may still qualify for Statutory Maternity Pay (SMP) if you have at least 26 weeks of service with your current employer and earn above the lower earnings limit. If you do not qualify for SMP either, you can apply for Maternity Allowance through Jobcentre Plus."
+  },
+  {
+    question: "Does changing NHS Trusts affect my maternity pay?",
+    answer: "Continuous NHS service counts across different Trusts, provided there is no break of more than 3 months between jobs. If you have recently moved Trusts, your new Trust should recognise your previous NHS service for maternity pay purposes. Ask your HR department to confirm your continuous service date. Your AWE will be calculated based on your earnings at your current Trust."
+  },
+  {
+    question: "Can I do agency or locum work during maternity leave?",
+    answer: "Working for an agency or doing locum work during maternity leave could end your SMP entitlement if the work is for a different employer. KIT days (up to 10) must be agreed with your substantive employer and done through them. If you work for a different employer during maternity leave, this counts as starting new employment, and your SMP from your Trust would stop. Always seek advice before taking on any work during maternity leave."
+  },
+  {
+    question: "How do unsocial hours affect my maternity pay?",
+    answer: "Unsocial hours premiums (nights, weekends, bank holidays) are included in your average weekly earnings calculation if they were paid during the relevant calculation period. If you regularly work unsocial hours, this will increase your AWE and therefore your maternity pay. The key is ensuring these payments appear on the 2 monthly payslips used for the calculation."
+  },
+  {
+    question: "What is the qualifying week?",
+    answer: "The qualifying week is the 15th week before your expected week of childbirth (EWC). It is used to determine your eligibility for maternity pay and is the reference point for calculating your average weekly earnings. For monthly-paid staff, your AWE is calculated from the last 2 monthly payslips before the Saturday of this qualifying week."
+  },
+  {
+    question: "Can my employer refuse my maternity leave request?",
+    answer: "No. Maternity leave is a legal right and your employer cannot refuse it. You are entitled to up to 52 weeks of maternity leave regardless of how long you have worked for your employer. Your employer can ask you to confirm your intended start date and provide your MATB1 certificate, but they cannot deny or reduce your leave entitlement."
+  },
+  {
+    question: "What benefits can I claim during maternity leave?",
+    answer: "During maternity leave, you may be eligible for: Child Benefit (\u00A326.05/week for your first child), Tax-Free Childcare (up to \u00A32,000/year per child), Universal Credit (depending on household income), Sure Start Maternity Grant (\u00A3500 for your first child if on qualifying benefits), and free NHS prescriptions and dental care throughout pregnancy and for 12 months after birth. Check GOV.UK for current rates and eligibility."
+  },
 ];
 
 function FAQItem({ faq, index, isExpanded, onToggle }) {
@@ -178,6 +226,9 @@ export default function FAQPage() {
                 onToggle={() => toggleFAQ(index)}
               />
               {index === 7 && (
+                <AdUnit slot="4791335512" layout="in-article" style={{ marginVertical: spacing.sm }} />
+              )}
+              {index === 18 && (
                 <AdUnit slot="4791335512" layout="in-article" style={{ marginVertical: spacing.sm }} />
               )}
             </React.Fragment>

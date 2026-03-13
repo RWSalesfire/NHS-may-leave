@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
-import { Article } from '../components/SemanticWeb';
+import { Article, H1, H2 } from '../components/SemanticWeb';
 import AdUnit from '../components/AdUnit';
 import UnderstandingNHSMaternityPay from './blog/UnderstandingNHSMaternityPay';
 import BudgetingForMaternityLeave from './blog/BudgetingForMaternityLeave';
@@ -81,14 +81,14 @@ function BankShiftsBlogPost({ post }) {
           {post.category}
         </Text>
       </View>
-      <Text style={styles.articleTitle}>{post.title}</Text>
+      <H1 style={styles.articleTitle}>{post.title}</H1>
       <Text style={styles.articleDate}>{post.date}</Text>
 
       <Text style={styles.articleBody}>
         If you're expecting a baby and work for the NHS, there's a well-known strategy that could put hundreds — or even thousands — of extra pounds in your pocket during maternity leave: strategically picking up extra shifts before your maternity pay is calculated.
       </Text>
 
-      <Text style={styles.articleHeading}>How Average Weekly Earnings (AWE) Works</Text>
+      <H2 style={styles.articleHeading}>How Average Weekly Earnings (AWE) Works</H2>
       <Text style={styles.articleBody}>
         Your NHS maternity pay — both Statutory Maternity Pay (SMP) and Occupational Maternity Pay (OMP) — is calculated based on your <Text style={styles.articleBold}>average weekly earnings</Text> during a specific "relevant period." For monthly-paid staff, this is your <Text style={styles.articleBold}>last 2 monthly payslips</Text> before the Saturday of the qualifying week (the 15th week before your expected week of childbirth).
       </Text>
@@ -96,7 +96,7 @@ function BankShiftsBlogPost({ post }) {
         Crucially, all earnings subject to National Insurance are included: base pay, overtime, bank shifts, unsocial hours premiums, on-call payments, and bonuses. The higher your AWE, the higher your maternity pay for the entire leave period.
       </Text>
 
-      <Text style={styles.articleHeading}>Step-by-Step: Timing Your Extra Shifts</Text>
+      <H2 style={styles.articleHeading}>Step-by-Step: Timing Your Extra Shifts</H2>
       <Text style={styles.articleBody}>
         <Text style={styles.articleBold}>1. Find your expected week of childbirth (EWC)</Text>{'\n'}
         This is the week your baby is due, starting from the Sunday.{'\n\n'}
@@ -110,7 +110,7 @@ function BankShiftsBlogPost({ post }) {
         Maximise overtime, bank shifts, and unsocial hours during the period that will appear on those 2 critical payslips.
       </Text>
 
-      <Text style={styles.articleHeading}>NHSP vs Trust Bank: An Important Distinction</Text>
+      <H2 style={styles.articleHeading}>NHSP vs Trust Bank: An Important Distinction</H2>
       <Text style={styles.articleBody}>
         This is where many people get caught out. Bank shifts worked through <Text style={styles.articleBold}>NHS Professionals (NHSP)</Text> or external staffing agencies may <Text style={styles.articleBold}>not</Text> count towards your AWE. Why? Because NHSP and agencies are technically a different employer — their payments don't appear on your Trust payslip.
       </Text>
@@ -118,7 +118,7 @@ function BankShiftsBlogPost({ post }) {
         Only extra shifts paid through your <Text style={styles.articleBold}>substantive employer's payroll</Text> (your Trust) are guaranteed to be included. If your Trust runs its own internal bank, those shifts will count. Always check with your payroll department if you're unsure.
       </Text>
 
-      <Text style={styles.articleHeading}>Worked Example: The Financial Impact</Text>
+      <H2 style={styles.articleHeading}>Worked Example: The Financial Impact</H2>
       <Text style={styles.articleBody}>
         Let's say you're a Band 5 nurse earning {'\u00A3'}35,000 per year (approximately {'\u00A3'}673/week). During the 2-month calculation window, you pick up an average of {'\u00A3'}200/week in extra bank shifts through your Trust.
       </Text>
@@ -128,7 +128,7 @@ function BankShiftsBlogPost({ post }) {
         On NHS Enhanced pay, that {'\u00A3'}200/week increase in AWE boosts your total gross maternity pay by over {'\u00A3'}3,000 across 39 weeks — with the biggest impact during the first 8 weeks (100% pay) and weeks 9-26 (50% pay + SMP).
       </Text>
 
-      <Text style={styles.articleHeading}>Try It in Our Calculator</Text>
+      <H2 style={styles.articleHeading}>Try It in Our Calculator</H2>
       <Text style={styles.articleBody}>
         We've added a "Bank Shifts & Overtime" feature to our maternity pay calculator. Enter your average extra weekly earnings during the calculation period, and you'll see exactly how much it boosts your take-home pay — with a side-by-side comparison of your pay with and without the extra shifts.
       </Text>
@@ -138,6 +138,17 @@ function BankShiftsBlogPost({ post }) {
           <Text style={styles.ctaButtonText}>Try the Calculator {'\u2192'}</Text>
         </View>
       </Link>
+
+      <Text style={styles.articleBody}>
+        For a full breakdown of how maternity pay works, read our{' '}
+        <Link to="/blog/understanding-nhs-maternity-pay" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>complete guide to NHS maternity pay</Text>
+        </Link>
+        . To see how this affects different salary levels, check{' '}
+        <Link to="/blog/maternity-pay-by-band" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>maternity pay differences by band</Text>
+        </Link>.
+      </Text>
 
       <Text style={styles.articleBody}>
         <Text style={styles.articleBold}>Disclaimer:</Text> This information is for general guidance only. Every Trust may handle payroll slightly differently. Always confirm the details with your Trust's HR or payroll team before making financial decisions based on this strategy.
@@ -153,7 +164,7 @@ function BlogPostView({ slug }) {
     return (
       <View style={styles.container}>
         <View style={styles.articleContent}>
-          <Text style={styles.articleTitle}>Post Not Found</Text>
+          <H1 style={styles.articleTitle}>Post Not Found</H1>
           <Text style={styles.articleBody}>This blog post doesn't exist yet.</Text>
           <Link to="/blog" style={{ textDecoration: 'none', marginTop: spacing.md }}>
             <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
@@ -184,6 +195,9 @@ function BlogPostView({ slug }) {
     }
   };
 
+  // Get 3 related posts (exclude current)
+  const relatedPosts = BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 3);
+
   return (
     <Article style={styles.container}>
       <View style={styles.articleContent}>
@@ -192,6 +206,23 @@ function BlogPostView({ slug }) {
         </Link>
         {renderContent()}
         <AdUnit slot="6778370455" style={{ marginTop: spacing.xl }} />
+
+        {/* Related Articles */}
+        <View style={styles.relatedSection}>
+          <H2 style={styles.relatedTitle}>Related Articles</H2>
+          {relatedPosts.map((rp, i) => (
+            <Link key={i} to={`/blog/${rp.slug}`} style={{ textDecoration: 'none' }}>
+              <View style={styles.relatedCard}>
+                <View style={[styles.categoryPill, { backgroundColor: (CATEGORY_COLORS[rp.category] || colors.primary) + '20' }]}>
+                  <Text style={[styles.blogCategory, { color: CATEGORY_COLORS[rp.category] || colors.primary }]}>
+                    {rp.category}
+                  </Text>
+                </View>
+                <Text style={styles.relatedCardTitle}>{rp.title}</Text>
+              </View>
+            </Link>
+          ))}
+        </View>
       </View>
     </Article>
   );
@@ -362,5 +393,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: fontFamily.semiBold,
+  },
+  relatedSection: {
+    marginTop: spacing.xl * 2,
+    paddingTop: spacing.xl,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  relatedTitle: {
+    fontSize: 22,
+    fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
+    color: colors.text,
+    marginBottom: spacing.md,
+  },
+  relatedCard: {
+    backgroundColor: colors.cardBackground,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  relatedCardTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    fontFamily: fontFamily.semiBold,
+    color: colors.text,
+    marginTop: spacing.xs,
   },
 });

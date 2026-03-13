@@ -8,6 +8,7 @@ import {
   Text,
 } from 'react-native';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
+import { Link } from 'react-router-dom';
 import CalculatorWizard from '../components/CalculatorWizard';
 import CalculatingScreen from '../components/CalculatingScreen';
 import ResultsDisplay from '../components/ResultsDisplay';
@@ -15,6 +16,7 @@ import { calculateNetMaternityPay } from '../utils/maternityCalculations';
 import usePageMeta from '../hooks/usePageMeta';
 import { trackEvent } from '../utils/analytics';
 import AdUnit from '../components/AdUnit';
+import { H1, H2, P } from '../components/SemanticWeb';
 
 export default function CalculatorPage() {
   usePageMeta({
@@ -104,10 +106,10 @@ export default function CalculatorPage() {
           style={styles.keyboardView}
         >
           <View style={styles.header}>
-            <Text style={styles.title}>NHS Maternity Pay Calculator</Text>
-            <Text style={styles.subtitle}>
+            <H1 style={styles.title}>NHS Maternity Pay Calculator</H1>
+            <P style={styles.subtitle}>
               Calculate your maternity pay based on NHS Agenda for Change terms
-            </Text>
+            </P>
           </View>
 
           <View style={styles.mainContent}>
@@ -136,7 +138,7 @@ export default function CalculatorPage() {
           {/* Educational Sidebar/Bottom Section */}
           {!showResults && !isCalculating && (
             <View style={[styles.infoSection, shadows.md]}>
-              <Text style={styles.infoTitle}>How NHS Maternity Pay Works</Text>
+              <H2 style={styles.infoTitle}>How NHS Maternity Pay Works</H2>
               <Text style={styles.infoText}>
                 NHS staff receive occupational maternity pay which is more generous than statutory maternity pay (SMP).
               </Text>
@@ -152,6 +154,17 @@ export default function CalculatorPage() {
               <Text style={styles.infoText}>
                 {'\u2022'} Remaining weeks: Unpaid (up to 52 weeks total)
               </Text>
+              <View style={styles.infoLinks}>
+                <Link to="/guide" style={{ textDecoration: 'none' }}>
+                  <Text style={styles.infoLink}>Read the full guide {'\u2192'}</Text>
+                </Link>
+                <Link to="/faq" style={{ textDecoration: 'none' }}>
+                  <Text style={styles.infoLink}>Common questions {'\u2192'}</Text>
+                </Link>
+                <Link to="/blog/bank-shifts-maternity-pay" style={{ textDecoration: 'none' }}>
+                  <Text style={styles.infoLink}>How bank shifts boost your pay {'\u2192'}</Text>
+                </Link>
+              </View>
             </View>
           )}
         </KeyboardAvoidingView>
@@ -232,5 +245,15 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     lineHeight: 20,
     marginBottom: spacing.xs,
+  },
+  infoLinks: {
+    marginTop: spacing.md,
+    gap: spacing.sm,
+  },
+  infoLink: {
+    fontSize: 14,
+    fontFamily: fontFamily.semiBold,
+    color: colors.primary,
+    fontWeight: '600',
   },
 });

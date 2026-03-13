@@ -23,6 +23,15 @@ import AboutPage from './src/pages/AboutPage';
 import ContactPage from './src/pages/ContactPage';
 import NotFoundPage from './src/pages/NotFoundPage';
 
+// Band Pages
+import BandPage2 from './src/pages/bands/BandPage2';
+import BandPage3 from './src/pages/bands/BandPage3';
+import BandPage4 from './src/pages/bands/BandPage4';
+import BandPage5 from './src/pages/bands/BandPage5';
+import BandPage6 from './src/pages/bands/BandPage6';
+import BandPage7 from './src/pages/bands/BandPage7';
+import BandPage8 from './src/pages/bands/BandPage8';
+
 function LoadingScreen() {
   return (
     <View style={styles.loadingContainer}>
@@ -69,6 +78,13 @@ export default function App() {
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPage />} />
+              <Route path="/nhs-maternity-pay-band-2" element={<BandPage2 />} />
+              <Route path="/nhs-maternity-pay-band-3" element={<BandPage3 />} />
+              <Route path="/nhs-maternity-pay-band-4" element={<BandPage4 />} />
+              <Route path="/nhs-maternity-pay-band-5" element={<BandPage5 />} />
+              <Route path="/nhs-maternity-pay-band-6" element={<BandPage6 />} />
+              <Route path="/nhs-maternity-pay-band-7" element={<BandPage7 />} />
+              <Route path="/nhs-maternity-pay-band-8" element={<BandPage8 />} />
               <Route path="/for-trusts" element={<ForTrustsPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />

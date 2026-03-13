@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, shadows } from '../../constants/theme';
+import { H1, H2 } from '../../components/SemanticWeb';
 
 export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_COLORS }) {
   return (
@@ -11,14 +12,14 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
           {post.category}
         </Text>
       </View>
-      <Text style={styles.articleTitle}>{post.title}</Text>
+      <H1 style={styles.articleTitle}>{post.title}</H1>
       <Text style={styles.articleDate}>{post.date}</Text>
 
       <Text style={styles.articleBody}>
         Returning to work after maternity leave is a big transition, and for NHS staff there are specific rules and practicalities that make it different from other employers. From the 3-month OMP repayment rule to flexible working options and childcare planning, getting prepared early makes the whole process smoother. This guide covers what you need to know and do.
       </Text>
 
-      <Text style={styles.articleHeading}>The 3-Month OMP Return Rule</Text>
+      <H2 style={styles.articleHeading}>The 3-Month OMP Return Rule</H2>
       <Text style={styles.articleBody}>
         This is the single most important thing to understand about returning to NHS work after maternity leave. If you received Occupational Maternity Pay (the enhanced NHS pay above SMP), you are required to return to NHS employment for at least <Text style={styles.articleBold}>3 months (91 days)</Text> after your maternity leave ends.
       </Text>
@@ -37,7 +38,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         - If you become pregnant again during the 3 months, the new maternity leave does not count - but you are not asked to repay until after the second maternity leave
       </Text>
 
-      <Text style={styles.articleHeading}>When to Return: Choosing Your Date</Text>
+      <H2 style={styles.articleHeading}>When to Return: Choosing Your Date</H2>
       <Text style={styles.articleBody}>
         You are entitled to up to 52 weeks of maternity leave. Most NHS staff return at one of these points:
       </Text>
@@ -50,7 +51,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         If you want to return earlier than your expected date, you must give your employer at least <Text style={styles.articleBold}>8 weeks' notice</Text>. If you return on your originally notified date, no additional notice is required.
       </Text>
 
-      <Text style={styles.articleHeading}>Using Accrued Annual Leave</Text>
+      <H2 style={styles.articleHeading}>Using Accrued Annual Leave</H2>
       <Text style={styles.articleBody}>
         You continue to build up annual leave and bank holidays throughout your entire maternity leave, including unpaid weeks. This is a valuable benefit that many people overlook.
       </Text>
@@ -64,7 +65,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         Discuss your preference with your manager well before your return date. Some Trusts prefer one approach over another for rota planning purposes.
       </Text>
 
-      <Text style={styles.articleHeading}>Flexible Working Options</Text>
+      <H2 style={styles.articleHeading}>Flexible Working Options</H2>
       <Text style={styles.articleBody}>
         The NHS is one of the better employers for flexible working, and you have a legal right to request it from day one of employment. Common arrangements for returning from maternity leave:
       </Text>
@@ -78,7 +79,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         Submit your flexible working request in writing at least 8 weeks before you want the change to take effect. Your employer must respond within 2 months and can only refuse on specific business grounds. If refused, consider whether a trial period might be possible.
       </Text>
 
-      <Text style={styles.articleHeading}>Childcare Planning</Text>
+      <H2 style={styles.articleHeading}>Childcare Planning</H2>
       <Text style={styles.articleBody}>
         Childcare is typically the biggest practical challenge of returning to work. Start planning early because nursery waiting lists can be long.
       </Text>
@@ -94,7 +95,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         <Text style={styles.articleBold}>Childminders:</Text> Often more flexible with hours than nurseries and can be more affordable. Registered childminders can accept Tax-Free Childcare payments.
       </Text>
 
-      <Text style={styles.articleHeading}>Breastfeeding at Work</Text>
+      <H2 style={styles.articleHeading}>Breastfeeding at Work</H2>
       <Text style={styles.articleBody}>
         Your employer is required to provide suitable facilities for you to rest and to express milk if you are breastfeeding. In practice, this means:{'\n\n'}
         - A private room (not a toilet) with a lock{'\n'}
@@ -105,7 +106,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         Many NHS Trusts have specific breastfeeding at work policies. Speak to your manager or occupational health team before you return so arrangements are in place.
       </Text>
 
-      <Text style={styles.articleHeading}>Revalidation and Professional Registration</Text>
+      <H2 style={styles.articleHeading}>Revalidation and Professional Registration</H2>
       <Text style={styles.articleBody}>
         If you are a registered professional (nurse, midwife, AHP), your registration requirements continue during maternity leave. However:{'\n\n'}
         - Your revalidation date does not change{'\n'}
@@ -117,7 +118,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         Contact your professional body (NMC, HCPC, etc.) early if your revalidation falls during or shortly after maternity leave.
       </Text>
 
-      <Text style={styles.articleHeading}>Emotional Preparation</Text>
+      <H2 style={styles.articleHeading}>Emotional Preparation</H2>
       <Text style={styles.articleBody}>
         Returning to work after maternity leave can be emotionally challenging, and that is normal. Practical steps that help:{'\n\n'}
         - Use KIT days to ease back in gradually before your official return{'\n'}
@@ -127,7 +128,7 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
         - Consider whether your role still suits your circumstances - there is no obligation to stay in the same post if a transfer would work better
       </Text>
 
-      <Text style={styles.articleHeading}>Your Return Checklist</Text>
+      <H2 style={styles.articleHeading}>Your Return Checklist</H2>
       <Text style={styles.articleBody}>
         - Confirm your return date with your manager (8 weeks' notice if returning early){'\n'}
         - Discuss how to use accrued annual leave{'\n'}
@@ -145,6 +146,18 @@ export default function ReturningToWorkAfterMaternity({ post, styles, CATEGORY_C
           <Text style={styles.ctaButtonText}>Calculate Your Maternity Pay {'\u2192'}</Text>
         </View>
       </Link>
+
+      <Text style={styles.articleBody}>
+        For more on how KIT days can help ease your transition, see our guide on{' '}
+        <Link to="/blog/kit-days-explained" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>how KIT days work</Text>
+        </Link>
+        . If you are planning your finances before maternity leave, our{' '}
+        <Link to="/blog/budgeting-for-maternity-leave" style={{ color: colors.primary }}>
+          <Text style={{ color: colors.primary }}>budgeting guide</Text>
+        </Link>
+        {' '}covers practical steps to prepare.
+      </Text>
 
       <Text style={styles.articleBody}>
         <Text style={styles.articleBold}>Disclaimer:</Text> This article provides general guidance based on NHS Agenda for Change terms and conditions. Individual Trusts may have local policies that differ. Always confirm arrangements with your Trust's HR department.
