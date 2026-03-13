@@ -10,19 +10,28 @@ function flattenStyle(style) {
   return StyleSheet.flatten(style);
 }
 
-// React Native Web's View sets display:flex, flexDirection:column, and box-sizing
-// by default. Raw HTML elements need these explicitly to behave the same way.
-const VIEW_DEFAULTS = {
-  display: 'flex',
-  flexDirection: 'column',
-  boxSizing: 'border-box',
-};
+// Flex-related style keys that require the element to be a flex container.
+// When any of these are present, we inject display:flex so raw HTML elements
+// behave the same as React Native Web's View.
+const FLEX_KEYS = new Set([
+  'flexDirection', 'justifyContent', 'alignItems', 'alignContent',
+  'flexWrap', 'gap', 'rowGap', 'columnGap',
+]);
+
+function needsFlex(styleObj) {
+  for (const key in styleObj) {
+    if (FLEX_KEYS.has(key)) return true;
+  }
+  return false;
+}
 
 function createSemanticView(tag) {
   if (Platform.OS !== 'web') return View;
 
   return React.forwardRef(function SemanticView({ style, ...props }, ref) {
-    return React.createElement(tag, { ...props, ref, style: { ...VIEW_DEFAULTS, ...flattenStyle(style) } });
+    const flat = flattenStyle(style);
+    const merged = needsFlex(flat) ? { display: 'flex', boxSizing: 'border-box', ...flat } : { boxSizing: 'border-box', ...flat };
+    return React.createElement(tag, { ...props, ref, style: merged });
   });
 }
 

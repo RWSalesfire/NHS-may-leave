@@ -61,7 +61,7 @@ export default function App() {
         <View style={styles.appContainer}>
           <Header />
           <ScrollView style={styles.mainContent} contentContainerStyle={styles.mainContentInner}>
-            <Main style={{ flex: 1 }}>
+            <Main>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/calculator" element={<CalculatorPage />} />
