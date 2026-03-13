@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
@@ -11,7 +11,7 @@ export default function AboutPage() {
     description: 'Learn about mymatpay.com, the free NHS maternity pay calculator built to help NHS staff understand their maternity pay entitlements.',
   });
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         <PageHeader
           title="About NHS Maternity Pay Calculator"
@@ -144,7 +144,7 @@ export default function AboutPage() {
           </Text>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { Link, useParams } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
@@ -149,7 +149,7 @@ function BlogPostView({ slug }) {
 
   if (!post) {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.articleContent}>
           <Text style={styles.articleTitle}>Post Not Found</Text>
           <Text style={styles.articleBody}>This blog post doesn't exist yet.</Text>
@@ -157,7 +157,7 @@ function BlogPostView({ slug }) {
             <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
           </Link>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 
@@ -183,14 +183,14 @@ function BlogPostView({ slug }) {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.articleContent}>
         <Link to="/blog" style={{ textDecoration: 'none', marginBottom: spacing.lg }}>
           <Text style={styles.readMore}>{'\u2190'} Back to all articles</Text>
         </Link>
         {renderContent()}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -209,7 +209,7 @@ export default function BlogPage() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         <PageHeader
           title="Resources & Guides"
@@ -234,7 +234,7 @@ export default function BlogPage() {
           ))}
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
@@ -44,7 +44,7 @@ export default function ForTrustsPage() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         {/* Hero Section */}
         <View style={styles.hero}>
@@ -170,7 +170,7 @@ export default function ForTrustsPage() {
           </Link>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

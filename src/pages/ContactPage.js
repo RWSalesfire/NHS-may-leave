@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
 import usePageMeta from '../hooks/usePageMeta';
@@ -49,7 +49,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         <PageHeader
           title="Contact Us"
@@ -188,7 +188,7 @@ export default function ContactPage() {
           </Text>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

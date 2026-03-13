@@ -6,7 +6,6 @@ import {
   Platform,
   TouchableOpacity,
   Text,
-  ScrollView,
 } from 'react-native';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import CalculatorWizard from '../components/CalculatorWizard';
@@ -98,7 +97,7 @@ export default function CalculatorPage() {
   }, []);
 
   return (
-    <ScrollView ref={scrollRef} style={styles.container}>
+    <View ref={scrollRef} style={styles.container}>
       <View style={styles.content}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -157,7 +156,7 @@ export default function CalculatorPage() {
           )}
         </KeyboardAvoidingView>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

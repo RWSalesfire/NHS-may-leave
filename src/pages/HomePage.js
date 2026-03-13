@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
@@ -276,7 +276,7 @@ export default function HomePage() {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {/* Hero Section */}
       <LinearGradient
         colors={[colors.heroGradientStart, colors.heroGradientEnd]}
@@ -411,7 +411,7 @@ export default function HomePage() {
           </View>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

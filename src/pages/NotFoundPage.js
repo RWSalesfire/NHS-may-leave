@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { colors, spacing, fontFamily, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
@@ -15,7 +15,7 @@ export default function NotFoundPage() {
   const isMobile = width < 640;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={[styles.container, styles.content]}>
       <View style={[styles.card, isMobile && styles.cardMobile]}>
         <Text style={styles.errorCode}>404</Text>
         <Text style={styles.title}>Page Not Found</Text>
@@ -39,7 +39,7 @@ export default function NotFoundPage() {
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView, Platform, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView, Platform, Text, ActivityIndicator } from 'react-native';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { colors, fontFamily } from './src/constants/theme';
 import useFonts from './src/hooks/useFonts';
@@ -59,7 +59,7 @@ export default function App() {
         <StatusBar style="dark" />
         <View style={styles.appContainer}>
           <Header />
-          <View style={styles.mainContent}>
+          <ScrollView style={styles.mainContent} contentContainerStyle={styles.mainContentInner}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/calculator" element={<CalculatorPage />} />
@@ -74,8 +74,8 @@ export default function App() {
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
-          </View>
-          <Footer />
+            <Footer />
+          </ScrollView>
         </View>
       </SafeAreaView>
     </Router>
@@ -92,6 +92,9 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     flex: 1,
+  },
+  mainContentInner: {
+    flexGrow: 1,
   },
   loadingContainer: {
     flex: 1,

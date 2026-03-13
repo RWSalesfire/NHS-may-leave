@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Link } from 'react-router-dom';
 import { colors, spacing, fontFamily, shadows, borderRadius } from '../constants/theme';
 import PageHeader from '../components/PageHeader';
@@ -15,7 +15,7 @@ export default function GuidePage() {
   });
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         <PageHeader
           title="How NHS Maternity Pay Works"
@@ -191,7 +191,7 @@ export default function GuidePage() {
           </Text>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
